@@ -8,6 +8,16 @@ This workspace contains a Slidev presentation starter template organized around 
 
 **Agent-Friendly Design:** This setup includes comprehensive documentation, clear patterns, and a structured workflow that coding agents can easily understand and follow. The two-phase approach (drafting then polishing) allows agents to focus on content creation first, then enhance specific slides as needed.
 
+## Personal Customizations
+
+This kit includes customizations specific to the original owner. If you're not the original user, review and update:
+
+- **[AGENTS.md](./AGENTS.md)** - Agent instructions and project-specific guidelines
+- **[SLIDEV.md](./SLIDEV.md)** - Presentation conventions and preferred patterns
+- **[SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)** - Animation and polish preferences
+
+Update these files to reflect your own preferences and workflow before using with coding agents.
+
 ## Using with Coding Agents
 
 This presentation starter kit is optimized for use with coding agents (like Cursor, GitHub Copilot, or other AI assistants). Key features that make it agent-friendly:

@@ -1,10 +1,24 @@
 # Presentation Starter Kit
 
-A Slidev-based presentation starter kit with a deck-based structure for creating and managing multiple presentations.
+A Slidev-based presentation starter kit with a deck-based structure for creating and managing multiple presentations. **This setup is designed to be easily used with coding agents** - the structure, documentation, and workflow are optimized for AI-assisted development.
 
 ## Overview
 
 This workspace contains a Slidev presentation starter template organized around decks. Each deck is a self-contained presentation that can be developed independently. The kit emphasizes a **content-first workflow**: create your material and structure first, then add animations and polish selectively.
+
+**Agent-Friendly Design:** This setup includes comprehensive documentation, clear patterns, and a structured workflow that coding agents can easily understand and follow. The two-phase approach (drafting then polishing) allows agents to focus on content creation first, then enhance specific slides as needed.
+
+## Using with Coding Agents
+
+This presentation starter kit is optimized for use with coding agents (like Cursor, GitHub Copilot, or other AI assistants). Key features that make it agent-friendly:
+
+- **Clear Documentation:** Comprehensive guides ([SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md) and [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)) provide step-by-step instructions agents can follow
+- **Structured Workflow:** The content-first approach gives agents clear phases to work in
+- **Consistent Patterns:** Well-documented patterns for layouts, components, and animations
+- **Explicit Rules:** Workspace rules and preferences are clearly defined for consistent output
+- **Modular Structure:** Deck-based organization allows agents to work on individual presentations without affecting others
+
+When working with agents, they can reference the documentation files to understand the preferred patterns and workflows for creating presentations.
 
 ## Quick Start
 

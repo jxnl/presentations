@@ -1,0 +1,143 @@
+# Presentation Starter Kit
+
+A Slidev-based presentation starter kit with a deck-based structure for creating and managing multiple presentations.
+
+## Overview
+
+This workspace contains a Slidev presentation starter template organized around decks. Each deck is a self-contained presentation that can be developed independently. The kit emphasizes a **content-first workflow**: create your material and structure first, then add animations and polish selectively.
+
+## Quick Start
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) installed on your system
+
+### Running Presentations
+
+```bash
+cd slides
+bun install
+bun run dev              # Opens the default "reference" deck
+bun run dev -- <deck-name>  # Opens a specific deck (e.g., `bun run dev -- features`)
+```
+
+Visit `http://localhost:3030` (or the port shown in your terminal) to view your presentation.
+
+## Project Structure
+
+```text
+presentations/
+├── slides/
+│   ├── decks/              # All presentation decks
+│   │   ├── reference/      # Example/reference deck
+│   │   └── <deck-name>/    # Individual presentation decks
+│   ├── components/         # Shared Vue components (auto-imported)
+│   ├── snippets/          # Code snippets for reuse
+│   └── slides.config.ts   # Slidev configuration
+├── SLIDEV.md              # Basic Slidev markdown reference
+├── SLIDEV_DRAFTING.md     # Content-first drafting guide
+└── SLIDEV_POLISHING.md    # Animation and polish guide
+```
+
+## Deck Structure
+
+Each deck is a folder in `slides/decks/` containing:
+
+- `slides.md` - The main slide content file
+- `pages/` - (Optional) Additional slide files that can be imported using `src:` frontmatter
+
+### Creating a New Deck
+
+1. Create a new directory under `slides/decks/`:
+
+   ```bash
+   mkdir slides/decks/my-presentation
+   ```
+
+2. Add a `slides.md` file in that directory:
+
+   ```bash
+   touch slides/decks/my-presentation/slides.md
+   ```
+
+3. Run the deck:
+
+   ```bash
+   cd slides
+   bun run dev -- my-presentation
+   ```
+
+## Workflow: Content First, Polish Later
+
+This workspace follows a two-phase approach:
+
+### Phase 1: First Draft (Content Creation)
+
+Focus on getting your content and structure right:
+
+- Use basic layouts to organize information
+- Write detailed speaker notes as you create content
+- Minimal or no animations
+- Get the material right first
+
+**Guide:** See [SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md) for detailed drafting instructions.
+
+### Phase 2: Polish Mode (Enhancement)
+
+After your content is solid, enhance specific slides:
+
+- Add click animations incrementally to slides that benefit from them
+- Enhance code displays with progressive highlighting
+- Add visual polish selectively
+- Sync presenter notes with animations
+
+**Guide:** See [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md) for detailed polishing instructions.
+
+**Key Principle:** Don't try to one-shot everything. Build the content first, then enhance specific slides that benefit from animation.
+
+## Key Features
+
+### Components
+
+Components in `slides/components/` are automatically available in all decks without manual imports. Create reusable Vue components here.
+
+**Example:** `slides/components/Counter.vue` is available as `<Counter />` in any deck.
+
+### Code Snippets
+
+Store reusable code snippets in `slides/snippets/` and reference them in slides:
+
+```markdown
+<<< @/snippets/external.ts#snippet
+```
+
+### Themes
+
+The default theme is included. You can customize themes or use different Slidev themes by modifying `slides.config.ts`.
+
+## Documentation
+
+- **[SLIDEV.md](./SLIDEV.md)** - Basic Slidev markdown syntax reference
+- **[SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md)** - Complete guide for creating your first draft
+- **[SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)** - Complete guide for adding animations and polish
+
+## Development
+
+### Building for Production
+
+```bash
+cd slides
+bun run build
+```
+
+### Exporting Slides
+
+```bash
+cd slides
+bun run export
+```
+
+## Learn More
+
+- [Slidev Documentation](https://sli.dev/)
+- [Slidev GitHub](https://github.com/slidevjs/slidev)

@@ -125,7 +125,15 @@ After your content is solid, enhance specific slides:
 
 Components in `slides/components/` are automatically available in all decks without manual imports. Create reusable Vue components here.
 
+**Available Components:**
+
+- `QRCode` - Generate QR codes dynamically (`slides/components/QRCode.vue`)
+- `Callout` - Highlight information with styled boxes (`slides/components/Callout.vue`)
+- `Chart` - Data visualization with bar, line, and doughnut charts (`slides/components/Chart.vue`)
+
 **Example:** `slides/components/QRCode.vue` is available as `<QRCode />` in any deck.
+
+See [SLIDEV.md](./SLIDEV.md) for detailed component documentation and usage examples.
 
 ### Code Snippets
 

@@ -22,16 +22,19 @@ const generateQRCode = () => {
     qr.make()
     
     const cellSize = Math.floor(size / qr.getModuleCount())
-    const margin = 2
+    const margin = 4 // Increased margin
     const totalSize = qr.getModuleCount() * cellSize + margin * 2
     
     let svg = `<svg width="${totalSize}" height="${totalSize}" xmlns="http://www.w3.org/2000/svg">`
-    svg += `<rect width="${totalSize}" height="${totalSize}" fill="white"/>`
+    
+    // Transparent background for SVG itself
+    // svg += `<rect width="${totalSize}" height="${totalSize}" fill="transparent"/>`
     
     for (let row = 0; row < qr.getModuleCount(); row++) {
       for (let col = 0; col < qr.getModuleCount(); col++) {
         if (qr.isDark(row, col)) {
-          svg += `<rect x="${col * cellSize + margin}" y="${row * cellSize + margin}" width="${cellSize}" height="${cellSize}" fill="black"/>`
+          // Use currentColor to inherit text color
+          svg += `<rect x="${col * cellSize + margin}" y="${row * cellSize + margin}" width="${cellSize}" height="${cellSize}" fill="currentColor"/>`
         }
       }
     }
@@ -60,18 +63,20 @@ watch(() => props.size, () => {
 
 <template>
   <div class="flex flex-col items-center">
-    <div v-if="error" class="text-red-500">
+    <div v-if="error" class="text-red-500 text-sm p-4 border border-red-200 rounded-md bg-red-50">
       {{ error }}
     </div>
     <div
       v-else-if="qrSvg"
-      v-html="qrSvg"
-      class="border border-gray-300 rounded"
-    />
-    <div v-else class="text-gray-400">
-      Generating QR code...
+      class="p-4 bg-white rounded-md shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-white transition-all"
+    >
+      <!-- Force black fill for QR code contrast even in dark mode (since background is white) -->
+      <div v-html="qrSvg" class="text-black" />
     </div>
-    <p v-if="caption" class="mt-2 text-sm text-gray-600">
+    <div v-else class="flex items-center justify-center p-8 border border-gray-200 rounded-md bg-gray-50 text-gray-400 text-sm">
+      Generating...
+    </div>
+    <p v-if="caption" class="mt-3 text-sm text-gray-500 font-medium font-sans">
       {{ caption }}
     </p>
   </div>

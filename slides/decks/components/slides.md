@@ -225,6 +225,84 @@ Here we have three callouts that appear one after another with each click, demon
 
 ---
 layout: center
+---
+
+# Data Visualization
+
+Modern charts for your presentation
+
+---
+---
+
+# Bar Chart
+
+<Chart 
+  type="bar" 
+  title="Quarterly Revenue (2024)"
+  :labels="['Q1', 'Q2', 'Q3', 'Q4']"
+  :datasets="[
+    { 
+      label: 'Revenue', 
+      data: [12.5, 19.2, 15.8, 24.3] 
+    },
+    { 
+      label: 'Profit', 
+      data: [4.2, 8.5, 5.1, 10.2] 
+    }
+  ]"
+  :height="400"
+/>
+
+<!--
+Here's a standard bar chart. Notice how the colors are automatically applied if you don't specify them. 
+Grid lines are subtle, and the font is clean and modern.
+-->
+
+---
+---
+
+# Line Chart (Growth)
+
+<Chart 
+  type="line"
+  title="Active Users Growth"
+  :labels="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']"
+  :datasets="[{ 
+    label: 'Active Users', 
+    data: [1200, 1350, 1600, 2100, 2800, 3500],
+    fill: true 
+  }]"
+  :height="400"
+/>
+
+<!--
+Line charts are great for showing trends over time.
+We've enabled smooth curves (tension) and area fill by default to make it look more modern.
+-->
+
+---
+---
+
+# Doughnut Chart
+
+<Chart 
+  type="doughnut"
+  title="Device Distribution"
+  :labels="['Mobile', 'Desktop', 'Tablet', 'Other']"
+  :datasets="[{ 
+    data: [45, 30, 15, 10],
+    backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#6366F1']
+  }]"
+  :height="400"
+/>
+
+<!--
+Doughnut charts are perfect for showing proportions. 
+The legend is automatically positioned at the bottom with circular indicators.
+-->
+
+---
+layout: center
 class: text-center
 ---
 
@@ -254,4 +332,3 @@ That's a wrap! All these components are automatically available in any deck you 
 
 Just use them directly in your markdown slides with Vue syntax. They support all Vue directives like v-click, v-motion, and more.
 -->
-

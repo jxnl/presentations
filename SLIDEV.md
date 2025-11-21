@@ -287,6 +287,92 @@ This warning appears after the second click.
 
 **Note:** Components in `slides/components/` are automatically available in all decks without manual imports.
 
+### Chart Component
+
+Visualize data with bar, line, and doughnut charts powered by Chart.js. Perfect for data-driven presentations.
+
+**Location:** `slides/components/Chart.vue`
+
+**Usage:**
+
+```html
+<!-- Bar Chart -->
+<Chart 
+  type="bar" 
+  title="Quarterly Revenue"
+  :labels="['Q1', 'Q2', 'Q3', 'Q4']"
+  :datasets="[
+    { label: 'Revenue', data: [12.5, 19.2, 15.8, 24.3] },
+    { label: 'Profit', data: [4.2, 8.5, 5.1, 10.2] }
+  ]"
+/>
+
+<!-- Line Chart -->
+<Chart 
+  type="line"
+  title="User Growth"
+  :labels="['Jan', 'Feb', 'Mar', 'Apr', 'May']"
+  :datasets="[{ 
+    label: 'Active Users', 
+    data: [1200, 1350, 1600, 2100, 2800],
+    fill: true 
+  }]"
+/>
+
+<!-- Doughnut Chart -->
+<Chart 
+  type="doughnut"
+  title="Device Distribution"
+  :labels="['Mobile', 'Desktop', 'Tablet']"
+  :datasets="[{ 
+    data: [45, 30, 15],
+    backgroundColor: ['#3B82F6', '#10B981', '#F59E0B']
+  }]"
+/>
+```
+
+**Props:**
+
+- `type` (required) - One of: `bar`, `line`, `doughnut`
+- `labels` (required) - Array of strings for chart labels
+- `datasets` (required) - Array of dataset objects (see Chart.js documentation for full options)
+- `title` (optional) - Chart title displayed above the chart
+- `height` (optional, default 400) - Chart height in pixels
+
+**Chart Types:**
+
+- `bar` - Bar charts for comparing categories
+- `line` - Line charts for showing trends over time
+- `doughnut` - Doughnut charts for showing proportions
+
+**Default Styling:**
+
+The component automatically applies modern defaults:
+
+- Sharp, clean lines (no rounded corners on bars or curves)
+- Subtle grid lines
+- Responsive sizing
+- Dark mode support
+- Automatic color assignment if not specified
+
+**Customization:**
+
+You can override any Chart.js dataset options by passing them in the `datasets` array:
+
+```html
+<Chart 
+  type="bar"
+  :labels="['A', 'B', 'C']"
+  :datasets="[{
+    label: 'Custom',
+    data: [10, 20, 30],
+    backgroundColor: '#FF5733',
+    borderColor: '#C0392B',
+    borderWidth: 3
+  }]"
+/>
+```
+
 ## Code
 
 ### Basic Code Blocks

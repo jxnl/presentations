@@ -54,88 +54,14 @@ The server will start on `http://localhost:3030` (or the port shown in terminal 
 
 ## Components
 
-### FileExplorer Component
+Components in `slides/components/` are automatically available in all decks without manual imports. They can be used directly in markdown slides using Vue syntax.
 
-The `FileExplorer` component displays an interactive file tree explorer with syntax-highlighted code viewing. It's useful for code walkthroughs, showing project structures, or exploring configuration files.
+**Available Components:**
 
-**Usage:**
+- **Callout** - Highlight information with styled callout boxes (`Callout.vue`)
+- **Chart** - Data visualization with bar, line, and doughnut charts (`Chart.vue`)
+- **FileExplorer** - Interactive file tree explorer with syntax highlighting (`FileExplorer.vue`)
+- **QRCode** - Generate QR codes dynamically (`QRCode.vue`)
+- **Terminal** - Display terminal commands with syntax highlighting (`Terminal.vue`)
 
-```html
-<FileExplorer dir="components/example_fs/fastapi-app" />
-```
-
-**Props:**
-
-- `dir` (string, required): Directory path relative to `slides/decks/`. For example, `"components/example_fs/fastapi-app"` will display files from `slides/decks/components/example_fs/fastapi-app/`.
-
-**Features:**
-
-- Displays a file tree sidebar with expandable folders
-- Click files to view their contents with syntax highlighting
-- Automatically expands all folders and selects the first file on mount
-- Supports syntax highlighting for many languages (Python, TypeScript, JavaScript, Markdown, JSON, YAML, Bash, Vue, HTML, CSS, Rust, Go, Java, C/C++, and more)
-- Uses VS Code-style file icons
-- Dark theme optimized for code display
-
-**Example:**
-
-```html
-<FileExplorer dir="components/example_fs/fastapi-app" />
-```
-
-This will show all files and folders within the specified directory, allowing users to navigate and view file contents directly in the slide.
-
-### Terminal Component
-
-The `Terminal` component displays terminal commands with syntax highlighting and optional output. It's useful for showing installation instructions, command-line examples, API responses, or any terminal-based workflows.
-
-**Usage:**
-
-```html
-<!-- Single command with output -->
-<Terminal 
-  command="npm install slidev"
-  output="added 152 packages in 2m"
-/>
-
-<!-- Multiple commands -->
-<Terminal 
-  :lines="[
-    { command: 'cd my-project', prompt: '$' },
-    { command: 'npm install', output: 'added 152 packages' },
-    { command: 'npm run dev', output: 'Server running on http://localhost:3030' }
-  ]"
-/>
-```
-
-**Props:**
-
-- `command` (string, optional): Single command to display
-- `output` (string, optional): Output text for the command
-- `lines` (array, optional): Array of command/output objects `{ command: string, output?: string, prompt?: string }`
-- `prompt` (string, optional, default '$'): Prompt symbol to display before commands
-- `shell` (string, optional, default 'bash'): Shell type - `bash`, `zsh`, `powershell`, or `cmd`
-- `title` (string, optional): Custom title for the terminal header
-- `height` (number, optional, default 300): Height of the terminal in pixels
-- `copyable` (boolean, optional, default true): Show copy button on hover
-
-**Features:**
-
-- Syntax highlighting for commands using Shiki (same as FileExplorer)
-- Automatic JSON detection and highlighting for output
-- Copy-to-clipboard functionality for commands
-- Supports multiple command/output pairs
-- Consistent styling with FileExplorer component
-- Dark theme optimized for code display
-
-**Example:**
-
-```html
-<Terminal 
-  command="curl https://api.example.com/data"
-  output='{
-  "status": "success",
-  "data": { "id": 123 }
-}'
-/>
-```
+**Full Documentation:** See [slides/components/README.md](./slides/components/README.md) for detailed usage, props, and examples for each component.

@@ -150,7 +150,7 @@ Components placed in this directory are automatically available in all decks wit
 
 **Props:**
 - `url` (required) - URL to encode in QR code
-- `size` (optional, default 200) - Size in pixels
+- `size` (optional, default 120) - Size in pixels
 - `caption` (optional) - Text to display below QR code
 
 **Configuration:**

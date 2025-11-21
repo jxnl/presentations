@@ -130,6 +130,8 @@ Components in `slides/components/` are automatically available in all decks with
 - `QRCode` - Generate QR codes dynamically (`slides/components/QRCode.vue`)
 - `Callout` - Highlight information with styled boxes (`slides/components/Callout.vue`)
 - `Chart` - Data visualization with bar, line, and doughnut charts (`slides/components/Chart.vue`)
+- `FileExplorer` - Interactive file tree explorer with syntax highlighting (`slides/components/FileExplorer.vue`)
+- `Terminal` - Display terminal commands with syntax highlighting (`slides/components/Terminal.vue`)
 
 **Example:** `slides/components/QRCode.vue` is available as `<QRCode />` in any deck.
 

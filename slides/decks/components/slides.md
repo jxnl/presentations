@@ -319,6 +319,102 @@ You can click on files to view their content and expand/collapse directories.
 -->
 
 ---
+---
+
+# Terminal Component
+
+Display terminal commands with syntax highlighting and output
+
+## Basic Usage
+
+<Terminal 
+  command="npm install slidev"
+  output="added 152 packages in 2m"
+/>
+
+```html
+<Terminal 
+  command="npm install slidev"
+  output="added 152 packages in 2m"
+/>
+```
+
+## Multiple Commands
+
+<Terminal 
+  :lines="[
+    { command: 'cd my-project', prompt: '$' },
+    { command: 'npm install', output: 'added 152 packages' },
+    { command: 'npm run dev', output: 'Server running on http://localhost:3030' }
+  ]"
+  :height="250"
+/>
+
+```html
+<Terminal 
+  :lines="[
+    { command: 'cd my-project', prompt: '$' },
+    { command: 'npm install', output: 'added 152 packages' },
+    { command: 'npm run dev', output: 'Server running on http://localhost:3030' }
+  ]"
+  :height="250"
+/>
+```
+
+## With JSON Output
+
+<Terminal 
+  command="curl https://api.example.com/data"
+  output='{
+  "status": "success",
+  "data": {
+    "id": 123,
+    "name": "Example"
+  }
+}'
+  :height="200"
+/>
+
+```html
+<Terminal 
+  command="curl https://api.example.com/data"
+  output='{
+  "status": "success",
+  "data": { "id": 123 }
+}'
+/>
+```
+
+## Different Shells
+
+<div grid="~ cols-2 gap-4">
+
+<Terminal 
+  command="echo 'Hello from bash'"
+  shell="bash"
+  prompt="$"
+  :height="150"
+/>
+
+<Terminal 
+  command="Write-Host 'Hello from PowerShell'"
+  shell="powershell"
+  prompt="PS>"
+  :height="150"
+/>
+
+</div>
+
+```html
+<Terminal shell="bash" prompt="$" command="..." />
+<Terminal shell="powershell" prompt="PS>" command="..." />
+```
+
+<!--
+The Terminal component is perfect for showing command-line examples, installation instructions, or API responses. It features syntax highlighting for commands, supports multiple command/output pairs, and includes copy functionality. You can customize the shell type, prompt, and height to fit your needs.
+-->
+
+---
 layout: center
 class: text-center
 ---

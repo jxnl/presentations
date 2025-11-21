@@ -373,6 +373,90 @@ You can override any Chart.js dataset options by passing them in the `datasets` 
 />
 ```
 
+### FileExplorer Component
+
+Display an interactive file tree explorer with syntax-highlighted code viewing. Perfect for code walkthroughs, showing project structures, or exploring configuration files.
+
+**Location:** `slides/components/FileExplorer.vue`
+
+**Usage:**
+
+```html
+<FileExplorer dir="components/example_fs/fastapi-app" />
+```
+
+**Props:**
+
+- `dir` (required) - Directory path relative to `slides/decks/`. For example, `"components/example_fs/fastapi-app"` will display files from `slides/decks/components/example_fs/fastapi-app/`.
+
+**Features:**
+
+- Interactive file tree sidebar with expandable folders
+- Click files to view their contents with syntax highlighting
+- Automatically expands all folders and selects the first file on mount
+- Supports syntax highlighting for many languages (Python, TypeScript, JavaScript, Markdown, JSON, YAML, Bash, Vue, HTML, CSS, Rust, Go, Java, C/C++, and more)
+- Uses VS Code-style file icons
+- Dark theme optimized for code display
+
+### Terminal Component
+
+Display terminal commands with syntax highlighting and optional output. Useful for showing installation instructions, command-line examples, API responses, or any terminal-based workflows.
+
+**Location:** `slides/components/Terminal.vue`
+
+**Usage:**
+
+```html
+<!-- Single command with output -->
+<Terminal 
+  command="npm install slidev"
+  output="added 152 packages in 2m"
+/>
+
+<!-- Multiple commands -->
+<Terminal 
+  :lines="[
+    { command: 'cd my-project', prompt: '$' },
+    { command: 'npm install', output: 'added 152 packages' },
+    { command: 'npm run dev', output: 'Server running on http://localhost:3030' }
+  ]"
+  :height="250"
+/>
+
+<!-- With JSON output -->
+<Terminal 
+  command="curl https://api.example.com/data"
+  output='{
+  "status": "success",
+  "data": { "id": 123 }
+}'
+/>
+
+<!-- Different shell types -->
+<Terminal shell="bash" prompt="$" command="echo 'Hello'" />
+<Terminal shell="powershell" prompt="PS>" command="Write-Host 'Hello'" />
+```
+
+**Props:**
+
+- `command` (optional) - Single command to display
+- `output` (optional) - Output text for the command
+- `lines` (optional) - Array of command/output objects `{ command: string, output?: string, prompt?: string }`
+- `prompt` (optional, default '$') - Prompt symbol to display before commands
+- `shell` (optional, default 'bash') - Shell type: `bash`, `zsh`, `powershell`, or `cmd`
+- `title` (optional) - Custom title for the terminal header
+- `height` (optional, default 300) - Height of the terminal in pixels
+- `copyable` (optional, default true) - Show copy button on hover
+
+**Features:**
+
+- Syntax highlighting for commands using Shiki (same as FileExplorer)
+- Automatic JSON detection and highlighting for output
+- Copy-to-clipboard functionality for commands
+- Supports multiple command/output pairs
+- Consistent styling with FileExplorer component
+- Dark theme optimized for code display
+
 ## Code
 
 ### Basic Code Blocks

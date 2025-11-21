@@ -302,6 +302,23 @@ The legend is automatically positioned at the bottom with circular indicators.
 -->
 
 ---
+---
+
+# File Explorer
+
+<FileExplorer dir="components/example_fs/fastapi-app" />
+
+```html
+<FileExplorer dir="components/example_fs/fastapi-app" />
+```
+
+<!--
+The FileExplorer component allows you to explore a file system structure directly within your slides. 
+It's great for code walkthroughs, showing project structures, or exploring configuration files.
+You can click on files to view their content and expand/collapse directories.
+-->
+
+---
 layout: center
 class: text-center
 ---

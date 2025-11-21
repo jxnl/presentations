@@ -289,6 +289,12 @@ Also, HTML elements are valid:
 -->
 
 ---
+
+# File Explorer Component
+
+<FileExplorer dir="components/example_fs/fastapi-app" />
+
+---
 class: px-20
 ---
 

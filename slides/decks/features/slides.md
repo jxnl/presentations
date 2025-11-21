@@ -770,6 +770,59 @@ You can use Vue components directly in your slides - no need to import them manu
 -->
 
 ---
+
+# QR Code Component
+
+Generate QR codes dynamically in your slides
+
+## Basic Usage
+
+<QRCode url="https://sli.dev" />
+
+<!-- Click 1 -->
+<div v-click>
+
+```html
+<QRCode url="https://sli.dev" />
+```
+
+</div>
+
+## With Caption
+
+<QRCode url="https://sli.dev" size="250" caption="Scan to visit Slidev documentation" />
+
+<!-- Click 2 -->
+<div v-click>
+
+```html
+<QRCode 
+  url="https://sli.dev" 
+  size="250" 
+  caption="Scan to visit Slidev documentation" 
+/>
+```
+
+</div>
+
+<!-- Click 3 (appears with Click 2) -->
+<div v-after>
+
+Props: `url` (required), `size` (default 200), `caption` (optional)
+
+</div>
+
+<!--
+QR codes are super useful for presentations - you can add them at the end of your slides so people can easily access links, resources, or follow-up materials.
+
+[click] The basic usage is simple - just provide a URL and the component generates a QR code automatically. Perfect for call-to-action slides.
+
+[click] You can customize the size and add a caption below the QR code. This is great for explaining what the QR code links to.
+
+[click] The component accepts a few props - url is required, size defaults to 200 pixels, and caption is optional. QR codes are generated dynamically when the slide loads, so you don't need to pre-generate any images.
+-->
+
+---
 mdc: true
 ---
 

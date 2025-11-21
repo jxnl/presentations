@@ -11,5 +11,9 @@ export default defineConfig({
       },
     },
   },
+  // Configure component auto-import to include root components directory
+  components: {
+    dirs: [resolve(__dirname, 'components')],
+  },
 })
 

@@ -113,6 +113,20 @@ Components are shared across all decks and are automatically imported from the `
 
 Components placed in this directory are automatically available in all decks without manual imports.
 
+**Important:** Slidev looks for components relative to where the `slides.md` file is located. To make components work across all decks, symlinks are created from each deck's `components/` directory to the shared `slides/components/` directory:
+
+- `decks/<deck-name>/components/` → `../../components/` (symlink)
+
+**When creating a new deck:**
+1. Create the deck directory: `slides/decks/<deck-name>/`
+2. Create `slides.md` in that directory
+3. Create a symlink: `cd slides/decks/<deck-name> && ln -s ../../components components`
+
+**When creating a new component:**
+1. Place the component in `slides/components/`
+2. It will automatically be available in all decks via the symlinks
+3. Use the component directly in slides: `<ComponentName />`
+
 ### Counter Component
 
 **Location:** `slides/components/Counter.vue`
@@ -123,12 +137,28 @@ Components placed in this directory are automatically available in all decks wit
 <Counter :count="10" />
 ```
 
+### QRCode Component
+
+**Location:** `slides/components/QRCode.vue`
+
+**Usage:**
+
+```vue
+<QRCode url="https://example.com" />
+<QRCode url="https://example.com" size="250" caption="Scan to visit" />
+```
+
+**Props:**
+- `url` (required) - URL to encode in QR code
+- `size` (optional, default 200) - Size in pixels
+- `caption` (optional) - Text to display below QR code
+
 **Configuration:**
 
 - Components are auto-imported via Slidev's built-in unplugin-vue-components
 - The `slides.config.ts` file configures component resolution
 - The `dev.sh` script ensures Slidev runs from the correct directory to find components
-- Components are available in all decks without additional configuration
+- Components are available in all decks via symlinks from `decks/<deck-name>/components/` to `slides/components/`
 
 ## Slidev-Specific Patterns
 

@@ -65,3 +65,39 @@ Components in `slides/components/` are automatically available in all decks with
 - **Terminal** - Display terminal commands with syntax highlighting (`Terminal.vue`)
 
 **Full Documentation:** See [slides/components/README.md](./slides/components/README.md) for detailed usage, props, and examples for each component.
+
+### When to Use Each Component
+
+**Callout** - Use when you need to:
+- Draw attention to important information, warnings, or tips
+- Provide context or side notes without breaking flow
+- Highlight success messages or errors
+- Add emphasis to key points that might be missed
+
+**Chart** - Use when you need to:
+- Visualize numerical data or metrics
+- Show trends over time (line charts)
+- Compare categories (bar charts)
+- Display proportions or distributions (doughnut charts)
+- Make data-driven arguments or presentations
+
+**FileExplorer** - Use when you need to:
+- Show project structure or file organization
+- Walk through code files interactively
+- Demonstrate file relationships and hierarchy
+- Explore configuration files or codebases
+- Provide interactive code browsing during presentations
+
+**QRCode** - Use when you need to:
+- Share links or resources quickly with the audience
+- Provide follow-up materials or documentation links
+- Share repository URLs or demo sites
+- Make it easy for attendees to access resources on their phones
+- Add at the end of slides for easy access
+
+**Terminal** - Use when you need to:
+- Show installation or setup commands
+- Demonstrate CLI workflows or processes
+- Display API responses or command output
+- Show step-by-step terminal instructions
+- Provide copyable commands for the audience

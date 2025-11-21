@@ -12,7 +12,7 @@ This workspace contains a Slidev presentation starter template organized around 
 
 This presentation starter kit is optimized for use with coding agents (like Cursor, GitHub Copilot, or other AI assistants). Key features that make it agent-friendly:
 
-- **Clear Documentation:** Comprehensive guides ([SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md) and [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)) provide step-by-step instructions agents can follow
+- **Clear Documentation:** Comprehensive guides ([SLIDEV.md](./SLIDEV.md) and [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)) provide step-by-step instructions agents can follow
 - **Structured Workflow:** The content-first approach gives agents clear phases to work in
 - **Consistent Patterns:** Well-documented patterns for layouts, components, and animations
 - **Explicit Rules:** Workspace rules and preferences are clearly defined for consistent output
@@ -94,7 +94,7 @@ Focus on getting your content and structure right:
 - Minimal or no animations
 - Get the material right first
 
-**Guide:** See [SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md) for detailed drafting instructions.
+**Guide:** See [SLIDEV.md](./SLIDEV.md) for detailed drafting instructions.
 
 ### Phase 2: Polish Mode (Enhancement)
 
@@ -131,8 +131,7 @@ The default theme is included. You can customize themes or use different Slidev 
 
 ## Documentation
 
-- **[SLIDEV.md](./SLIDEV.md)** - Basic Slidev markdown syntax reference
-- **[SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md)** - Complete guide for creating your first draft
+- **[SLIDEV.md](./SLIDEV.md)** - Slidev markdown syntax reference and drafting guide
 - **[SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)** - Complete guide for adding animations and polish
 
 ## Development

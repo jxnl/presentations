@@ -125,7 +125,7 @@ After your content is solid, enhance specific slides:
 
 Components in `slides/components/` are automatically available in all decks without manual imports. Create reusable Vue components here.
 
-**Example:** `slides/components/Counter.vue` is available as `<Counter />` in any deck.
+**Example:** `slides/components/QRCode.vue` is available as `<QRCode />` in any deck.
 
 ### Code Snippets
 

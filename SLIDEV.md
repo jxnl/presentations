@@ -204,13 +204,13 @@ Box inside which the font size will automatically adapt to fit the content. Simi
 
 ### QRCode Component
 
-Generate QR codes dynamically in your slides.
+Generate QR codes dynamically in your slides. Useful for sharing links, resources, or follow-up materials.
 
 **Location:** `slides/components/QRCode.vue`
 
 **Usage:**
 
-```vue
+```html
 <QRCode url="https://example.com" />
 <QRCode url="https://example.com" size="250" caption="Scan to visit" />
 ```
@@ -218,8 +218,72 @@ Generate QR codes dynamically in your slides.
 **Props:**
 
 - `url` (required) - URL to encode in QR code
-- `size` (optional, default 120) - Size in pixels
+- `size` (optional, default 200) - Size in pixels
 - `caption` (optional) - Text to display below QR code
+
+### Callout Component
+
+Highlight important information with styled callout boxes. Perfect for drawing attention to tips, warnings, success messages, errors, and notes.
+
+**Location:** `slides/components/Callout.vue`
+
+**Usage:**
+
+```html
+<Callout type="info">
+This is an informational callout with helpful context.
+</Callout>
+
+<Callout type="warning" title="Important">
+Make sure to save your work before proceeding.
+</Callout>
+
+<Callout type="success">
+Operation completed successfully!
+</Callout>
+
+<Callout type="error" title="Error">
+Something went wrong. Please try again.
+</Callout>
+
+<Callout type="tip" title="Pro Tip">
+Use keyboard shortcuts to navigate faster.
+</Callout>
+
+<Callout type="note" title="Note">
+This is a general note callout.
+</Callout>
+```
+
+**Props:**
+
+- `type` (optional, default: 'info') - One of: `info`, `warning`, `success`, `error`, `tip`, `note`
+- `title` (optional) - Title text displayed above the content
+
+**Available Types:**
+
+- `info` - Blue, informational content
+- `warning` - Yellow, important warnings
+- `success` - Green, success messages
+- `error` - Red, error messages
+- `tip` - Purple, helpful tips
+- `note` - Gray, general notes
+
+**Usage with Click Animations:**
+
+Callouts work great with click animations to reveal information progressively:
+
+```html
+<!-- Click 1 -->
+<Callout type="info" v-click>
+This callout appears after the first click.
+</Callout>
+
+<!-- Click 2 -->
+<Callout type="warning" v-click>
+This warning appears after the second click.
+</Callout>
+```
 
 **Note:** Components in `slides/components/` are automatically available in all decks without manual imports.
 

@@ -2,7 +2,8 @@
 theme: default
 title: Slidev Features Showcase
 fonts:
-  sans: 'Open Sans'
+  sans: 'Inter'
+  mono: 'JetBrains Mono'
   provider: google
 info: |
   Comprehensive examples of all Slidev features and tricks
@@ -22,10 +23,30 @@ A comprehensive guide demonstrating all Slidev capabilities
 </a>
 </div>
 
+<div class="mt-6 space-y-3">
+<Callout type="info">
+This is an informational callout with helpful context.
+</Callout>
+
+<Callout type="warning" title="Important">
+Make sure to save your work before proceeding.
+</Callout>
+
+<Callout type="success">
+Operation completed successfully!
+</Callout>
+
+<Callout type="tip" title="Pro Tip">
+Use keyboard shortcuts to navigate faster.
+</Callout>
+</div>
+
 <!--
 Welcome everyone! This is a comprehensive walkthrough of all the features Slidev has to offer. 
 
 You can navigate using Space or the arrow keys - feel free to follow along and try things out as we go.
+
+Here we're showcasing the new Callout component with different types: info, warning, success, and tip.
 -->
 
 ---
@@ -729,21 +750,8 @@ Here's a simple flowchart and a pie chart. You can mix and match different diagr
 
 Use Vue components directly in slides
 
-## Counter Component
-
-<Counter :count="5" />
-
 <!-- Click 1 -->
 <div v-click>
-
-```html
-<Counter :count="5" />
-```
-
-</div>
-
-<!-- Click 2 (appears with Click 1) -->
-<div v-after>
 
 Components are auto-imported from the `components/` directory
 
@@ -752,9 +760,7 @@ Components are auto-imported from the `components/` directory
 <!--
 You can use Vue components directly in your slides - no need to import them manually. Slidev automatically finds components in the components directory.
 
-[click] Here's the code for this counter component - it's just a regular Vue component.
-
-[click] The cool part is that Slidev auto-imports it. You just use it like this, and it works. You can create custom components for charts, interactive demos, anything you can build in Vue.
+[click] The cool part is that Slidev auto-imports components. You just use them like this, and it works. You can create custom components for charts, interactive demos, anything you can build in Vue.
 -->
 
 ---

@@ -73,3 +73,8 @@ Components in `slides/components/` are automatically available in all decks with
 - **FileExplorer** - Show project structure or walk through code files interactively
 - **QRCode** - Share links or resources quickly with the audience
 - **Terminal** - Show commands, installation steps, or CLI workflows
+
+**Workflow Guidelines:**
+
+- **QRCode** - Use at the end of slides as a call-to-action (CTA) for sharing resources
+- **All other components** (Callout, Chart, FileExplorer, Terminal) - Use only during polishing mode, not during initial content creation

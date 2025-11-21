@@ -165,6 +165,22 @@ your-slidev/
       └── MyComponent.vue
 ```
 
+### AutoFitText Component
+
+Box inside which the font size will automatically adapt to fit the content. Similar to PowerPoint or Keynote TextBox.
+
+**Usage:**
+
+```html
+<AutoFitText :max="200" :min="100" modelValue="Some text"/>
+```
+
+**Props:**
+
+- `max` (string | number, default 100): Maximum font size
+- `min` (string | number, default 30): Minimum font size
+- `modelValue` (string, default ''): Text content
+
 ## Code
 
 ### Basic Code Blocks

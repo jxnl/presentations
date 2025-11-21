@@ -674,6 +674,14 @@ When auditing clicks, follow this process:
 <!-- Marks appear randomly, not aligned -->
 ```
 
+**Correct example:**
+
+```html
+<!-- CORRECT -->
+<span v-mark.underline="1">Mark appears on click 1</span>
+<span v-mark.circle="2">Mark appears on click 2</span>
+```
+
 **Mistake 2: Nested v-click with v-mark**
 
 ```html
@@ -681,6 +689,16 @@ When auditing clicks, follow this process:
 <div v-click>
   <span v-mark>Mark appears on click 2, not click 1</span>
 </div>
+```
+
+**Correct example:**
+
+```html
+<!-- CORRECT -->
+<div v-click>
+  <span v-mark.underline="1">Mark appears on click 1</span>
+</div>
+<span v-mark.circle="2">Second mark on click 2</span>
 ```
 
 **Mistake 3: Presenter notes missing [click] markers**
@@ -695,6 +713,19 @@ All notes highlight at once
 <div v-click>Second</div>
 ```
 
+**Correct example:**
+
+```html
+<!-- CORRECT -->
+<!--
+[click] Note for first click
+[click] Note for second click
+-->
+
+<div v-click>First</div>
+<div v-click>Second</div>
+```
+
 **Mistake 4: Mixing v-click and v-after inconsistently**
 
 ```html
@@ -703,6 +734,15 @@ All notes highlight at once
 <div v-click>2</div>
 <div v-after>Also 2?</div>
 <div v-click>3 or 4?</div>
+```
+
+**Correct example:**
+
+```html
+<!-- CORRECT -->
+<div v-click>1</div>
+<div v-after>Also 1</div>
+<div v-click>2</div>
 ```
 
 ## Summary

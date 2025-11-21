@@ -202,6 +202,27 @@ Box inside which the font size will automatically adapt to fit the content. Simi
 - `min` (string | number, default 30): Minimum font size
 - `modelValue` (string, default ''): Text content
 
+### QRCode Component
+
+Generate QR codes dynamically in your slides.
+
+**Location:** `slides/components/QRCode.vue`
+
+**Usage:**
+
+```vue
+<QRCode url="https://example.com" />
+<QRCode url="https://example.com" size="250" caption="Scan to visit" />
+```
+
+**Props:**
+
+- `url` (required) - URL to encode in QR code
+- `size` (optional, default 120) - Size in pixels
+- `caption` (optional) - Text to display below QR code
+
+**Note:** Components in `slides/components/` are automatically available in all decks without manual imports.
+
 ## Code
 
 ### Basic Code Blocks

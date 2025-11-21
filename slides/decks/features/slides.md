@@ -1,24 +1,25 @@
 ---
-theme: seriph
-background: https://cover.sli.dev
+theme: default
 title: Slidev Features Showcase
+fonts:
+  sans: 'Open Sans'
+  provider: google
 info: |
   Comprehensive examples of all Slidev features and tricks
-class: text-center
+class: text-left
 mdc: true
-transition: slide-left
+transition: none
 ---
 
 # Slidev Features Showcase
 
 A comprehensive guide demonstrating all Slidev capabilities
 
-Press <kbd>Space</kbd> to navigate
-
-<div class="abs-br m-6 text-xl">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
-    <carbon:edit />
-  </button>
+<div class="mt-8">
+<a href="https://twitter.com/jxnlco" target="_blank" class="inline-flex items-center gap-2 text-xl">
+  <carbon:logo-twitter class="text-2xl" />
+  @jxnlco
+</a>
 </div>
 
 <!--
@@ -28,7 +29,6 @@ You can navigate using Space or the arrow keys - feel free to follow along and t
 -->
 
 ---
-transition: fade-out
 ---
 
 # Slide Separators & Frontmatter
@@ -55,7 +55,6 @@ Slides are separated by `---` with optional frontmatter
 
 ```yaml
 ---
-transition: fade-out
 ---
 ```
 
@@ -962,6 +961,13 @@ All Slidev features demonstrated
 
 [Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev)
 
+</div>
+
+<div class="mt-6">
+<a href="https://twitter.com/jxnlco" target="_blank" class="inline-flex items-center gap-2 text-xl">
+  <carbon:logo-twitter class="text-2xl" />
+  @jxnlco
+</a>
 </div>
 
 <!--

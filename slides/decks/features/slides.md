@@ -165,7 +165,6 @@ Grid layouts are super flexible - you use UnoCSS grid syntax right in your HTML.
 -->
 
 ---
----
 
 # Icons & Images
 
@@ -335,7 +334,6 @@ Now let's talk about click animations - this is one of the most powerful feature
 -->
 
 ---
----
 
 # v-mark (Rough Notation)
 
@@ -460,7 +458,6 @@ You control everything with initial and enter properties, and you can add delays
 -->
 
 ---
----
 
 # Code Snippets & Line Highlighting
 
@@ -504,7 +501,6 @@ And you can do dynamic highlighting - show different lines on different clicks. 
 -->
 
 ---
----
 
 # Code Snippets with Regions
 
@@ -522,7 +518,6 @@ You can also import code snippets from external files. This is really useful whe
 You mark a region in your code file with region and endregion comments, then import it with this special syntax. The code stays in sync with your actual files, so if you update the code, the slide updates too. Super handy for code reviews or documentation.
 -->
 
----
 ---
 
 # Monaco Editor
@@ -559,7 +554,6 @@ There's also a diff editor mode - use monaco-diff and separate the old and new c
 -->
 
 ---
----
 
 # Monaco Run
 
@@ -585,7 +579,6 @@ And here's the really cool one - monaco-run. This actually executes the code rig
 Check your browser console - you should see the output from this code running. This is amazing for interactive demos where you want to show code actually working.
 -->
 
----
 ---
 
 # Shiki Magic Move
@@ -636,7 +629,6 @@ Watch how the code morphs from one version to another - it tracks how lines move
 -->
 
 ---
----
 
 # LaTeX Math
 
@@ -673,7 +665,6 @@ Works with all the standard LaTeX commands - integrals, summations, matrices, wh
 -->
 
 ---
----
 
 # Mermaid Diagrams
 
@@ -706,7 +697,6 @@ Here we have a sequence diagram showing interactions between Alice and Bob, and 
 -->
 
 ---
----
 
 # More Mermaid Diagrams
 
@@ -734,7 +724,6 @@ Mermaid supports tons of diagram types - flowcharts, sequence diagrams, pie char
 Here's a simple flowchart and a pie chart. You can mix and match different diagram types on the same slide, scale them independently, style them however you want. Really powerful for visual explanations.
 -->
 
----
 ---
 
 # Components
@@ -770,38 +759,58 @@ You can use Vue components directly in your slides - no need to import them manu
 -->
 
 ---
+layout: two-cols
+---
 
 # QR Code Component
 
 Generate QR codes dynamically in your slides
 
+<div class="text-center">
+
 ## Basic Usage
 
-<QRCode url="https://sli.dev" />
+<div class="my-2">
+
+<QRCode url="https://sli.dev" size="150" />
+
+</div>
 
 <!-- Click 1 -->
-<div v-click>
+<div v-click class="text-xs">
 
 ```html
-<QRCode url="https://sli.dev" />
+<QRCode url="https://sli.dev" size="150" />
 ```
 
 </div>
 
+</div>
+
+::right::
+
+<div class="text-center">
+
 ## With Caption
 
-<QRCode url="https://sli.dev" size="250" caption="Scan to visit Slidev documentation" />
+<div class="my-2">
+
+<QRCode url="https://sli.dev" size="150" caption="Scan to visit Slidev documentation" />
+
+</div>
 
 <!-- Click 2 -->
-<div v-click>
+<div v-click class="text-xs">
 
 ```html
 <QRCode 
   url="https://sli.dev" 
-  size="250" 
+  size="150" 
   caption="Scan to visit Slidev documentation" 
 />
 ```
+
+</div>
 
 </div>
 
@@ -846,7 +855,6 @@ MDC stands for Markdown Components - it's an extension that lets you do more adv
 You can style inline text with custom styles, add attributes to images like lazy loading, and use block components with slots. It's optional - you enable it with mdc: true in the frontmatter - but it gives you a lot more flexibility when you need it.
 -->
 
----
 ---
 
 # Presenter Notes
@@ -900,7 +908,6 @@ The really cool part is the click markers - you can sync highlighting in your no
 [click] Third click content appears. Makes it easy to remember what to say at each point.
 -->
 
----
 ---
 
 # Slide-Specific Styles

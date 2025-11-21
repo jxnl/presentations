@@ -663,30 +663,6 @@ When auditing clicks, follow this process:
 4. **Presenter notes must have [click] markers** - One per v-click/v-clicks item
 5. **Test every slide manually** - Click through and verify timing
 
-### Validation Tools
-
-**Basic Validation Script:**
-
-A simple validation script is available at `slides/validate-clicks.sh`:
-
-```bash
-./slides/validate-clicks.sh slides/decks/features/slides.md
-```
-
-This checks for basic mismatches between v-click directives and [click] markers, but manual verification is still needed for:
-- v-clicks components (count children manually)
-- v-after elements (don't increment counter)
-- v-mark click numbers
-- Complex nested structures
-
-**Recommended Workflow:**
-
-1. **Write slide with click comments** - Add `<!-- Click N -->` comments as you go
-2. **Run validation script** - Quick check for obvious mismatches
-3. **Manual count** - Count clicks and verify against comments
-4. **Test in browser** - Click through and verify timing matches expectations
-5. **Verify presenter notes** - Ensure [click] markers align with actual clicks
-
 ### Common Alignment Mistakes
 
 **Mistake 1: v-mark without click numbers**

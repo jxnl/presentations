@@ -1,9 +1,27 @@
 # Slidev Markdown Guide
 
-This guide covers the basics of Slidev markdown for creating presentations. For detailed workflows, see:
+This guide covers the basics of Slidev markdown and the first-draft workflow for building presentations. Keep the content clean before adding polish; for animations, advanced code, and synced notes see [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md).
 
-- [SLIDEV_DRAFTING.md](./SLIDEV_DRAFTING.md) - Creating your first draft
-- [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md) - Adding animations and polish
+## Workflow: Content First, Polish Later
+
+### First draft approach
+
+- Focus on your story and the flow between slides.
+- Use the simplest layouts that keep ideas readable.
+- Draft speaker notes as you go—capture the full thought, not just a bullet.
+- Skip click animations and polished code blocks until the structure feels solid.
+
+### Ready for polish
+
+- Once the narrative is stable, open [`SLIDEV_POLISHING.md`](./SLIDEV_POLISHING.md).
+- Add click reveals, advanced code treatments, and synced presenter notes.
+- Tidy visuals only where they help clarify or emphasize.
+
+Don’t try to perfect everything at once. Build the material first, then polish the slides that benefit most.
+
+## Basics Reminder
+
+Use the sections below for the exact syntax for slide separators, frontmatter, layouts, media, components, code, animations, notes, math, and diagrams. This document now covers both “how” and “workflow”—draft with confidence, then switch to `SLIDEV_POLISHING.md` for polish.
 
 ## Basics
 

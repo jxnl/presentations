@@ -13,6 +13,18 @@ This guide covers adding polish and interactive elements to your slides. Use thi
 
 **Key Principle:** Don't try to polish everything at once. Identify specific slides that would benefit from enhancement, then add polish incrementally.
 
+**CRITICAL: Polish One Slide at a Time**
+
+This is a very human process that requires a lot of intervention and iteration. When polishing:
+
+1. **Work on one slide at a time** - Don't try to polish multiple slides in one pass
+2. **Test each slide** - View the slide in the browser and verify animations work correctly
+3. **Get feedback** - Show the polished slide to get input before moving to the next
+4. **Iterate** - Make adjustments based on feedback before proceeding
+5. **Validate click timing** - Ensure all click animations align properly with presenter notes
+
+**Avoid:** Polishing the entire deck in one go. This leads to errors, misaligned animations, and makes it harder to catch issues. Take it step by step, one slide at a time.
+
 ## Click Animations
 
 Click animations reveal content progressively as you advance through a slide.
@@ -305,7 +317,27 @@ Slidev integrates Rough Notation to mark or highlight elements. The `v-mark` dir
 <span v-mark="'+1'">Triggers one click after previous</span>
 ```
 
-**Remember:** Always use explicit click numbers for v-mark to ensure proper alignment.
+**Combining Custom Color with Click Timing:**
+
+When using custom colors, use the `at` property to specify click timing:
+
+```html
+<span v-mark.highlight="{ at: 1, color: '#fef08a' }">Highlighted on click 1</span>
+<span v-mark.underline="{ at: 2, color: '#60a5fa' }">Underlined on click 2</span>
+```
+
+**Best Practices:**
+
+- **Always use explicit click numbers** for v-mark to ensure proper alignment
+- **Use a single consistent highlight style** per slide or section - don't mix underline, circle, box, and highlight on the same slide
+- **Use light yellow color with click timing** - Always use `v-mark.highlight="{ at: N, color: '#fef08a' }"` where `N` is the click number. The `at` property specifies when the highlight appears, and `color` sets the light yellow color instead of default black
+- **Keep it subtle** - highlighting should enhance, not distract
+
+**Example with custom color and click timing:**
+
+```html
+<span v-mark.highlight="{ at: 1, color: '#fef08a' }">Highlighted text</span>
+```
 
 ### Motion Animations
 
@@ -413,6 +445,44 @@ function add(
 ```
 
 This highlights lines 2-3 first, then line 5, then all lines.
+
+### Code Highlighting Best Practices
+
+**CRITICAL: Count lines carefully and thoughtfully**
+
+When adding code highlighting, follow these steps:
+
+1. **Count lines from the start of the code block** - Line numbers start at 1, not 0
+2. **Include blank lines in your count** - Blank lines are still lines and affect line numbers
+3. **Verify your line numbers** - Read through the code block and manually count to verify:
+   - Start at line 1 (first line of code)
+   - Count every line including blank lines
+   - Double-check ranges (e.g., `{5-8}` means lines 5, 6, 7, and 8)
+4. **Group logically** - Highlight related code together:
+   - Imports together
+   - Class definitions together
+   - Related function calls together
+   - Don't split logical units across highlights
+5. **Test the highlighting** - View the slide in the browser to verify the correct lines are highlighted
+6. **Common mistakes to avoid:**
+   - Off-by-one errors (forgetting blank lines or starting at 0)
+   - Highlighting unrelated code together
+   - Highlighting too many lines at once (hard to follow)
+   - Highlighting too few lines (missing context)
+
+**Example - Correct counting:**
+
+```python
+1| import instructor          # Line 1
+2| from pydantic import BaseModel  # Line 2
+3|                            # Line 3 (blank)
+4| class Person(BaseModel):   # Line 4
+5|     name: str              # Line 5
+6|     age: int               # Line 6
+```
+
+Correct highlighting: `{1-2|4-6}` (imports first, then class definition)
+Incorrect: `{1-3|5-6}` (includes blank line in first group, misses class declaration line)
 
 ### Code Snippets
 

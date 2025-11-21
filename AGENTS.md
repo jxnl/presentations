@@ -41,12 +41,15 @@ This workspace follows a two-phase approach to creating presentations:
 ### Phase 2: Polish Mode (Enhancement)
 
 - Use [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md) as your guide
+- **Polish one slide at a time** - This is a human process requiring intervention and iteration
 - Add animations incrementally to specific slides
 - Enhance code displays only when needed
 - Add visual polish selectively
 - Sync presenter notes with animations
+- Test each slide in the browser before moving to the next
+- Get feedback and iterate on each slide before proceeding
 
-**Key Principle:** Don't try to one-shot everything. Build the content first, then enhance specific slides that benefit from animation.
+**Key Principle:** Don't try to one-shot everything. Build the content first, then enhance specific slides that benefit from animation. **Work on one slide at a time** - polish, test, get feedback, iterate, then move to the next slide.
 
 ## User Preferences
 
@@ -66,7 +69,7 @@ These preferences guide how slides should be created and structured:
 
 - **Transitions:** Very few transitions, mostly static slides
 - **Progressive Reveals:** Frequent clicks (every couple seconds) to reveal content progressively - if there are three ideas, each should appear on click rather than all at once
-- **Keyword Highlighting:** Use polishing mechanics (like `v-mark`) to highlight keywords between clicks
+- **Keyword Highlighting:** Use polishing mechanics (like `v-mark`) to highlight keywords between clicks. Use a single consistent highlight style per slide (e.g., all `v-mark.highlight`), and always use light yellow color with explicit click timing: `v-mark.highlight="{ at: N, color: '#fef08a' }"` where `N` is the click number. The `at` property specifies when the highlight appears, ensuring proper alignment with click animations.
 - **Color:** Subtle accents (themes will be handled later)
 - **Images:** Full-screen when possible; ensure everything fits on screen
 - **Layouts:** Mix based on content; single-line centered text for transitions (e.g., "So what next?")
@@ -74,6 +77,11 @@ These preferences guide how slides should be created and structured:
 ### Code & Technical Content
 
 - **Code Blocks:** Informative code blocks with progressive line highlighting between clicks to create movement
+  - **Count lines carefully** - Line numbers start at 1, include blank lines in count
+  - **Verify line numbers** - Manually count through the code block to ensure accuracy
+  - **Group logically** - Highlight related code together (imports, class definitions, related calls)
+  - **Test highlighting** - View in browser to verify correct lines are highlighted
+  - **Common mistake:** Off-by-one errors from forgetting blank lines or miscounting
 - **Math Formulas:** Standalone equation blocks (not inline)
 
 ### Diagrams
@@ -174,7 +182,7 @@ For detailed Slidev patterns, see:
 - **Slide Separators:** Use `---` padded with newlines
 - **Frontmatter:** `class:`, `layout:`, `layoutClass:`, `src:` for importing slides
 - **Grid Layouts:** `grid="~ cols-2 gap-4"` for flexible column layouts
-- **Two-Column Layout:** `layout: two-cols` with `::right::` marker
+- **Two-Column Layout:** `layout: two-cols` with `::right::` marker (do NOT use `::left::` - content before `::right::` automatically goes to left column)
 - **Components:** Use Vue components directly in slides, create custom components in `components/` directory
 - **Icons:** `<carbon:icon-name />` or `i-carbon:icon-name` class
 - **Images:** `<img>` with `border="rounded"` or positioning classes

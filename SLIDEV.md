@@ -63,12 +63,13 @@ layoutClass: gap-16
 
 **Content:**
 
-Use the `::right::` marker to separate left and right column content. All content before `::right::` appears in the left column, and all content after appears in the right column.
+Use the `::right::` marker to separate left and right column content. **Important:** Do NOT use `::left::` markers. All content before `::right::` automatically appears in the left column, and all content after `::right::` appears in the right column.
 
 ```markdown
-# Left Column Title
+# Slide Title
 
 Content for the left column goes here.
+This can include multiple paragraphs, lists, etc.
 
 ::right::
 
@@ -76,6 +77,8 @@ Content for the left column goes here.
 
 Content after the `::right::` marker goes in the right column.
 ```
+
+**Note:** The title can be placed before `::right::` and will span both columns or appear at the top of the slide.
 
 ### Grid Layouts
 

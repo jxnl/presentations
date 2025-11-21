@@ -78,3 +78,13 @@ Components in `slides/components/` are automatically available in all decks with
 
 - **QRCode** - Use at the end of slides as a call-to-action (CTA) for sharing resources
 - **All other components** (Callout, Chart, FileExplorer, Terminal) - Use only during polishing mode, not during initial content creation
+
+### Adding New Components
+
+When adding a new component:
+
+1. Create the component file in `slides/components/` (e.g., `MyComponent.vue`)
+2. Document it in `slides/components/README.md` with usage examples, props, and features
+3. Update the component list in this file (`AGENTS.md`) under "Available Components"
+4. Add a brief usage guideline in the "When to Use Each Component" section
+5. Optionally add examples to `slides/decks/components/slides.md` for showcasing

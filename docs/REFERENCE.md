@@ -129,7 +129,7 @@ Right content.
 />
 ```
 
-See [slides/components/README.md](./slides/components/README.md) for full component details.
+See [slides/components/README.md](../slides/components/README.md) for full component details.
 
 ## Code
 

@@ -58,9 +58,14 @@ presentations/
 │   ├── components/         # Shared Vue components (auto-imported)
 │   ├── snippets/          # Code snippets for reuse
 │   └── slides.config.ts   # Slidev configuration
-├── SLIDEV.md              # Basic Slidev markdown reference
-├── SLIDEV_DRAFTING.md     # Content-first drafting guide
-└── SLIDEV_POLISHING.md    # Animation and polish guide
+├── docs/                  # Documentation directory
+│   ├── GETTING_STARTED.md # Quick start guide
+│   ├── BASICS.md          # Common patterns and syntax
+│   ├── DRAFTING.md        # Content creation workflow
+│   ├── POLISHING.md       # Animation and enhancement workflow
+│   ├── ADVANCED.md        # Advanced features
+│   └── REFERENCE.md       # Complete syntax reference
+└── AGENTS.md              # Agent instructions and navigation
 ```
 
 ## Deck Structure
@@ -104,7 +109,7 @@ Focus on getting your content and structure right:
 - Minimal or no animations
 - Get the material right first
 
-**Guide:** See [SLIDEV.md](./SLIDEV.md) for detailed drafting instructions.
+**Guide:** See [docs/DRAFTING.md](./docs/DRAFTING.md) for detailed drafting instructions.
 
 ### Phase 2: Polish Mode (Enhancement)
 
@@ -115,7 +120,7 @@ After your content is solid, enhance specific slides:
 - Add visual polish selectively
 - Sync presenter notes with animations
 
-**Guide:** See [SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md) for detailed polishing instructions.
+**Guide:** See [docs/POLISHING.md](./docs/POLISHING.md) for detailed polishing instructions.
 
 **Key Principle:** Don't try to one-shot everything. Build the content first, then enhance specific slides that benefit from animation.
 
@@ -135,7 +140,7 @@ Components in `slides/components/` are automatically available in all decks with
 
 **Example:** `slides/components/QRCode.vue` is available as `<QRCode />` in any deck.
 
-See [SLIDEV.md](./SLIDEV.md) for detailed component documentation and usage examples.
+See [slides/components/README.md](./slides/components/README.md) for detailed component documentation and usage examples.
 
 ### Code Snippets
 
@@ -151,8 +156,16 @@ The default theme is included. You can customize themes or use different Slidev 
 
 ## Documentation
 
-- **[SLIDEV.md](./SLIDEV.md)** - Slidev markdown syntax reference and drafting guide
-- **[SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)** - Complete guide for adding animations and polish
+**For agents:** See [AGENTS.md](./AGENTS.md) for navigation guide.
+
+**Documentation files:**
+
+- **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** - Get started quickly
+- **[docs/BASICS.md](./docs/BASICS.md)** - Common patterns and syntax
+- **[docs/DRAFTING.md](./docs/DRAFTING.md)** - Content creation workflow
+- **[docs/POLISHING.md](./docs/POLISHING.md)** - Animation and enhancement workflow
+- **[docs/ADVANCED.md](./docs/ADVANCED.md)** - Advanced features
+- **[docs/REFERENCE.md](./docs/REFERENCE.md)** - Complete syntax reference
 
 ## Development
 

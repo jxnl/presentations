@@ -1,92 +1,122 @@
-# Presentation Starter Kit
+# Presentation Starter Kit - Agent Instructions
 
-This is a starter kit for creating presentation slides using Slidev. Your primary job is to help create, modify, and improve presentation slides.
+Create and modify presentation slides in `slides/decks/` using Slidev.
 
-## Your Role
+## Workflow Principles
 
-- Create new slides and presentations in the `slides/decks/` directory
-- Modify existing slides in any deck
-- Add components, animations, and interactive elements
-- Help structure content for effective presentations
+**Important:** Ask questions, work incrementally, understand goals.
 
-## Project Structure
+1. **Ask questions first** - Don't assume. Clarify:
+   - What is the user trying to accomplish?
+   - What's the presentation topic and audience?
+   - What style or tone do they want?
+   - Are they drafting new content or polishing existing slides?
 
-Presentations are organized in the `slides/decks/` directory, where each deck is a folder containing its own `slides.md` file.
+2. **Don't do too much at once** - Work incrementally:
+   - Make one change at a time
+   - Show progress and get feedback before continuing
+   - Don't refactor entire decks without explicit request
+   - Don't add animations during content creation
 
-- `slides/decks/reference/` - Contains example/reference slides
-- `slides/decks/<deck-name>/` - Individual presentation decks
-- Each deck contains `slides.md` and optionally `pages/` for imported slides
+3. **Work on one slide at a time** - Especially when polishing:
+   - Focus on a single slide
+   - Test and verify before moving to the next
+   - Get user confirmation before proceeding
+   - Don't batch process multiple slides
 
-## Documentation
+4. **Understand user goals** - Before making changes:
+   - What problem are they trying to solve?
+   - What's the intended outcome?
+   - What constraints exist (time, audience, style)?
+   - Confirm understanding before implementing
 
-For all Slidev patterns, syntax, and workflows, refer to:
+**When in doubt, ask. Don't guess.**
 
-- **[SLIDEV.md](./SLIDEV.md)** - Basic Slidev markdown syntax reference
-- **[SLIDEV_POLISHING.md](./SLIDEV_POLISHING.md)** - Complete guide for adding animations and polish
+## Getting Started
 
-## Running Presentations
+### Deck Setup
 
-To start a presentation server:
+Each deck needs a `components/` symlink to `../../components`:
 
 ```bash
-cd slides
-bun run dev              # Opens the default "reference" deck
-bun run dev -- <deck-name>  # Opens a specific deck (e.g., `bun run dev -- features`)
+cd slides/decks/<deck-name>
+ln -s ../../components components
 ```
 
-The server will start on `http://localhost:3030` (or the port shown in terminal output).
+This allows deck-specific component overrides while sharing common components.
 
-## Browser Tool Usage
+### Running Presentations
 
-**URL:** `http://localhost:{PORT}/{SLIDE_NUMBER}` (1-indexed)
+**Background (for agents):**
 
-**Note:** Port may vary. Check terminal output when running `bun run dev` or `slidev --open`.
+```bash
+cd slides && bun run dev -- <deck-name> &
+```
 
-**Navigation:**
+Or use terminal tool with `is_background: true`:
 
-- Direct: `browser_navigate({ url: "http://localhost:{PORT}/9" })`
-- Keyboard: `ArrowRight` (next), `ArrowLeft` (previous)
+```python
+run_terminal_cmd(command="cd slides && bun run dev -- <deck-name>", is_background=True)
+```
 
-**Viewing:**
+Server: `http://localhost:3030` (or port shown)
 
-- Screenshots: `browser_take_screenshot({ fullPage: true })` or `browser_take_screenshot()`
-- Snapshots: `browser_snapshot()`
+### Browser Tool Usage
+
+- Navigate: `browser_navigate({ url: "http://localhost:{PORT}/{SLIDE_NUMBER}" })`
+- Screenshot: `browser_take_screenshot({ fullPage: true })`
+- Slide numbers are 1-indexed
+
+## Documentation Navigation
+
+Reference files based on task:
+
+| Task | File | When |
+|------|------|------|
+| First time / setup | `docs/GETTING_STARTED.md` | Getting started |
+| Creating/editing slides | `docs/BASICS.md` | Daily slide work |
+| New presentation | `docs/DRAFTING.md` | Content creation workflow |
+| Adding animations | `docs/POLISHING.md` | After content is complete |
+| Advanced features | `docs/ADVANCED.md` | Monaco, Magic Move, complex animations |
+| Syntax lookup | `docs/REFERENCE.md` | Specific syntax/props |
+| Components | `slides/components/README.md` | Using any component |
+
+### Workflow Rules
+
+1. **New presentation:** `docs/DRAFTING.md` → `docs/BASICS.md` → (later) `docs/POLISHING.md`
+2. **Adding animations:** `docs/POLISHING.md` → `docs/BASICS.md` (or `docs/ADVANCED.md` if needed)
+3. **Syntax questions:** `docs/BASICS.md` → `docs/ADVANCED.md` → `docs/REFERENCE.md`
+4. **Never polish during first draft** - content first, polish later
 
 ## Components
 
-Components in `slides/components/` are automatically available in all decks without manual imports. They can be used directly in markdown slides using Vue syntax.
+Auto-imported from `slides/components/`. Available: Callout, Chart, FileExplorer, QRCode, Terminal, AgentView.
 
-**Available Components:**
+**Details:** See `slides/components/README.md`
 
-- **Callout** - Highlight information with styled callout boxes (`Callout.vue`)
-- **Chart** - Data visualization with bar, line, and doughnut charts (`Chart.vue`)
-- **FileExplorer** - Interactive file tree explorer with syntax highlighting (`FileExplorer.vue`)
-- **QRCode** - Generate QR codes dynamically (`QRCode.vue`)
-- **Terminal** - Display terminal commands with syntax highlighting (`Terminal.vue`)
-- **AgentView** - Visualize AI agent interactions and thought processes (`AgentView.vue`)
+**Workflow:**
 
-**Full Documentation:** See [slides/components/README.md](./slides/components/README.md) for detailed usage, props, and examples for each component.
+- **Drafting:** Only QRCode allowed (end-of-slide CTAs)
+- **Polishing:** All components allowed
 
-### When to Use Each Component
+**When to use:**
 
-- **Callout** - Highlight important info, warnings, tips, or side notes
-- **Chart** - Visualize data, trends, comparisons, or proportions
-- **FileExplorer** - Show project structure or walk through code files interactively
-- **QRCode** - Share links or resources quickly with the audience
-- **Terminal** - Show commands, installation steps, or CLI workflows
-- **AgentView** - Explain agent behaviors, debugging sessions, or AI workflows
+- Callout - Important info, warnings, tips
+- Chart - Data visualization
+- FileExplorer - Code walkthroughs
+- QRCode - Share links/resources
+- Terminal - Commands, CLI workflows
+- AgentView - AI agent interactions
 
-**Workflow Guidelines:**
+### Adding Components
 
-- **QRCode** - Use at the end of slides as a call-to-action (CTA) for sharing resources
-- **All other components** (Callout, Chart, FileExplorer, Terminal) - Use only during polishing mode, not during initial content creation
+1. Create in `slides/components/`
+2. Document in `slides/components/README.md`
+3. Update this file's component list
+4. Add workflow guidance above
 
-### Adding New Components
+## Deck-Specific Personalization
 
-When adding a new component:
+When you learn personalization preferences for a deck, save them in `slides/decks/<deck-name>/AGENTS.md`.
 
-1. Create the component file in `slides/components/` (e.g., `MyComponent.vue`)
-2. Document it in `slides/components/README.md` with usage examples, props, and features
-3. Update the component list in this file (`AGENTS.md`) under "Available Components"
-4. Add a brief usage guideline in the "When to Use Each Component" section
-5. Optionally add examples to `slides/decks/components/slides.md` for showcasing
+Always check for `AGENTS.md` in the deck directory before starting work.

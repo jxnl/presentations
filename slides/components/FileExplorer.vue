@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
+import { codeToHtml } from 'shiki'
 import FileTreeItem from './FileTreeItem.vue'
 
 const props = defineProps<{
@@ -22,6 +23,8 @@ interface FileNode {
 
 const selectedFile = ref<FileNode | null>(null)
 const expandedFolders = ref<Set<string>>(new Set())
+const highlightedContent = ref<string>('')
+const isHighlighting = ref(false)
 
 // Normalize path to remove leading slashes and ensure consistency
 const normalizePath = (p: string) => p.replace(/^\//, '').replace(/\/$/, '')
@@ -117,8 +120,11 @@ onMounted(() => {
   }
 })
 
-const handleFileClick = (node: FileNode) => {
+const handleFileClick = async (node: FileNode) => {
   selectedFile.value = node
+  if (node.content) {
+    await highlightCode(node.content, node.name)
+  }
 }
 
 const toggleFolder = (node: FileNode) => {
@@ -136,6 +142,78 @@ const getFileIcon = (name: string) => {
   if (name.endsWith('.json')) return 'i-vscode-icons:file-type-json'
   return 'i-vscode-icons:default-file'
 }
+
+const getLanguageFromExtension = (filename: string): string => {
+  const ext = filename.split('.').pop()?.toLowerCase()
+  const languageMap: Record<string, string> = {
+    'py': 'python',
+    'ts': 'typescript',
+    'js': 'javascript',
+    'jsx': 'javascript',
+    'tsx': 'typescript',
+    'vue': 'vue',
+    'html': 'html',
+    'css': 'css',
+    'scss': 'scss',
+    'sass': 'sass',
+    'json': 'json',
+    'md': 'markdown',
+    'yaml': 'yaml',
+    'yml': 'yaml',
+    'sh': 'bash',
+    'bash': 'bash',
+    'zsh': 'bash',
+    'rs': 'rust',
+    'go': 'go',
+    'java': 'java',
+    'c': 'c',
+    'cpp': 'cpp',
+    'cc': 'cpp',
+    'h': 'c',
+    'hpp': 'cpp',
+    'rb': 'ruby',
+    'php': 'php',
+    'sql': 'sql',
+    'xml': 'xml',
+    'toml': 'toml',
+    'ini': 'ini',
+    'conf': 'ini',
+    'dockerfile': 'dockerfile',
+    'makefile': 'makefile',
+    'mk': 'makefile'
+  }
+  return languageMap[ext || ''] || 'text'
+}
+
+const highlightCode = async (content: string, filename: string) => {
+  if (!content || !content.trim()) {
+    highlightedContent.value = ''
+    return
+  }
+  
+  try {
+    isHighlighting.value = true
+    const lang = getLanguageFromExtension(filename)
+    const html = await codeToHtml(content, {
+      lang,
+      theme: 'github-dark'
+    })
+    highlightedContent.value = html
+  } catch (error) {
+    console.error('Failed to highlight code:', error)
+    highlightedContent.value = ''
+  } finally {
+    isHighlighting.value = false
+  }
+}
+
+watch(() => selectedFile.value, async (newFile) => {
+  if (newFile && newFile.content) {
+    await highlightCode(newFile.content, newFile.name)
+  } else {
+    highlightedContent.value = ''
+  }
+})
 </script>
 
 <template>
@@ -172,8 +250,16 @@ const getFileIcon = (name: string) => {
         </div>
 
         <!-- Code Content -->
-        <div class="flex-1 overflow-auto p-4">
-          <pre class="font-mono text-sm leading-relaxed text-gray-800 dark:text-gray-300 whitespace-pre-wrap">{{ selectedFile.content }}</pre>
+        <div class="flex-1 overflow-auto p-4 bg-[#0d1117]">
+          <div 
+            v-if="highlightedContent && !isHighlighting"
+            class="shiki-wrapper"
+            v-html="highlightedContent"
+          ></div>
+          <pre 
+            v-else
+            class="font-mono text-sm leading-relaxed text-gray-300 whitespace-pre-wrap"
+          >{{ selectedFile.content }}</pre>
         </div>
       </div>
       <div v-else class="flex-1 flex items-center justify-center text-gray-400">
@@ -182,3 +268,23 @@ const getFileIcon = (name: string) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.shiki-wrapper {
+  margin: 0;
+}
+
+.shiki-wrapper :deep(pre) {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+}
+
+.shiki-wrapper :deep(code) {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: block;
+  width: 100%;
+}
+</style>

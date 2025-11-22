@@ -63,6 +63,7 @@ Components in `slides/components/` are automatically available in all decks with
 - **FileExplorer** - Interactive file tree explorer with syntax highlighting (`FileExplorer.vue`)
 - **QRCode** - Generate QR codes dynamically (`QRCode.vue`)
 - **Terminal** - Display terminal commands with syntax highlighting (`Terminal.vue`)
+- **AgentView** - Visualize AI agent interactions and thought processes (`AgentView.vue`)
 
 **Full Documentation:** See [slides/components/README.md](./slides/components/README.md) for detailed usage, props, and examples for each component.
 
@@ -73,6 +74,7 @@ Components in `slides/components/` are automatically available in all decks with
 - **FileExplorer** - Show project structure or walk through code files interactively
 - **QRCode** - Share links or resources quickly with the audience
 - **Terminal** - Show commands, installation steps, or CLI workflows
+- **AgentView** - Explain agent behaviors, debugging sessions, or AI workflows
 
 **Workflow Guidelines:**
 

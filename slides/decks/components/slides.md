@@ -415,6 +415,64 @@ The Terminal component is perfect for showing command-line examples, installatio
 -->
 
 ---
+---
+
+# Agent View
+
+Visualize AI agent thought processes and interactions
+
+<AgentView 
+  :events="[
+    { type: 'user', content: 'What components are available in this project?' },
+    { type: 'status', content: 'Reading a few files and returning their contents.' },
+    { type: 'files-explored', exploredCount: 4 },
+    { 
+      type: 'assistant',
+      content: 'Here are the available components:\n\n- **Callout** - Styled callout boxes (info, warning, success, error, tip, note)\n- **Chart** - Bar, line, and doughnut charts via Chart.js\n- **FileExplorer** - Interactive file tree with syntax highlighting\n- **QRCode** - Dynamic QR code generation\n- **Terminal** - Terminal command display with syntax highlighting'
+    },
+    { type: 'user', content: 'Can you show me how to use the Callout component?' },
+    { type: 'files-explored', exploredCount: 2 },
+    { type: 'files-edited', editedCount: 1 },
+    { 
+      type: 'assistant',
+      content: 'Here is how to use the Callout component:\n\nUse the type prop to specify the callout style:\n- info: Blue informational callouts\n- warning: Yellow warning callouts\n- success: Green success messages\n- error: Red error messages\n- tip: Purple helpful tips\n- note: Gray general notes\n\nThe component supports six types total.'
+    },
+    { type: 'user', content: 'Perfect! Can you also add markdown support to it?' },
+    { type: 'files-edited', editedCount: 1 },
+    { 
+      type: 'assistant',
+      content: 'Done! The Callout component now supports **markdown** formatting in its content. You can use:\n\n- **Bold text**\n- *Italic text*\n- Inline code\n- And more markdown features'
+    }
+  ]"
+  :height="500"
+/>
+
+```html
+<!-- Conversation with multiple user messages and follow-ups -->
+<AgentView 
+  :events="[
+    { type: 'user', content: 'What components are available?' },
+    { type: 'files-explored', exploredCount: 4 },
+    { type: 'assistant', content: 'Here are the available components...' },
+    { type: 'user', content: 'Can you show me an example?' },
+    { type: 'files-edited', editedCount: 1 },
+    { type: 'assistant', content: 'Sure! Here is an example...' },
+    { type: 'user', content: 'Perfect! Can you add markdown support?' },
+    { type: 'assistant', content: 'Done! Markdown is now supported.' }
+  ]"
+/>
+
+<!-- With query prop (shows in input field) -->
+<AgentView 
+  query="read some tiles and return"
+  :events="[
+    { type: 'status', content: 'Reading files...' },
+    { type: 'files-explored', exploredCount: 4 }
+  ]"
+/>
+```
+
+---
 layout: center
 class: text-center
 ---

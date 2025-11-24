@@ -115,6 +115,59 @@ Auto-imported from `slides/components/`. Available: Callout, Chart, FileExplorer
 3. Update this file's component list
 4. Add workflow guidance above
 
+## Click Alignment
+
+When adding click animations, keep comments and speaker notes aligned with actual click behavior.
+
+### Rules
+
+1. **Label each v-click section** with `<!-- Click N -->` comments
+2. **v-clicks creates multiple clicks** - A `<v-clicks>` with 3 items = clicks N, N+1, N+2
+3. **Code highlighting starts without a click** - `{1|3-4|6-8|all}` shows line 1 initially, then 3 clicks for remaining transitions
+4. **Speaker notes must match** - Each `[click]` corresponds to one transition
+5. **Simplify when needed** - More than 5-6 clicks per slide can overwhelm; group related items
+
+### Example
+
+```markdown
+<!-- Click 1 -->
+<div v-click>
+
+**Header text**
+
+</div>
+
+<!-- Click 2-4 -->
+<v-clicks>
+
+- First item
+- Second item
+- Third item
+
+</v-clicks>
+
+<!-- Click 5 -->
+<div v-click>
+
+Conclusion text
+
+</div>
+
+<!--
+Initial content is visible.
+
+[click] Header appears.
+
+[click] First item.
+
+[click] Second item.
+
+[click] Third item.
+
+[click] Conclusion.
+-->
+```
+
 ## Deck-Specific Personalization
 
 When you learn personalization preferences for a deck, save them in `slides/decks/<deck-name>/AGENTS.md`.

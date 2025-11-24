@@ -95,6 +95,8 @@ Slidev counts clicks sequentially starting from 1. Each `v-click` directive incr
 - `v-after` - Appears on the same click as the previous element (doesn't increment counter)
 - `v-clicks` - Automatically distributes clicks across children (N clicks for N children)
 - `v-mark="N"` - Marks appear on click N (must match when element becomes visible)
+- **Code highlighting** - First item shows initially (no click), then each `|` requires a click
+  - Example: `{1|3-4|6-8|all}` = line 1 visible initially, then 3 clicks for remaining transitions
 
 ### Click Counting Comments Pattern
 
@@ -125,6 +127,49 @@ This makes it immediately obvious:
 - What appears on each click
 - Whether v-after is used correctly
 - Whether presenter notes match
+
+### Complete Example with Speaker Notes
+
+```html
+<!-- Click 1 -->
+<div v-click>
+
+**Header text**
+
+</div>
+
+<!-- Click 2-4 -->
+<v-clicks>
+
+- First item
+- Second item
+- Third item
+
+</v-clicks>
+
+<!-- Click 5 -->
+<div v-click>
+
+Conclusion text
+
+</div>
+
+<!--
+Initial content is visible.
+
+[click] Header appears.
+
+[click] First item.
+
+[click] Second item.
+
+[click] Third item.
+
+[click] Conclusion.
+-->
+```
+
+**Tip:** More than 5-6 clicks per slide can overwhelm the audience. Group related items together instead of animating each one individually.
 
 ## Presenter Notes with [click] Markers
 

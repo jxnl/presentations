@@ -20,8 +20,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   prompt: '$',
   shell: 'bash',
-  copyable: true,
-  height: 300
+  copyable: true
 })
 
 const highlightedCommands = ref<Map<number, string>>(new Map())
@@ -159,7 +158,7 @@ watch(() => props.command, () => {
 <template>
   <div 
     class="rounded-lg overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1e1e1e] text-left"
-    :style="{ height: height ? `${height}px` : 'auto', minHeight: height ? `${height}px` : '300px' }"
+    :style="{ height: height ? `${height}px` : 'auto' }"
   >
     <!-- Terminal Header -->
     <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#252526]">
@@ -170,7 +169,7 @@ watch(() => props.command, () => {
     </div>
 
     <!-- Terminal Content -->
-    <div class="p-4 overflow-auto font-mono text-sm bg-[#0d1117]" :style="{ height: height ? `calc(${height}px - 41px)` : 'auto', maxHeight: height ? `calc(${height}px - 41px)` : 'none' }">
+    <div class="p-4 font-mono text-sm bg-[#0d1117]" :style="{ height: height ? `calc(${height}px - 41px)` : 'auto', overflow: height ? 'auto' : 'visible' }">
       <div v-for="(line, idx) in terminalLines" :key="idx" class="mb-4 last:mb-0">
         <!-- Command Line -->
         <div class="flex items-start gap-2 mb-1">

@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<{
   height?: number
 }>(), {
   stepByStep: true,
-  height: 500
+  height: 400
 })
 
 const userQuery = computed(() => {

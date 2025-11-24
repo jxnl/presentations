@@ -12,6 +12,7 @@
   "private": true,
   "scripts": {
     "build": "slidev build",
+    "build:all": "./build-all.sh",
     "dev": "./dev.sh",
     "export": "slidev export"
   }

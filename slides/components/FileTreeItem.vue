@@ -50,7 +50,7 @@ const getFileIcon = (name: string) => {
           <div class="i-carbon:chevron-right text-xs"></div>
         </span>
         <span class="i-vscode-icons:default-folder mr-2 text-base flex-shrink-0"></span>
-        <span class="truncate">{{ node.name }}</span>
+        <span class="truncate">{{ node.name }}/</span>
       </div>
       
       <div v-if="isExpanded">

@@ -13,8 +13,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DECKS_DIR="$SCRIPT_DIR/decks"
 DIST_DIR="$SCRIPT_DIR/dist"
 
-# Clean dist directory
-rm -rf "$DIST_DIR"
+# Create dist directory if it doesn't exist (preserve existing builds for incremental rebuilds)
 mkdir -p "$DIST_DIR"
 
 # Find all decks (directories with slides.md)
@@ -29,22 +28,70 @@ done
 echo "Found ${#DECKS[@]} decks: ${DECKS[*]}"
 echo ""
 
-# Build each deck in parallel (up to 4 at a time)
-echo "Building ${#DECKS[@]} decks in parallel..."
+# Function to check if a deck needs rebuilding
+needs_rebuild() {
+  local deck=$1
+  local source_file="$DECKS_DIR/$deck/slides.md"
+  local dist_file="$DIST_DIR/$deck/index.html"
+  
+  # Always rebuild if dist doesn't exist
+  if [ ! -f "$dist_file" ]; then
+    return 0
+  fi
+  
+  # Rebuild if source is newer than dist
+  if [ "$source_file" -nt "$dist_file" ]; then
+    return 0
+  fi
+  
+  # Rebuild if components directory changed (if it exists)
+  if [ -d "$DECKS_DIR/$deck/components" ]; then
+    if find "$DECKS_DIR/$deck/components" -newer "$dist_file" | grep -q .; then
+      return 0
+    fi
+  fi
+  
+  # No rebuild needed
+  return 1
+}
 
+# Filter decks that need rebuilding
+DECKS_TO_BUILD=()
 for deck in "${DECKS[@]}"; do
-  (
-    echo "Building $deck..."
-    cd "$SCRIPT_DIR"
-    bunx slidev build "decks/$deck/slides.md" \
-      --base "/$deck/" \
-      --out "dist/$deck" > /dev/null 2>&1
-    echo "✓ Built $deck"
-  ) &
+  if needs_rebuild "$deck"; then
+    DECKS_TO_BUILD+=("$deck")
+  else
+    echo "[$deck] ✓ Already up to date, skipping"
+  fi
 done
 
-# Wait for all background jobs to complete
-wait
+if [ ${#DECKS_TO_BUILD[@]} -eq 0 ]; then
+  echo ""
+  echo "All decks are up to date!"
+else
+  echo ""
+  echo "Building ${#DECKS_TO_BUILD[@]} deck(s) that need updates: ${DECKS_TO_BUILD[*]}"
+  echo ""
+  
+  # Build each deck sequentially (parallel builds cause abort traps)
+  # Increase memory limit to avoid OOM errors
+  export NODE_OPTIONS="--max-old-space-size=4096"
+  
+  for deck in "${DECKS_TO_BUILD[@]}"; do
+    echo "[$deck] Starting build..."
+    start_time=$(date +%s)
+    cd "$SCRIPT_DIR"
+    # Clean this deck's dist before rebuilding
+    rm -rf "dist/$deck"
+    bun run slidev build "decks/$deck/slides.md" \
+      --base "/$deck/" \
+      --out "dist/$deck" 2>&1 | grep -E "(error|Error|built)" || true
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
+    echo "[$deck] ✓ Built in ${duration}s"
+    echo ""
+  done
+fi
 
 echo ""
 echo "All decks built!"

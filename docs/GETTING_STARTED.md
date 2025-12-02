@@ -40,7 +40,7 @@ More content.
 cd slides
 
 # Build outputs to decks/<deck-name>/dist/<deck-name>/
-bunx slidev build decks/<deck-name>/slides.md --base /<deck-name>/ --out dist/<deck-name>
+bun run slidev build decks/<deck-name>/slides.md --base /<deck-name>/ --out dist/<deck-name>
 ```
 
 Note: The build output goes to `decks/<deck-name>/dist/<deck-name>/`, not `dist/<deck-name>/`.
@@ -51,7 +51,7 @@ Note: The build output goes to `decks/<deck-name>/dist/<deck-name>/`, not `dist/
 cd slides
 
 # Build the deck
-bunx slidev build decks/<deck-name>/slides.md --base /<deck-name>/ --out dist/<deck-name>
+bun run slidev build decks/<deck-name>/slides.md --base /<deck-name>/ --out dist/<deck-name>
 
 # Copy to main dist directory
 cp -r decks/<deck-name>/dist/<deck-name> dist/

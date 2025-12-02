@@ -2,6 +2,10 @@
 
 # Build all decks for deployment
 # Output structure: dist/<deck-name>/
+#
+# Usage:
+#   ./build-all.sh              # Build all decks
+#   ./build-all.sh deck1 deck2  # Build only specified decks
 
 set -e
 
@@ -25,20 +29,25 @@ done
 echo "Found ${#DECKS[@]} decks: ${DECKS[*]}"
 echo ""
 
-# Build each deck
+# Build each deck in parallel (up to 4 at a time)
+echo "Building ${#DECKS[@]} decks in parallel..."
+
 for deck in "${DECKS[@]}"; do
-  echo "Building $deck..."
-  
-  cd "$SCRIPT_DIR"
-  
-  # Build with base path set to /deck-name/
-  npx slidev build "decks/$deck/slides.md" \
-    --base "/$deck/" \
-    --out "dist/$deck"
-  
-  echo "Built $deck -> dist/$deck/"
-  echo ""
+  (
+    echo "Building $deck..."
+    cd "$SCRIPT_DIR"
+    bunx slidev build "decks/$deck/slides.md" \
+      --base "/$deck/" \
+      --out "dist/$deck" > /dev/null 2>&1
+    echo "✓ Built $deck"
+  ) &
 done
+
+# Wait for all background jobs to complete
+wait
+
+echo ""
+echo "All decks built!"
 
 # Create index page listing all decks
 echo "Creating index page..."
@@ -162,6 +171,24 @@ DECK_JSON+="]"
 # Use perl for cross-platform sed compatibility
 perl -i -pe "s/DECK_LIST_PLACEHOLDER/$DECK_JSON/" "$DIST_DIR/index.html"
 
+# Create Cloudflare Pages _redirects for SPA routing
+echo "Creating Cloudflare Pages configuration..."
+
+# Each deck needs its own SPA fallback and routes for presenter, print, etc.
+for deck in "${DECKS[@]}"; do
+  echo "/$deck/*  /$deck/index.html  200" >> "$DIST_DIR/_redirects"
+done
+
+# Create _headers for caching
+cat > "$DIST_DIR/_headers" << 'EOF'
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+
+/*/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+EOF
+
 echo ""
 echo "Build complete!"
 echo "Output: $DIST_DIR/"
@@ -171,6 +198,9 @@ for deck in "${DECKS[@]}"; do
   echo "  - /$deck/"
 done
 echo ""
-echo "To preview locally:"
-echo "  cd $DIST_DIR && npx serve"
+echo "Deploy to Cloudflare Pages:"
+echo "  bunx wrangler pages deploy dist --project-name presentations"
+echo ""
+echo "Or preview locally:"
+echo "  cd $DIST_DIR && bunx serve"
 

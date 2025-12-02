@@ -13,7 +13,11 @@
   "scripts": {
     "build": "slidev build",
     "build:all": "./build-all.sh",
+    "deploy": "./build-all.sh && wrangler pages deploy dist --project-name presentations",
     "dev": "./dev.sh",
     "export": "slidev export"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
   }
 }

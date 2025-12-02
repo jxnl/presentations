@@ -10,6 +10,18 @@ export default defineConfig({
         '@components': resolve(__dirname, 'components'),
       },
     },
+    build: {
+      chunkSizeWarningLimit: 2000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-vendor': ['vue'],
+            'slidev-vendor': ['@slidev/cli'],
+            'chart-vendor': ['chart.js', 'vue-chartjs'],
+          },
+        },
+      },
+    },
   },
   // Configure component auto-import to include root components directory
   components: {

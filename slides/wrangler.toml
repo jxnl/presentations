@@ -1,0 +1,10 @@
+name = "presentations"
+pages_build_output_dir = "dist"
+
+# Cloudflare Pages configuration
+# 
+# Deploy with: wrangler pages deploy --project-name presentations
+#
+# Note: The project name above should match your Cloudflare Pages project.
+# Create the project first with: wrangler pages project create presentations
+

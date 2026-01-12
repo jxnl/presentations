@@ -27,31 +27,34 @@ This afternoon we build on that foundation. We're talking about async workflows 
 
 # What We'll Cover
 
-1. **Why Async:** The multiplication effect and what it unlocks
-2. **Platforms & Interfaces:** Linear, Slack, Codex, GitHub integrations
-3. **Parallel Execution:** Running multiple agents simultaneously
-4. **Workflow Patterns:** Delegation philosophy and when to go async
-5. **Team Adoption:** Scaling async workflows across your team
+1. **Why Async:** The multiplication effect
+2. **Kickoff Patterns:** Cursor, GitHub, Slack - matching method to task
+3. **Platforms:** Linear, Slack integrations, Codex
+4. **Parallel Execution:** Running multiple agents simultaneously
+5. **Workflow Patterns:** Delegation philosophy and when to go async
+6. **Team Adoption:** Scaling across your organization
 
 <!--
-Five parts this afternoon.
+Six parts this afternoon.
 
-First, why async matters - what work becomes possible that wasn't before.
+Why async matters - the multiplication effect.
 
-Then we'll cover the platforms and interfaces for kicking off async work - Linear, Slack, Codex.
+Kickoff patterns - where and how to start async work.
+
+Platforms - Linear, Slack, Codex integrations.
 
 Parallel execution - running multiple agents at once.
 
-Workflow patterns - the philosophy of delegation and when to use async vs sync.
+Workflow patterns - delegation philosophy.
 
-Finally, team adoption - how to scale this across your organization.
+Team adoption - how to scale this.
 -->
 
 ---
 layout: section
 ---
 
-# Why Async?
+# Part 1: Why Async?
 
 The Multiplication Effect
 
@@ -103,35 +106,31 @@ The work happens in parallel with your life.
 
 ---
 
-# Small Wins Add Up
+# Small Wins Compound
 
 **Building confidence through momentum:**
 
 - Each small fix can be reviewed and merged quickly
 - Builds your confidence in the agent's capabilities
 - Creates momentum that compounds into larger delegations
-- Ten 50-line PRs compound into significant progress
-
-Start small. Build trust. Scale up.
+- Ten 50-line PRs compound into significant progress over a week
 
 <!--
 Small wins add up. Each small fix can be reviewed and merged quickly. This builds your confidence in what agents can handle.
 
-Over time, that confidence compounds. You start trusting agents with larger tasks. Ten 50-line PRs compound into significant progress over a week.
-
-Start small, build trust, scale up.
+Over time, that confidence compounds. You start trusting agents with larger tasks. Ten 50-line PRs compound into significant progress.
 -->
 
 ---
 layout: section
 ---
 
-# Where Can You Kick Off Agents?
+# Part 2: Kickoff Patterns & Foundations
 
-Matching Method to Task
+Where and How to Start
 
 <!--
-Let's talk about where you can kick off async agents. Different platforms suit different task types.
+Part 2 covers where you can kick off async agents and what foundations enable trust.
 -->
 
 ---
@@ -314,12 +313,12 @@ Teams getting the most value have invested in both the infrastructure and the se
 layout: section
 ---
 
-# Part 1: Async Platforms & Interfaces
+# Part 3: Platforms & Integrations
 
 Linear, Slack, and Codex
 
 <!--
-Part 1 covers the main platforms for async workflows.
+Part 3 covers the main platforms for async workflows.
 -->
 
 ---
@@ -343,27 +342,6 @@ Linear has become an AI-native command center.
 You can assign issues directly to coding agents. Agents work in background sessions. They're first-class citizens - you can mention them, assign work to them, see their activity.
 
 Two approaches: Linear as the orchestrator managing everything, or Linear as source of truth where you pull context into Cursor. Most teams start with the second approach.
--->
-
----
-
-# Slack Integration for Async Delegation
-
-**Conversational delegation and mobile code reviews:**
-
-- Tag agents in Slack channels to delegate tasks
-- Receive screenshot-based code reviews on mobile
-- GitHub issues flow to Slack, tag agent, review on phone
-- Kick off tasks between meetings, during lunch, before bed
-
-**Small changes workflow:** Bug reports, docs updates, and issues often merge without manual work.
-
-<!--
-Slack integration enables conversational delegation.
-
-Tag an agent in a Slack channel. Receive screenshot-based code reviews on your phone. Kick off tasks between meetings, during lunch, before bed.
-
-Many small changes - bug reports, doc updates - can merge without you touching your laptop. The agent handles it and you review via Slack.
 -->
 
 ---
@@ -436,39 +414,15 @@ This means you can kick off tasks from any device. Start something on your phone
 -->
 
 ---
-
-# Codex Workflows
-
-**Between meetings:**
-- Spotted documentation typo via Slack
-- Told Codex to fix it between presentations
-- Merged and deployed minutes later
-
-**Overnight development:**
-- Kicked off task via iOS app before bed
-- Woke up to full implementation
-- Reviewed and merged over morning coffee
-
-<!--
-Real workflows with Codex.
-
-Between meetings - spot a typo, tell Codex to fix it, merged and deployed minutes later.
-
-Overnight - kick off a task from the iOS app before bed, wake up to a full implementation. Review and merge over coffee.
-
-The work happens while you're doing other things.
--->
-
----
 layout: section
 ---
 
-# Part 2: Parallel Execution
+# Part 4: Parallel Execution
 
 Running Multiple Agents
 
 <!--
-Part 2 is about parallel execution. Running multiple agents simultaneously to maximize throughput.
+Part 4 is about parallel execution. Running multiple agents simultaneously to maximize throughput.
 -->
 
 ---
@@ -568,12 +522,12 @@ This is the same file organization we discussed this morning, now paying dividen
 layout: section
 ---
 
-# Part 3: Async Workflow Patterns
+# Part 5: Workflow Patterns
 
 Delegation and Timing
 
 <!--
-Part 3 covers workflow patterns. When to go async and how to delegate effectively.
+Part 5 covers workflow patterns. When to go async and how to delegate effectively.
 -->
 
 ---
@@ -582,7 +536,7 @@ Part 3 covers workflow patterns. When to go async and how to delegate effectivel
 
 **Keep agent UI open during feedback meetings:**
 
-- Have Codex open while stakeholders review your website
+- Have ChatGPT open while stakeholders review your website
 - As people give feedback, drop each piece as a message to the agent
 - Agent works on fixes in the background while meeting continues
 - By end of meeting, you may have PRs ready
@@ -647,26 +601,6 @@ Either go fast or go fully async.
 
 ---
 
-# Management Skills Transfer
-
-**People with management experience adopt async agents faster.**
-
-- Delegation is a fundamentally different skill
-- Management experience teaches how to delegate, context switch, and review work asynchronously
-- Task management patterns transfer directly
-
-**If you've managed people, you know how to manage agents.**
-
-<!--
-Interesting pattern: people with management experience adopt async agents faster.
-
-Delegation is a different skill than doing the work yourself. Management teaches delegation, context switching, asynchronous review.
-
-If you've managed people, you already know how to manage agents. Same skills transfer.
--->
-
----
-
 # Recommended Cycle: Plan, Code, Test
 
 **Structure your day around this continuous cycle:**
@@ -713,12 +647,12 @@ The multiplication effect: code that would never be written because it wasn't wo
 layout: section
 ---
 
-# Part 4: Team Adoption
+# Part 6: Team Adoption
 
 Scaling Async Workflows
 
 <!--
-Part 4 covers team adoption. How to scale async workflows across your organization.
+Part 6 covers team adoption. How to scale async workflows across your organization.
 -->
 
 ---
@@ -770,61 +704,36 @@ Build trust gradually. Start with 1-2 background tasks per day. Build the habit.
 
 # Quality Improvements at Scale
 
-**Background agents handle improvements that never make it into sprints:**
+**The multiplication effect at team scale:**
 
-- Documentation updates
-- Logging consistency
-- Minor refactors
-- Test coverage gaps
+- Background agents handle the backlog that never makes it into sprints
+- Codebase gets cleaner without pulling engineers off features
+- Quality work happens in parallel with feature development
+- Compound improvements over weeks and months
 
-**The codebase gets cleaner without pulling engineers off features.**
-
-This is the multiplication effect at team scale.
+**The question becomes: what would you fix if fixing it cost nothing?**
 
 <!--
-At team scale, background agents handle quality improvements that never make it into sprints.
+This is the multiplication effect at team scale.
 
-Documentation updates, logging consistency, minor refactors, test coverage gaps.
+Background agents handle the quality backlog that never makes it into sprints. The codebase gets cleaner without anyone being pulled off features.
 
-The codebase gets cleaner without pulling engineers off feature work. This is the multiplication effect at team scale.
+Ask your team: what would you fix if fixing it cost nothing? That's your agent backlog.
 -->
 
 ---
 layout: section
 ---
 
+# Wrap-up
+
+<!--
+Let's wrap up.
+-->
+
+---
+
 # Key Takeaways
-
-<!--
-Let's wrap up with the key takeaways.
--->
-
----
-
-# The Core Message
-
-**Async workflows unlock work that would otherwise never happen.**
-
-- The multiplication effect: small improvements that weren't worth the context switch
-- Work continues without you - kick off and walk away
-- Small wins compound into big progress
-
-**Match kickoff method to task complexity:**
-- Cursor Plan Mode for complex features
-- GitHub mentions for isolated fixes
-- Slack for quick conversational delegation
-
-<!--
-The core message: async workflows unlock work that would otherwise never happen.
-
-Small improvements that weren't worth the context switch. Work that continues while you do other things. Small wins that compound.
-
-Match your kickoff method to task complexity. Plan mode for complex features, GitHub for isolated fixes, Slack for quick delegation.
--->
-
----
-
-# Quick Wins to Start
 
 **Today:**
 - Try one async delegation: tag an agent on an issue or in Slack

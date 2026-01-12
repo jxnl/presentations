@@ -463,6 +463,29 @@ Use https://wisprflow.ai/r?JASON50 for a free month (and I get one too).
 
 ---
 
+# Prompt Evolution: Shorter + Visual
+
+**As models improve and you build trust, prompts get shorter.**
+
+| Stage | Prompt Style |
+|-------|--------------|
+| **Early** | Long, elaborate prompts explaining everything |
+| **Later** | Short prompts with images - "fix padding", "redesign this" |
+
+**The pattern:** Show the model what's wrong instead of explaining it.
+
+<!--
+Prompt evolution is something you'll experience naturally.
+
+Early on, you write long elaborate prompts explaining everything. As you build trust and models improve, prompts get shorter.
+
+For UI work especially, images are powerful. Just drag in a clipped screenshot of a component. A few words describe what's wrong. The model sees the visual context and fixes it.
+
+Show the model what's wrong instead of explaining it. Visual context often works better than verbose descriptions.
+-->
+
+---
+
 # Context Window Management
 
 **Context degrades before you hit the limit.** At 20-40% usage, quality starts to drop.
@@ -539,6 +562,29 @@ Example: "Explain how these UI components are built." Even if you already know t
 Seeing the agent's answer is valuable. If correct, you know context is loaded. If wrong, you've caught a misunderstanding before it causes problems.
 
 Wrong answers also signal gaps in AGENTS.md. Add clarifications so future sessions get it right. This connects back to compounding engineering - every wrong answer is an opportunity to improve your agent configuration.
+-->
+
+---
+
+# Cross-Project References
+
+**Reuse solutions you've already solved elsewhere.**
+
+When you know you've solved a problem in another project:
+
+- "look at ../other-project and do the same for [feature]"
+- "check how ../vibetunnel handles changelogs and implement that here"
+
+Agent infers context from project structure and adapts patterns automatically.
+
+<!--
+Cross-project references save a lot of prompting time.
+
+When you know you've solved a problem in another project, just tell the agent to look at it. "Look at ../other-project and do the same for this feature."
+
+The agent infers context from the project structure and adapts patterns automatically. You don't need to re-explain what you want - just point to a working example.
+
+This is especially useful for scaffolding new projects. Point agents at similar existing projects as reference. They'll copy patterns and adapt appropriately.
 -->
 
 ---

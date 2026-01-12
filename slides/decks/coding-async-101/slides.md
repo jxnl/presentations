@@ -185,8 +185,9 @@ The agent executes independently while you work on something else. This pattern 
 
 **For small, well-defined changes:**
 
-- **On Issues:** Tag an agent to pick up and implement the feature or fix
-- **On Pull Requests:** Mention an agent for adjustments, review feedback, or failing tests
+- **On Issues:** `@cursor implement this feature` or `@codex fix this bug`
+- **On Pull Requests:** `@cursor please address the review feedback`
+- **On failing CI:** `@cursor fix the lint errors`
 - Agent reads the issue/PR context and creates commits directly
 
 Works well for isolated changes where context is already captured in the issue or PR description.
@@ -194,7 +195,7 @@ Works well for isolated changes where context is already captured in the issue o
 <!--
 GitHub mentions work for small, well-defined changes.
 
-Tag an agent on an issue and it picks up the work. Mention an agent on a PR to make adjustments or fix failing tests.
+Comment @cursor or @codex on an issue and it picks up the work. Mention them on a PR to make adjustments or fix failing tests.
 
 The agent reads the context from the issue or PR and creates commits directly. This works well when the context is already captured in the description.
 -->
@@ -210,7 +211,7 @@ The agent reads the context from the issue or PR and creates commits directly. T
 - Review results via Slack notifications and screenshots
 - Works from mobile, during meetings, or while doing other work
 
-Perfect for bug fixes, documentation updates, and small improvements.
+<img src="./assets/cursor-slack-pr-review.png" class="h-56 mx-auto rounded shadow" />
 
 <!--
 Slack is the most casual approach.
@@ -287,6 +288,27 @@ This is happening now. Teams with preview deployments and visual verification se
 
 ---
 
+# Cursor Cloud Agents: Automatic CI Fixing
+
+**Cursor's Cloud Agents automatically attempt to fix CI failures in PRs they create.**
+
+- Ignores failures that also fail on the base commit (pre-existing issues)
+- Currently supports GitHub Actions
+- Disable globally: Cursor Dashboard > Cloud Agents > My Settings
+- Disable per-PR: comment `@cursor autofix off`
+
+**For your own PRs:** Tag Cursor in a comment:
+- `@cursor please fix the CI failures`
+- `@cursor fix the lint check failure`
+
+<!--
+Cursor's cloud agents don't just create PRs - they monitor CI and fix failures automatically. They're smart enough to ignore pre-existing failures.
+
+You can disable this globally or per-PR if needed. And you can ask Cursor to fix CI in your own PRs by tagging them in comments.
+-->
+
+---
+
 # Security Trade-offs
 
 <Callout type="warning">
@@ -315,7 +337,7 @@ layout: section
 
 # Part 3: Platforms & Integrations
 
-Linear, Slack, and Codex
+Linear, Slack, GitHub, ChatGPT
 
 <!--
 Part 3 covers the main platforms for async workflows.
@@ -393,6 +415,9 @@ By lunch, there's a PR fixing the issue you spotted. You never had to context sw
 
 # Codex Multi-Interface Access
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
 **One agent, many interfaces:**
 
 - CLI
@@ -403,7 +428,15 @@ By lunch, there's a PR fixing the issue you spotted. You never had to context sw
 - iOS app
 - GitHub Actions
 
-**Same agent everywhere.** Kick off tasks from any device.
+**Same agent everywhere.**
+
+</div>
+<div>
+
+<img src="./assets/codex-code-reviews.png" class="h-72 rounded shadow" />
+
+</div>
+</div>
 
 <!--
 Codex operates as a single unified agent across multiple interfaces.
@@ -411,6 +444,22 @@ Codex operates as a single unified agent across multiple interfaces.
 CLI, VS Code extensions, browser, GitHub mentions, Slack, iOS app, GitHub Actions. Same agent everywhere.
 
 This means you can kick off tasks from any device. Start something on your phone, check on it from your laptop, review it via Slack.
+-->
+
+---
+
+# Codex Code Reviews
+
+**One-click fixes from the code review tab:**
+
+- Codex analyzes PRs and identifies potential bugs
+- Click "Fix issues" to launch an agent that addresses them
+- Agent reads the diff, understands context, and creates fixes
+
+<img src="./assets/codex-fix-issues.png" class="h-64 mx-auto rounded shadow" />
+
+<!--
+The code review tab shows PRs with identified issues. Click "Fix issues" and Codex launches an agent to address them automatically. You review the fix, not the bug.
 -->
 
 ---

@@ -119,12 +119,16 @@ Most tools now support this naming convention.
 - Style guidelines specific to your codebase
 - Common patterns the model gets wrong
 
+**Tell it why, not just what:** "Use TypeScript strict mode because we've had production bugs" is better than just "Use TypeScript strict mode."
+
 <!--
 The philosophy is start minimal.
 
 Don't create AGENTS.md upfront. Add rules only when the model consistently makes wrong choices. If it fails 2-3 times on the same issue, that's when you add a rule.
 
 Document tool preferences - pnpm vs npm, uv vs pip. Test behavior. Style guidelines specific to your codebase. Patterns the model gets wrong.
+
+Important: tell it why, not just what. "Use TypeScript strict mode because we've had production bugs from implicit any types" is better than just "Use TypeScript strict mode." The why gives agents context for making judgment calls you didn't anticipate.
 
 Avoid thousand-line templates copied from the internet. Avoid rules for things that already work correctly.
 -->
@@ -459,6 +463,57 @@ Use https://wisprflow.ai/r?JASON50 for a free month (and I get one too).
 
 ---
 
+# Context Window Management
+
+**Context degrades before you hit the limit.** At 20-40% usage, quality starts to drop.
+
+**Signs you need to clear:**
+- Agent keeps making the same mistake despite corrections
+- Conversation has irrelevant context from earlier tasks
+- Agent seems confused or contradictory
+
+**The copy-paste reset:** Copy important context, clear the conversation, paste back only what matters. Fresh context works better than degraded context.
+
+<!--
+Context windows have limits, but quality degrades before you hit them. At around 20-40% context usage, output quality starts to chip away.
+
+If you've experienced an agent giving poor output even after compacting, that's why - the model was already degraded.
+
+Signs you need to clear: agent keeps making the same mistake, conversation has irrelevant context, agent seems confused.
+
+The copy-paste reset: copy everything important, clear entirely, paste back only what matters. Fresh context with critical information preserved works better than struggling through degraded context.
+-->
+
+---
+
+# Seed with Questions After Clearing
+
+**After clearing context, don't dump knowledge back in. Ask questions instead.**
+
+1. Clear context
+2. Ask: "How does [system] work?" or "What patterns does [codebase area] use?"
+3. Agent reads files, synthesizes understanding
+4. Now agent has fresh, relevant context loaded efficiently
+
+**Use git and plan files to recover working context:**
+- "Look at what's staged and what I'm working on"
+- "Look at recent commits on this branch"
+- "Read the plan file and tell me what's done and what's next"
+
+<!--
+After clearing context, don't dump all your knowledge back in. Instead, ask the agent questions about the codebase.
+
+This forces the agent to read relevant files and load context itself, which is more effective than you explaining everything.
+
+Use git to recover working context. Ask the agent to look at what's staged - it reads git diff staged and git status. Ask about recent commits - it reads git log.
+
+If you're using file-based planning, point the agent at the plan file. Ask it to read the plan and tell you what's done and what's next. The plan should have updated status markers. This instantly orients the agent on where you are in a larger feature.
+
+Git and plan files are cheap ways to reload context without you explaining everything.
+-->
+
+---
+
 # Context Loading Through Questions
 
 **Ask agents to explain systems to you, rather than explaining to them.**
@@ -469,6 +524,11 @@ Example: "Explain how these UI components are built and what the common conventi
 
 Even if you already know the answer, this forces the agent to read all relevant files before making changes.
 
+**Verify their understanding:**
+- Correct answer = agent has the right context
+- Wrong answer = caught a misunderstanding before it causes problems
+- Wrong answers signal gaps in AGENTS.md - update it for future sessions
+
 <!--
 Context loading through questions is a powerful technique.
 
@@ -476,7 +536,9 @@ Instead of explaining your codebase to the agent, ask the agent to explain it to
 
 Example: "Explain how these UI components are built." Even if you already know the answer, this makes the agent read all relevant component files.
 
-It's like the teaching technique where you ask students what they think, and they often answer their own questions.
+Seeing the agent's answer is valuable. If correct, you know context is loaded. If wrong, you've caught a misunderstanding before it causes problems.
+
+Wrong answers also signal gaps in AGENTS.md. Add clarifications so future sessions get it right. This connects back to compounding engineering - every wrong answer is an opportunity to improve your agent configuration.
 -->
 
 ---

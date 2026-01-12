@@ -58,6 +58,10 @@ AGENTS.md files (also called `agents.md`, `.cursorrules`, or `claude.md` dependi
 - Style guidelines specific to your codebase
 - Common patterns that the model gets wrong consistently
 
+**Tell it why, not just what:**
+
+"Use TypeScript strict mode" is okay. "Use TypeScript strict mode because we've had production bugs from implicit any types" is better. The why gives agents context for making judgment calls you didn't anticipate. When you explain the reason behind an instruction, agents implement it better than when you just tell them what to do.
+
 **Avoid:**
 
 - Thousand-line templates copied from the internet
@@ -457,6 +461,54 @@ Use Wispr Flow: wisprflow.ai/r?JASON50 (free month for you, and me)
 
 ---
 
+## Context Window Management
+
+### Why Context Degrades
+
+Context windows have limits, but quality degrades before you hit them. At around 20-40% context usage, output quality starts to chip away. If you've experienced an agent giving poor output even after compacting, that's why - the model was already degraded before compaction happened.
+
+Every message you send, every file the agent reads, every piece of code it generates - all of it accumulates. Once quality starts dropping, more context makes it worse, not better.
+
+### When to Start Fresh
+
+**Signs you need to clear:**
+
+- Agent keeps making the same mistake despite corrections
+- Conversation has accumulated irrelevant context from earlier tasks
+- Agent seems confused or contradictory
+- You've been working on multiple unrelated things in one session
+
+**The copy-paste reset:** When context gets bloated, copy everything important from the conversation, clear the context entirely, and paste back only what matters. Fresh context with critical information preserved works better than struggling through degraded context.
+
+### Seed with Questions, Not Explanations
+
+After clearing context, don't dump all your knowledge back in. Instead, ask the agent questions about the codebase. This forces the agent to read relevant files and load context itself, which is more effective than you explaining everything.
+
+**The pattern:**
+
+1. Clear context
+2. Ask: "How does [system] work?" or "What patterns does [codebase area] use?"
+3. Agent reads files, synthesizes understanding
+4. Now agent has fresh, relevant context loaded efficiently
+
+**Use git to recover working context:**
+
+- "Look at what's staged and what I'm working on" - agent reads `git diff --staged` and `git status`
+- "Look at recent commits on this branch" - agent reads `git log` to understand recent changes
+- "What files have I changed?" - agent sees your working context without you explaining it
+
+Git history is a cheap way to reload context about what you were doing. The agent can see exactly what changed and pick up where you left off.
+
+**Reload your plan file:** If you're using file-based planning (`.plans/feature/plan.md`), point the agent at it after clearing:
+
+- "Read the plan file and tell me what's done and what's next"
+- The plan should have updated status markers showing completed vs in-progress tasks
+- This instantly orients the agent on where you are in a larger feature
+
+This connects directly to the Context Loading Through Questions technique below.
+
+---
+
 ## Context Loading and File Management
 
 ### Context Loading Through Questions
@@ -467,6 +519,14 @@ Use Wispr Flow: wisprflow.ai/r?JASON50 (free month for you, and me)
 - Avoids over-explaining or under-explaining by letting agent determine what's relevant
 - Functions as "read-only" context loading mechanism before making changes
 - Similar to teaching technique where you ask students what they think, and they often answer their own questions
+
+**Verify their understanding:** When you already know the system, seeing the agent's answer is valuable:
+
+- If the answer is correct, you know the agent has loaded the right context
+- If the answer is wrong, you've caught a misunderstanding before it causes problems
+- Wrong answers signal gaps in AGENTS.md - add clarifications so future sessions get it right
+
+This connects back to compounding engineering: every wrong answer is an opportunity to improve your agent configuration.
 
 **Examples:**
 

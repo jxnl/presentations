@@ -6,15 +6,31 @@
 # Usage:
 #   ./build-all.sh              # Build all decks
 #   ./build-all.sh deck1 deck2  # Build only specified decks
+#   ./build-all.sh --force      # Force rebuild all decks
 
-set -e
+# Don't use set -e with parallel jobs - it causes early exits
+# set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DECKS_DIR="$SCRIPT_DIR/decks"
 DIST_DIR="$SCRIPT_DIR/dist"
+COMPONENTS_DIR="$SCRIPT_DIR/components"
+# Note: Parallel builds cause OOM errors even with 2 workers
+# Sequential builds are slower but reliable
+
+# Track total build time
+TOTAL_START=$(date +%s)
 
 # Create dist directory if it doesn't exist (preserve existing builds for incremental rebuilds)
 mkdir -p "$DIST_DIR"
+
+# Check for --force flag
+FORCE_REBUILD=false
+if [ "$1" = "--force" ]; then
+  FORCE_REBUILD=true
+  echo "Force rebuild enabled - rebuilding all decks"
+  echo ""
+fi
 
 # Find all decks (directories with slides.md)
 DECKS=()
@@ -34,6 +50,11 @@ needs_rebuild() {
   local source_file="$DECKS_DIR/$deck/slides.md"
   local dist_file="$DIST_DIR/$deck/index.html"
   
+  # Force rebuild if flag is set
+  if [ "$FORCE_REBUILD" = true ]; then
+    return 0
+  fi
+  
   # Always rebuild if dist doesn't exist
   if [ ! -f "$dist_file" ]; then
     return 0
@@ -44,9 +65,17 @@ needs_rebuild() {
     return 0
   fi
   
-  # Rebuild if components directory changed (if it exists)
-  if [ -d "$DECKS_DIR/$deck/components" ]; then
-    if find "$DECKS_DIR/$deck/components" -newer "$dist_file" | grep -q .; then
+  # Rebuild if shared components changed
+  if [ -d "$COMPONENTS_DIR" ]; then
+    if find "$COMPONENTS_DIR" -type f -newer "$dist_file" 2>/dev/null | grep -q .; then
+      return 0
+    fi
+  fi
+  
+  # Rebuild if deck-specific components changed (if it's a real directory, not symlink)
+  local deck_components="$DECKS_DIR/$deck/components"
+  if [ -d "$deck_components" ] && [ ! -L "$deck_components" ]; then
+    if find "$deck_components" -type f -newer "$dist_file" 2>/dev/null | grep -q .; then
       return 0
     fi
   fi
@@ -73,30 +102,39 @@ else
   echo "Building ${#DECKS_TO_BUILD[@]} deck(s) that need updates: ${DECKS_TO_BUILD[*]}"
   echo ""
   
-  # Build each deck sequentially (parallel builds cause abort traps)
-  # Increase memory limit to avoid OOM errors
-  export NODE_OPTIONS="--max-old-space-size=4096"
-  
+  # Build each deck sequentially (parallel builds cause OOM even with batching)
   for deck in "${DECKS_TO_BUILD[@]}"; do
     echo "[$deck] Starting build..."
     start_time=$(date +%s)
     cd "$SCRIPT_DIR"
-    # Clean this deck's dist before rebuilding
-    rm -rf "dist/$deck"
-    bun run slidev build "decks/$deck/slides.md" \
+    
+    # Clean this deck's dist before rebuilding (use absolute path)
+    rm -rf "$DIST_DIR/$deck"
+    
+    # Build with increased memory limit (use absolute path for output)
+    build_output=$(NODE_OPTIONS="--max-old-space-size=4096" bun run slidev build "decks/$deck/slides.md" \
       --base "/$deck/" \
-      --out "dist/$deck" 2>&1 | grep -E "(error|Error|built)" || true
+      --out "$DIST_DIR/$deck" 2>&1)
+    
     end_time=$(date +%s)
     duration=$((end_time - start_time))
-    echo "[$deck] ✓ Built in ${duration}s"
+    
+    # Check if build succeeded (use absolute path)
+    if [ -f "$DIST_DIR/$deck/index.html" ]; then
+      echo "[$deck] ✓ Built in ${duration}s"
+    else
+      echo "[$deck] ✗ Build failed in ${duration}s"
+      echo "$build_output" | grep -E "(error|Error|Failed)" | head -3
+    fi
     echo ""
   done
+  
+  echo ""
+  echo "All builds complete!"
 fi
 
+# Create index page listing all decks (always regenerate to include all decks)
 echo ""
-echo "All decks built!"
-
-# Create index page listing all decks
 echo "Creating index page..."
 
 cat > "$DIST_DIR/index.html" << 'EOF'
@@ -221,6 +259,9 @@ perl -i -pe "s/DECK_LIST_PLACEHOLDER/$DECK_JSON/" "$DIST_DIR/index.html"
 # Create Cloudflare Pages _redirects for SPA routing
 echo "Creating Cloudflare Pages configuration..."
 
+# Clear existing _redirects and create fresh
+> "$DIST_DIR/_redirects"
+
 # Each deck needs its own SPA fallback and routes for presenter, print, etc.
 for deck in "${DECKS[@]}"; do
   echo "/$deck/*  /$deck/index.html  200" >> "$DIST_DIR/_redirects"
@@ -244,6 +285,12 @@ echo "Decks available:"
 for deck in "${DECKS[@]}"; do
   echo "  - /$deck/"
 done
+# Calculate total build time
+TOTAL_END=$(date +%s)
+TOTAL_DURATION=$((TOTAL_END - TOTAL_START))
+
+echo ""
+echo "Total build time: ${TOTAL_DURATION}s"
 echo ""
 echo "Deploy to Cloudflare Pages:"
 echo "  bunx wrangler pages deploy dist --project-name presentations"

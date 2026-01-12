@@ -679,6 +679,106 @@ Second, track simple metrics. Use enterprise features to monitor token spend per
 -->
 
 ---
+layout: section
+---
+
+# Setup Time
+
+Configure Your Async Tooling
+
+<!--
+This session is shorter than Sync 102, giving you time to set up async agent tooling. Use this time to configure code review bots and other integrations.
+-->
+
+---
+
+# Enabling Codex Code Review
+
+**Turn on automatic PR reviews from Codex:**
+
+1. Go to [chatgpt.com/codex](https://chatgpt.com/codex)
+2. Navigate to Settings > GitHub Integration
+3. Install the Codex GitHub App for your repositories
+4. Grant access to repos where you want automatic reviews
+5. Codex will automatically review PRs and identify potential issues
+
+**What you get:**
+- Automatic reviews on every PR in connected repos
+- Reviews prioritize significant issues over nitpicks
+- Tag `@codex` in PR comments to request specific reviews or changes
+
+**Works great with `/gh-address-pr-comments`:** Codex leaves review comments, then use the command to address them systematically. Complete async workflow.
+
+<!--
+To enable Codex code review, install the GitHub app through Codex settings. Once installed, Codex automatically reviews PRs in your connected repositories.
+
+The reviews are smart - they focus on significant issues rather than style nitpicks. You can also tag Codex in PR comments to request specific reviews or ask it to address feedback.
+
+This works great with the gh-address-pr-comments command from sync-102. Codex leaves review comments automatically, then you can use the command to address them systematically. It's a complete async workflow - review happens automatically, addressing feedback happens automatically.
+-->
+
+---
+
+# Enabling Cursor Code Review (Bugbot)
+
+**Turn on automatic PR reviews from Cursor:**
+
+1. Go to [cursor.com/dashboard](https://cursor.com/dashboard)
+2. Navigate to Integrations > GitHub
+3. Install the Cursor GitHub App (also called Bugbot)
+4. Select repositories where you want automatic reviews
+5. Reviews will appear automatically on new PRs
+
+**What you get:**
+- Automatic code review comments on every PR
+- Identifies bugs, security issues, and code quality problems
+- Works alongside Cursor Cloud Agents for seamless async workflows
+
+**Works great with `/gh-address-pr-comments`:** Bugbot leaves review comments, then use the command to address them systematically. Complete async workflow.
+
+<!--
+Cursor's GitHub bot - sometimes called Bugbot - provides automatic code reviews on PRs. Install it through the Cursor dashboard, select your repos, and reviews appear automatically.
+
+This works seamlessly with Cursor Cloud Agents. Agents create PRs, Bugbot reviews them, and you review the review. It's all part of the async workflow.
+
+This also works great with the gh-address-pr-comments command from sync-102. Bugbot leaves review comments automatically, then you can use the command to address them systematically. Complete async workflow - agents create PRs, bots review them, commands address the feedback.
+-->
+
+---
+
+# Setting Up Cloud Agent Environments
+
+**Configure environments so agents have what they need:**
+
+**Codex:**
+- Go to [chatgpt.com/codex](https://chatgpt.com/codex) > Settings
+- Add environment secrets (API keys, credentials) per repository
+- Secrets are available to agents when they run tasks
+
+**Cursor:**
+- Run `Cursor: Start Cloud Agent Setup` from command palette
+- Configure base environment, install commands, and secrets
+- Or create `.cursor/environment.json` manually:
+  - Define `install` command (e.g., `npm install`)
+  - Set up terminal commands (dev servers, etc.)
+  - Create snapshots for reuse across repos
+
+**Secrets management:**
+- **Cursor IDE:** Settings > Cloud Agents > Secrets
+- **Cursor Web:** [cursor.com/dashboard?tab=cloud-agents](https://cursor.com/dashboard?tab=cloud-agents) > Secrets
+- **Codex:** Settings > Repository Secrets
+
+<!--
+Both Codex and Cursor let you configure cloud agent environments so agents have access to the tools and credentials they need.
+
+For Codex, you add environment secrets through the settings page. These are available to agents when they run tasks.
+
+For Cursor, you can use the guided setup flow from the command palette, or manually create an environment.json file. This lets you define install commands, terminal commands for dev servers, and create snapshots you can reuse.
+
+Secrets management is important - agents need API keys, database credentials, and other environment variables to do their work. Both platforms provide ways to securely manage these.
+-->
+
+---
 layout: center
 ---
 

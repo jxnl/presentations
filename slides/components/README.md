@@ -240,6 +240,7 @@ Display an interactive file tree explorer with syntax-highlighted code viewing. 
 ### Props
 
 - `dir` (required) - Directory path relative to `slides/decks/`. For example, `"components/example_fs/fastapi-app"` will display files from `slides/decks/components/example_fs/fastapi-app/`.
+- `showWorkingDir` (optional, default: `false`) - Display the working directory path in the sidebar header.
 
 ### Features
 
@@ -254,6 +255,9 @@ Display an interactive file tree explorer with syntax-highlighted code viewing. 
 
 ```html
 <FileExplorer dir="components/example_fs/fastapi-app" />
+
+<!-- With working directory displayed -->
+<FileExplorer dir="components/example_fs/fastapi-app" :showWorkingDir="true" />
 ```
 
 This will show all files and folders within the specified directory, allowing users to navigate and view file contents directly in the slide.

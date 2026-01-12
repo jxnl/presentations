@@ -5,6 +5,7 @@ import FileTreeItem from './FileTreeItem.vue'
 
 const props = defineProps<{
   dir: string
+  showWorkingDir?: boolean
 }>()
 
 // Load all files from the decks directory using a broad glob
@@ -221,6 +222,12 @@ watch(() => selectedFile.value, async (newFile) => {
     <!-- Sidebar -->
     <div class="w-64 flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#252526] overflow-y-auto">
       <div class="p-2 text-xs font-bold text-gray-500 uppercase tracking-wider pl-4">Explorer</div>
+      <div v-if="showWorkingDir" class="px-4 py-2 text-xs text-gray-400 dark:text-gray-500 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center gap-1">
+          <span class="i-carbon:folder text-xs"></span>
+          <span class="truncate">{{ dir }}</span>
+        </div>
+      </div>
       
       <div class="flex flex-col pb-2">
         <FileTreeItem 

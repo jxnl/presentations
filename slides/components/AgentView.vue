@@ -30,6 +30,7 @@ export interface AgentEvent {
   files?: FileInfo[]
   exploredCount?: number
   editedCount?: number
+  isError?: boolean
 }
 
 const props = withDefaults(defineProps<{
@@ -155,7 +156,7 @@ const displayEvents = computed(() => {
             </div>
 
             <!-- Tool Result -->
-            <div v-else-if="event.type === 'tool-result'" class="text-emerald-400 dark:text-emerald-400 markdown-content" v-html="renderMarkdown(event.content)"></div>
+            <div v-else-if="event.type === 'tool-result'" :class="[event.isError ? 'text-red-400 dark:text-red-400' : 'text-emerald-400 dark:text-emerald-400', 'markdown-content']" v-html="renderMarkdown(event.content)"></div>
 
             <!-- Thought -->
             <div v-else-if="event.type === 'thought'" class="text-gray-400 dark:text-gray-400 italic markdown-content" v-html="renderMarkdown(event.content)"></div>

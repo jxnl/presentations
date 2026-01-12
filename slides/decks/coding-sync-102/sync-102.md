@@ -459,6 +459,21 @@ Instead of typing terse prompts, just talk through your thinking in detail while
 
 Use Wispr Flow: wisprflow.ai/r?JASON50 (free month for you, and me)
 
+### Prompt Evolution: Shorter + Visual
+
+As models improve and you build trust, prompts get shorter:
+
+- **Early stage:** Long, elaborate prompts explaining everything
+- **Later stage:** Short prompts with images - "fix padding", "redesign this"
+
+**Images are powerful for UI work:**
+
+- Drag in a clipped screenshot of a component
+- A few words describe what's wrong
+- Model sees the visual context and fixes it
+
+**The pattern:** Show the model what's wrong instead of explaining it. Visual context often works better than verbose descriptions.
+
 ---
 
 ## Context Window Management
@@ -538,6 +553,23 @@ This connects back to compounding engineering: every wrong answer is an opportun
 - Agent will read relevant files, analyze patterns, and synthesize explanation
 - This loads all that information into context for subsequent operations
 - Works with any agent system, not just amp-specific tools
+
+### Cross-Project References
+
+**Reuse solutions you've already solved elsewhere.**
+
+When you know you've solved a problem in another project:
+
+- "look at ../other-project and do the same for [feature]"
+- "check how ../vibetunnel handles changelogs and implement that here"
+
+**Why this works:**
+
+- Agent infers context from project structure
+- Adapts patterns to new project automatically
+- Saves prompting time - no need to re-explain what you want
+
+**Use for scaffolding new projects:** Point agents at similar existing projects as reference. They'll copy patterns and adapt appropriately.
 
 ### Understanding Large Codebases
 

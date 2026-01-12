@@ -301,30 +301,6 @@ Two approaches: Linear as the orchestrator managing everything, or Linear as sou
 
 ---
 
-# Linear: The `/make-linear-ticket` Command
-
-**Capture issues without context switching:**
-
-When you spot an issue while coding, type the command and keep going.
-
-The command:
-- Grabs current context (file, recent changes, error messages)
-- Auto-routes to right project based on file path
-- Includes code snippets automatically
-- Tags right agents for async execution
-
-**Example:** Working on frontend, notice backend API issue, type `/make-linear-ticket "API returning inconsistent date formats"` and keep coding.
-
-<!--
-Create a command for making Linear tickets.
-
-When you spot an issue while coding, type the command and keep going. It grabs your current context - file, recent changes, error messages. Auto-routes to the right project. Tags the right agents.
-
-By lunch, there's a PR fixing the issue you spotted. You never had to context switch.
--->
-
----
-
 # Codex: Multi-Interface Access
 
 <div class="grid grid-cols-2 gap-4">
@@ -469,100 +445,51 @@ layout: section
 Running Multiple Agents
 
 <!--
-Part 4 is about parallel execution. Running multiple agents simultaneously to maximize throughput.
+Part 4 is about parallel execution - two patterns for running multiple agents.
 -->
 
 ---
 
-# Parallel Session Management
+# Parallel Tasks: Many Agents, Different Work
 
-**Boris's approach - maximize throughput:**
+**For small nits, kick off many cloud agents doing separate tasks:**
 
-- Run 5 terminal sessions in parallel (numbered tabs 1-5)
-- Run 5-10 web sessions at claude.ai/code simultaneously
-- Use system notifications to know when agent needs input
-- Hand off sessions between terminal and web using `&` operator
+- Agent 1: Fix the typo in the README
+- Agent 2: Add the missing test for auth
+- Agent 3: Update the deprecated API call
+- Agent 4: Fix the lint warning in utils
 
-Sessions continue processing while you switch between them.
+Each agent works in isolation. No conflicts. Review and merge independently.
+
+**ChatGPT's webapp (Codex) has great UX for this** - easy to kick off and track multiple tasks.
 
 <!--
-Boris runs 5 terminal sessions and 5-10 web sessions in parallel.
+For small nits and cleanup tasks, just kick off multiple cloud agents in parallel. Each one works on a separate task.
 
-System notifications tell him when an agent needs input. Sessions continue processing while he switches between them.
+ChatGPT's Codex webapp has really nice UX for managing multiple parallel tasks - you can see them all, track progress, and merge independently.
 
-This maximizes throughput. Multiple agents working on different tasks simultaneously.
+This is the multiplication effect in action. Work that would never get prioritized now happens in parallel.
 -->
 
 ---
 
-# Cloud Tasks and Background Processing
+# Parallel Exploration: Same Task, Multiple Attempts
 
-**Cloud tasks run in isolated containers:**
+**Cursor is best for this - access to many models in one place:**
 
-- Common toolchains pre-installed (Python, Node.js, npm, pnpm, pip)
-- Sandboxing prevents agents from breaking out of project boundaries
-- Can run multiple instances of same task with different approaches
-- No conflict risk between parallel tasks
+1. Start the same task with different models (Claude, GPT, Gemini)
+2. Let them run in parallel
+3. Compare the implementations
+4. Pick the best one, discard the rest
 
-**Computer Use Mode:** Embedded browser for visual debugging. Can execute 20+ minute testing workflows.
-
-<!--
-Cloud tasks run in isolated containers. Common toolchains are pre-installed. Sandboxing prevents agents from breaking boundaries.
-
-You can run multiple instances of the same task with different approaches. No conflict risk between parallel tasks.
-
-Computer use mode gives agents an embedded browser - they can execute 20+ minute testing workflows, filling out forms and monitoring results.
--->
-
----
-
-# A/B Testing Implementations
-
-**Run multiple versions of the same task in parallel:**
-
-1. Kick off 4 parallel versions of the same task
-2. Review generated screenshots to compare implementations
-3. Choose preferred version
-4. Request refinements
-5. Kick off 4 more variations from the chosen version
-6. Continue parallel exploration until satisfied
-
-Screenshots are auto-generated for visual comparison.
+**My heuristic:** I usually pick the one with the fewest lines of code.
 
 <!--
-A/B testing implementations. Kick off 4 parallel versions of the same task. Review screenshots to compare. Choose the best one. Request refinements. Kick off more variations.
+The other pattern is parallel exploration - same task, multiple attempts.
 
-This is parallel exploration. Instead of iterating sequentially, you explore the solution space in parallel.
+Cursor is ideal here because you have access to many models. Kick off the same task with Claude, GPT, Gemini - let them compete.
 
-Screenshots are auto-generated so you can visually compare implementations.
--->
-
----
-
-# Repository Structure for Parallel Work
-
-**Structure your repo to enable parallel agent work:**
-
-**Naming:**
-- Use unique project codenames that don't appear elsewhere (e.g., "wam")
-- Enables effective ripgrep for fast navigation
-
-**Folder Structure:**
-- Multiple example folders allow parallel work without conflicts
-- Can kick off 3 tasks updating different folders simultaneously
-
-**Dependency Management:**
-- Use pnpm workspaces with separate package.json files
-- Code duplication more acceptable when AI manages overhead
-
-<!--
-Structure matters for parallel work.
-
-Use unique project codenames - enables effective ripgrep. Multiple example folders let agents work in parallel without conflicts.
-
-Use pnpm workspaces with separate package.json files. Code duplication is more acceptable when AI manages the overhead.
-
-This is the same file organization we discussed this morning, now paying dividends for parallel execution.
+My simple heuristic: pick the implementation with the fewest lines of code. Simpler is usually better.
 -->
 
 ---
@@ -571,123 +498,68 @@ layout: section
 
 # Part 5: Workflow Patterns
 
-Delegation and Timing
+Three Ways to Trigger Async Work
 
 <!--
-Part 5 covers workflow patterns. When to go async and how to delegate effectively.
+Part 5 covers three practical patterns for triggering async agents in your daily workflow.
 -->
 
 ---
 
-# Real-Time Feedback Workflow
+# Meetings: Transcript to Subtasks
 
-**Keep agent UI open during feedback meetings:**
+**Feed meeting feedback into ChatGPT Codex to create subtasks:**
 
-- Have ChatGPT open while stakeholders review your website
-- As people give feedback, drop each piece as a message to the agent
-- Agent works on fixes in the background while meeting continues
-- By end of meeting, you may have PRs ready
+1. Run your feedback meeting (design review, stakeholder demo, etc.)
+2. Feed the transcript or notes into Codex
+3. Codex creates subtasks that trigger agents automatically
+4. By end of meeting, work is already in progress
 
-**Works well for:** Panel ordering, copywriting, small UI adjustments, bug fixes.
+**The meeting becomes the kickoff.** No separate task creation step needed.
 
 <!--
-Powerful pattern: keep the agent UI open during feedback meetings.
+During feedback meetings, capture the transcript. Feed it into Codex and have it create subtasks.
 
-Stakeholders review your website, give feedback. You drop each piece of feedback as a message to the agent. Agent works on fixes while the meeting continues.
-
-By the end of the meeting, you may have PRs ready. Works great for panel ordering, copywriting, small UI tweaks.
+By the time the meeting ends, agents are already working on the feedback. You don't need a separate step to create tasks - the meeting itself becomes the kickoff.
 -->
 
 ---
 
-# Delegation Philosophy
+# Slack: @mention a Thread
 
-**Treat agents as senior engineers, not tools requiring supervision.**
+**Bug reports in Slack? Just @mention agents to start working:**
 
-- Give 1-2 sentence instructions and let the agent run
-- Talk to agents like senior engineers
-- Kick off tasks immediately when thought of, not when time available
-- Avoid babysitting - if watching code being written, you're using it wrong
-- Interrupt and steer if needed, but trust independent execution
+- Someone reports a bug in Slack
+- `@cursor can you take a look at this?`
+- Agent reads the thread context and starts working
+
+**You can literally @mention a thread and it's good to go.** The thread IS the context.
 
 <!--
-The core philosophy: delegate like a tech lead.
+For bug reports and issues that come up in Slack, just @mention the agent. It reads the thread context - the bug description, any screenshots, the discussion.
 
-Give 1-2 sentence instructions. Kick off immediately when you think of it. Don't babysit - if you're watching code being written, you're using it wrong.
-
-Trust independent execution. Interrupt and steer if needed, but let them run.
+You don't need to write a separate spec. The Slack thread is the spec. Tag the agent and let it try stuff out.
 -->
 
 ---
 
-# Sync vs Async Framework
+# Coding: Auto-Ticket, Auto-Agent
 
-| Mode | Duration | Attention | Use Case |
-|------|----------|-----------|----------|
-| **Synchronous** | 20 seconds to 1 minute | Full attention | Quick questions, small edits |
-| **Asynchronous** | Minutes to hours | Delegated | Full features, complex tasks |
-| **Danger Zone** | 5-10 minutes | Semi-attentive | Avoid this range |
+**Notice a separate issue while coding? Have AI create a ticket that auto-assigns an agent:**
 
-<Callout type="warning">
-Avoid the "semi-async danger zone" of 5-10 minute waits that break focus.
-</Callout>
+- Spot a bug while working on something else
+- `/make-linear-ticket "API returning inconsistent date formats"`
+- Ticket gets created with your current context
+- Agent auto-assigned to the ticket starts working
 
-Either go fast (under 20 seconds) or fully async.
+**Never context switch.** The issue gets captured and worked on without breaking your flow.
 
 <!--
-Understanding when to use each mode.
+While coding, you notice issues that aren't part of your current task. Instead of context switching, use a command to create a ticket.
 
-Synchronous: 20 seconds to 1 minute, full attention. Quick questions, small edits.
+The ticket grabs your current context - file, recent changes, error messages. Routes to the right project. Auto-assigns an agent.
 
-Asynchronous: minutes to hours, fully delegated. Full features, complex tasks.
-
-Danger zone: 5-10 minutes of semi-attentive waiting. This breaks your focus without letting you do other work. Avoid this range.
-
-Either go fast or go fully async.
--->
-
----
-
-# Recommended Cycle: Plan, Code, Test
-
-**Structure your day around this continuous cycle:**
-
-1. **Synchronous planning:** Use fast IDE tools to understand codebase, create task specs
-2. **Asynchronous coding:** Delegate implementation to agents working independently
-3. **Synchronous testing:** Test and refine agent's changes using IDE tools
-4. **Continuous cycle:** While one agent codes, you're planning next task
-
-<!--
-Structure your day around this cycle.
-
-Synchronous planning - use fast IDE tools to understand and spec the task. Asynchronous coding - delegate and let agents work. Synchronous testing - review and refine.
-
-While one agent codes, you're planning the next task and testing completed work. Continuous cycle.
--->
-
----
-
-# Background Task Patterns
-
-**Start small and build confidence:**
-
-1. Start with 200-line PRs
-2. Learn how explicit you need to be
-3. Recognize patterns
-4. Scale up: 200-line PRs become 400-line, then 800-line PRs
-5. Treat agents as team members
-
-**High-value patterns:**
-- Have a small idea? Kick it off before standup
-- Notice a bug while reviewing? Tag agent and grab coffee
-- **Multiplication effect:** Code that would never be written because it wasn't worth the context switch
-
-<!--
-Start small. 200-line PRs. Learn how explicit your instructions need to be. Recognize patterns. Scale up.
-
-High-value patterns: kick off ideas before standup. Notice a bug while reviewing? Tag an agent and grab coffee.
-
-The multiplication effect: code that would never be written because it wasn't worth the context switch. That's what async unlocks.
+By lunch, there's a PR fixing the issue you spotted. You never had to context switch.
 -->
 
 ---
@@ -791,73 +663,19 @@ Ask your team: what would you fix if fixing it cost nothing? That's your agent b
 -->
 
 ---
-layout: section
----
 
-# Wrap-up
+# Team Adoption
 
-<!--
-Let's wrap up.
--->
+**AI Champion:** Designate someone to lead adoption and share wins
 
----
-
-# Key Takeaways
-
-**Today:**
-- Try one async delegation: tag an agent on an issue or in Slack
-- Let it run while you do something else
-
-**This Week:**
-- Set up Codex or Cursor cloud agents
-- Create a `/make-linear-ticket` command
-- Kick off 2-3 background tasks per day
-
-**This Month:**
-- Build the habit of async delegation
-- Scale to parallel execution
-- Trust agents with larger features
+**Track Metrics:** Use enterprise features to track token spend per person and team to understand adoption
 
 <!--
-Quick wins.
+Two things for team adoption.
 
-Today: try one async delegation. Tag an agent on an issue or in Slack. Let it run while you do something else.
+First, designate an AI champion. Someone to lead adoption, share wins, and help others get started.
 
-This week: set up Codex or Cursor cloud agents. Create a make-linear-ticket command. Kick off 2-3 background tasks per day.
-
-This month: build the habit. Scale to parallel execution. Trust agents with larger features.
--->
-
----
-
-# Setup Time
-
-**This session is shorter, giving you time to set up async tooling.**
-
-**Codex Setup:**
-1. Go to chatgpt.com/codex
-2. Install GitHub App: github.com/apps/chatgpt-codex-connector
-3. Add environment secrets if needed
-
-**Cursor Cloud Agents:**
-1. Install GitHub App: cursor.com/docs/integrations/github
-2. Go to cursor.com/agents or cursor.com/docs/cloud-agent
-3. Configure environment via `Cmd+Shift+P` > "Cursor: Start Cloud Agent Setup"
-
-**Slack Integration:**
-- Codex: Install from Codex settings
-- Cursor: cursor.com/docs/integrations/slack
-
-<!--
-Use the remaining time to set up async tooling.
-
-Codex: go to chatgpt.com/codex, install the GitHub app at github.com/apps/chatgpt-codex-connector, add secrets.
-
-Cursor cloud agents: install GitHub app at github.com/apps/cursor, then cursor.com/agents to start.
-
-Slack integration: install from settings.
-
-Documentation links are on the next slide.
+Second, track simple metrics. Use enterprise features to monitor token spend per person and per team. This tells you who's adopting and where to focus enablement.
 -->
 
 ---

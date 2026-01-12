@@ -28,8 +28,8 @@ This afternoon we build on that foundation. We're talking about async workflows 
 # What We'll Cover
 
 1. **Why Async:** The multiplication effect
-2. **Kickoff Patterns:** Cursor, GitHub, Slack - matching method to task
-3. **Platforms:** Linear, Slack integrations, Codex
+2. **Where to Trigger:** Cursor, GitHub, Slack, Linear, Codex
+3. **Foundations for Trust:** AGENTS.md, testing, security
 4. **Parallel Execution:** Running multiple agents simultaneously
 5. **Workflow Patterns:** Delegation philosophy and when to go async
 6. **Team Adoption:** Scaling across your organization
@@ -39,9 +39,9 @@ Six parts this afternoon.
 
 Why async matters - the multiplication effect.
 
-Kickoff patterns - where and how to start async work.
+Where to trigger async agents - all the platforms and entry points.
 
-Platforms - Linear, Slack, Codex integrations.
+Foundations for trust - what makes async delegation reliable.
 
 Parallel execution - running multiple agents at once.
 
@@ -125,12 +125,12 @@ Over time, that confidence compounds. You start trusting agents with larger task
 layout: section
 ---
 
-# Part 2: Kickoff Patterns & Foundations
+# Part 2: Where to Trigger Async Agents
 
-Where and How to Start
+Cursor, GitHub, Slack, Linear, Codex
 
 <!--
-Part 2 covers where you can kick off async agents and what foundations enable trust.
+Part 2 covers all the places you can kick off async agents - every platform and entry point.
 -->
 
 ---
@@ -181,44 +181,216 @@ The agent executes independently while you work on something else. This pattern 
 
 ---
 
+# Cursor: Automatic CI Fixing
+
+**Cursor's Cloud Agents automatically attempt to fix CI failures in PRs they create.**
+
+- Ignores failures that also fail on the base commit (pre-existing issues)
+- Currently supports GitHub Actions
+- Disable globally: Cursor Dashboard > Cloud Agents > My Settings
+- Disable per-PR: comment `@cursor autofix off`
+
+**For your own PRs:** Tag Cursor in a comment:
+- `@cursor please fix the CI failures`
+- `@cursor fix the lint check failure`
+
+<!--
+Cursor's cloud agents don't just create PRs - they monitor CI and fix failures automatically. They're smart enough to ignore pre-existing failures.
+
+You can disable this globally or per-PR if needed. And you can ask Cursor to fix CI in your own PRs by tagging them in comments.
+-->
+
+---
+
 # GitHub: @-Mentions on Issues and PRs
 
 **For small, well-defined changes:**
 
 - **On Issues:** `@cursor implement this feature` or `@codex fix this bug`
-- **On Pull Requests:** `@cursor please address the review feedback`
+- **On Pull Requests:** `@codex please address the review feedback`
 - **On failing CI:** `@cursor fix the lint errors`
-- Agent reads the issue/PR context and creates commits directly
+- **Update context:** `@cursor fix this and update AGENTS.md with what you learned`
 
-Works well for isolated changes where context is already captured in the issue or PR description.
+Works from your phone - respond to notifications while on the go.
 
 <!--
 GitHub mentions work for small, well-defined changes.
 
 Comment @cursor or @codex on an issue and it picks up the work. Mention them on a PR to make adjustments or fix failing tests.
 
-The agent reads the context from the issue or PR and creates commits directly. This works well when the context is already captured in the description.
+Pro tip: when an agent misses something, tell it to fix the issue AND update AGENTS.md with what it learned. This improves future runs.
+
+I often respond to GitHub notifications from my phone - tag an agent while waiting in line.
 -->
 
 ---
 
 # Slack: Conversational Delegation
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
 **The most casual approach:**
 
 - Tag an agent in any channel with a request
 - Agent picks up the task from conversation context
-- Review results via Slack notifications and screenshots
-- Works from mobile, during meetings, or while doing other work
+- Trigger workspace skills/commands from Slack
+- Works from your phone - kick off work while commuting
 
-<img src="./assets/cursor-slack-pr-review.png" class="h-56 mx-auto rounded shadow" />
+</div>
+<div>
+
+<img src="./assets/cursor-slack-pr-review.png" class="h-72 rounded shadow" />
+
+</div>
+</div>
 
 <!--
 Slack is the most casual approach.
 
 Tag an agent in any channel. The agent picks up the task from the conversation context. You review results via Slack notifications - often with screenshots.
 
-This works from your phone, during meetings, while you're doing other work. Perfect for bug fixes, doc updates, and small improvements that don't need detailed planning.
+If you've set up local skills or custom commands in your repo, agents can trigger those from Slack too.
+
+I often kick off work from my phone - waiting for coffee, on the train. By the time I'm at my desk, there's a PR to review.
+-->
+
+---
+
+# Slack: Devin's Release Workflow
+
+**"Devin, please do a release" triggers a multi-step workflow:**
+
+1. Reviews QA results
+2. Determines bug ownership using git history
+3. Tags responsible engineers in Slack
+4. Sends reminders if issues remain unaddressed
+
+**Why this works:** The release process follows a predictable pattern but involves multiple steps. Human kicks it off with a single message and walks away.
+
+<!--
+Case study from Cognition - the company behind Devin.
+
+When someone types "Devin, please do a release" in Slack, it triggers a full workflow. Reviews QA results, looks up git blame to find who caused issues, tags the right engineers in Slack, sends reminders.
+
+The human kicks it off with one message and walks away. Devin handles the coordination work that would otherwise require checking multiple systems and sending manual messages.
+-->
+
+---
+
+# Linear: AI-Native Command Center
+
+**Linear evolved into an AI-native command center:**
+
+- Assign Linear issues directly to coding agents
+- Agents work in background sessions while you focus elsewhere
+- Agents are first-class citizens: mentionable, assignable, with activity streams
+- Workspace-level prompt guidance fed to all agents
+
+**Two approaches:**
+1. Linear as orchestrator - managing everything
+2. Linear as source of truth - pull context into Cursor as needed
+
+<!--
+Linear has become an AI-native command center.
+
+You can assign issues directly to coding agents. Agents work in background sessions. They're first-class citizens - you can mention them, assign work to them, see their activity.
+
+Two approaches: Linear as the orchestrator managing everything, or Linear as source of truth where you pull context into Cursor. Most teams start with the second approach.
+-->
+
+---
+
+# Linear: The `/make-linear-ticket` Command
+
+**Capture issues without context switching:**
+
+When you spot an issue while coding, type the command and keep going.
+
+The command:
+- Grabs current context (file, recent changes, error messages)
+- Auto-routes to right project based on file path
+- Includes code snippets automatically
+- Tags right agents for async execution
+
+**Example:** Working on frontend, notice backend API issue, type `/make-linear-ticket "API returning inconsistent date formats"` and keep coding.
+
+<!--
+Create a command for making Linear tickets.
+
+When you spot an issue while coding, type the command and keep going. It grabs your current context - file, recent changes, error messages. Auto-routes to the right project. Tags the right agents.
+
+By lunch, there's a PR fixing the issue you spotted. You never had to context switch.
+-->
+
+---
+
+# Codex: Multi-Interface Access
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**One agent, many interfaces:**
+
+- CLI / VS Code / Cursor extensions
+- Browser (chatgpt.com/codex)
+- GitHub mentions
+- Slack integration
+- **iOS app** - kick off from your phone
+
+**Same agent everywhere.** Start on phone, check on laptop, review via Slack.
+
+</div>
+<div>
+
+<img src="./assets/codex-code-reviews.png" class="h-72 rounded shadow" />
+
+</div>
+</div>
+
+<!--
+Codex operates as a single unified agent across multiple interfaces.
+
+CLI, VS Code extensions, browser, GitHub mentions, Slack, iOS app. Same agent everywhere.
+
+I use the iOS app constantly - kick off a task while waiting for coffee, review the PR when I get to my desk.
+-->
+
+---
+
+# Codex: Code Reviews
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**One-click fixes from the code review tab:**
+
+- Codex analyzes PRs and identifies potential bugs
+- Click "Fix issues" to launch an agent that addresses them
+- Agent reads the diff, understands context, and creates fixes
+
+</div>
+<div>
+
+<img src="./assets/codex-fix-issues.png" class="h-72 rounded shadow" />
+
+</div>
+</div>
+
+<!--
+The code review tab shows PRs with identified issues. Click "Fix issues" and Codex launches an agent to address them automatically. You review the fix, not the bug.
+-->
+
+---
+layout: section
+---
+
+# Part 3: Foundations for Trust
+
+Building Confidence in Async Agents
+
+<!--
+Part 3 covers what makes async delegation trustworthy - the foundations that let you kick off agents and walk away with confidence.
 -->
 
 ---
@@ -267,199 +439,25 @@ We covered testing setup this morning. That foundation is what makes async deleg
 
 ---
 
-# The Full Async Loop
+# Infrastructure Enables Autonomy
 
-**Imagine an agent that can:**
+**Cloud agent environments are Docker containers that run `git pull` first.**
 
-1. Fix the code based on an issue or feedback
-2. Make a pull request
-3. Wait for the preview deployment to complete
-4. Use a web browser to inspect the preview deployment
-5. Verify the fix looks correct
-6. If something's wrong, iterate and try again
+This speaks to the importance of setting up all that infrastructure:
 
-This is happening now. Agents that can spin up preview environments and visually verify their work are dramatically more reliable.
+- Environment configs that mount the right API keys
+- Pre-commit hooks installed and working
+- Tests separated into fast/slow/local categories
+- Scoped credentials for staging vs production
 
-<!--
-Imagine the full loop. Agent fixes code, makes a PR, waits for preview deployment, opens a browser to inspect it, verifies the fix looks correct, iterates if needed.
-
-This is happening now. Teams with preview deployments and visual verification see dramatically better results from async agents.
--->
-
----
-
-# Cursor Cloud Agents: Automatic CI Fixing
-
-**Cursor's Cloud Agents automatically attempt to fix CI failures in PRs they create.**
-
-- Ignores failures that also fail on the base commit (pre-existing issues)
-- Currently supports GitHub Actions
-- Disable globally: Cursor Dashboard > Cloud Agents > My Settings
-- Disable per-PR: comment `@cursor autofix off`
-
-**For your own PRs:** Tag Cursor in a comment:
-- `@cursor please fix the CI failures`
-- `@cursor fix the lint check failure`
+**The morning's foundation work enables afternoon's autonomy.** The more your repo can self-verify, the more you can trust async agents.
 
 <!--
-Cursor's cloud agents don't just create PRs - they monitor CI and fix failures automatically. They're smart enough to ignore pre-existing failures.
+Cloud agents run in Docker containers - they pull your repo and run. Everything we covered this morning about infrastructure setup directly enables async autonomy.
 
-You can disable this globally or per-PR if needed. And you can ask Cursor to fix CI in your own PRs by tagging them in comments.
--->
+Environment configs with the right API keys. Pre-commit hooks that catch issues. Tests split so fast ones run locally. This all compounds into agents that can run longer without human intervention.
 
----
-
-# Security Trade-offs
-
-<Callout type="warning">
-More agent access means more credentials in the environment.
-</Callout>
-
-**Mitigations to consider:**
-- Use scoped, read-only credentials where possible
-- Separate staging credentials from production entirely
-- Audit what agents can access and what they actually use
-- Use ephemeral environments that spin down after verification
-
-Teams getting the most value have invested in both infrastructure AND security guardrails.
-
-<!--
-This is a double-edged sword. Giving agents access to preview deployments and staging environments means more credentials in your environment.
-
-Use scoped credentials. Separate staging from production. Audit what agents access. Use ephemeral environments.
-
-Teams getting the most value have invested in both the infrastructure and the security guardrails. You can't have one without the other.
--->
-
----
-layout: section
----
-
-# Part 3: Platforms & Integrations
-
-Linear, Slack, GitHub, ChatGPT
-
-<!--
-Part 3 covers the main platforms for async workflows.
--->
-
----
-
-# Linear Integration
-
-**Linear evolved into an AI-native command center:**
-
-- Assign Linear issues directly to coding agents
-- Agents work in background sessions while you focus elsewhere
-- Agents are first-class citizens: mentionable, assignable, with activity streams
-- Workspace-level prompt guidance fed to all agents
-
-**Two approaches:**
-1. Linear as orchestrator - managing everything
-2. Linear as source of truth - pull context into Cursor as needed
-
-<!--
-Linear has become an AI-native command center.
-
-You can assign issues directly to coding agents. Agents work in background sessions. They're first-class citizens - you can mention them, assign work to them, see their activity.
-
-Two approaches: Linear as the orchestrator managing everything, or Linear as source of truth where you pull context into Cursor. Most teams start with the second approach.
--->
-
----
-
-# Case Study: Cognition's Release Command
-
-**"Devin, please do a release" triggers a multi-step workflow:**
-
-1. Reviews QA results
-2. Determines bug ownership using git history
-3. Tags responsible engineers in Slack
-4. Sends reminders if issues remain unaddressed
-
-**Why this works:** The release process follows a predictable pattern but involves multiple steps. Human kicks it off with a single message and walks away.
-
-<!--
-Case study from Cognition - the company behind Devin.
-
-When someone types "Devin, please do a release" in Slack, it triggers a full workflow. Reviews QA results, looks up git blame to find who caused issues, tags the right engineers in Slack, sends reminders.
-
-The human kicks it off with one message and walks away. Devin handles the coordination work that would otherwise require checking multiple systems and sending manual messages.
--->
-
----
-
-# The `/make-linear-ticket` Command
-
-**Capture issues without context switching:**
-
-When you spot an issue while coding, type the command and keep going.
-
-The command:
-- Grabs current context (file, recent changes, error messages)
-- Auto-routes to right project based on file path
-- Includes code snippets automatically
-- Tags right agents for async execution
-
-**Example:** Working on frontend, notice backend API issue, type `/make-linear-ticket "API returning inconsistent date formats"` and keep coding.
-
-<!--
-Create a command for making Linear tickets.
-
-When you spot an issue while coding, type the command and keep going. It grabs your current context - file, recent changes, error messages. Auto-routes to the right project. Tags the right agents.
-
-By lunch, there's a PR fixing the issue you spotted. You never had to context switch.
--->
-
----
-
-# Codex Multi-Interface Access
-
-<div class="grid grid-cols-2 gap-4">
-<div>
-
-**One agent, many interfaces:**
-
-- CLI
-- VS Code / Cursor / Windsurf extensions
-- Browser (chatgpt.com/codex)
-- GitHub mentions
-- Slack integration
-- iOS app
-- GitHub Actions
-
-**Same agent everywhere.**
-
-</div>
-<div>
-
-<img src="./assets/codex-code-reviews.png" class="h-72 rounded shadow" />
-
-</div>
-</div>
-
-<!--
-Codex operates as a single unified agent across multiple interfaces.
-
-CLI, VS Code extensions, browser, GitHub mentions, Slack, iOS app, GitHub Actions. Same agent everywhere.
-
-This means you can kick off tasks from any device. Start something on your phone, check on it from your laptop, review it via Slack.
--->
-
----
-
-# Codex Code Reviews
-
-**One-click fixes from the code review tab:**
-
-- Codex analyzes PRs and identifies potential bugs
-- Click "Fix issues" to launch an agent that addresses them
-- Agent reads the diff, understands context, and creates fixes
-
-<img src="./assets/codex-fix-issues.png" class="h-64 mx-auto rounded shadow" />
-
-<!--
-The code review tab shows PRs with identified issues. Click "Fix issues" and Codex launches an agent to address them automatically. You review the fix, not the bug.
+The better your infrastructure, the more autonomous your agents can be.
 -->
 
 ---
@@ -706,6 +704,28 @@ Part 6 covers team adoption. How to scale async workflows across your organizati
 
 ---
 
+# The AI Champion Role
+
+**If you're the AI champion, prioritize setting up integrations:**
+
+- Work with IT to approve GitHub apps (Cursor, Codex)
+- Get Slack workspace permissions for agent bots
+- Configure Linear/Jira integrations for your repos
+- Set up the secrets and environment variables agents need
+- Document which repos have which integrations enabled
+
+**These integrations require admin permissions.** Someone needs to own this.
+
+<!--
+This morning's session covered AGENTS.md and repo-level setup. This afternoon's async workflows require integration setup.
+
+If you're the AI champion, work with IT to get the GitHub apps approved, Slack permissions configured, and secrets set up. This is the foundation that enables everyone else to use async agents.
+
+Without these integrations, your team can't use @cursor in GitHub or Slack. Someone has to own this setup work.
+-->
+
+---
+
 # Team Workflow Patterns
 
 **Linear team's internal adoption:**
@@ -816,24 +836,24 @@ This month: build the habit. Scale to parallel execution. Trust agents with larg
 
 **Codex Setup:**
 1. Go to chatgpt.com/codex
-2. Connect GitHub, grant repo access
+2. Install GitHub App: github.com/apps/chatgpt-codex-connector
 3. Add environment secrets if needed
 
 **Cursor Cloud Agents:**
-1. Go to cursor.com/agents
-2. Connect GitHub/GitLab
+1. Install GitHub App: cursor.com/docs/integrations/github
+2. Go to cursor.com/agents or cursor.com/docs/cloud-agent
 3. Configure environment via `Cmd+Shift+P` > "Cursor: Start Cloud Agent Setup"
 
 **Slack Integration:**
 - Codex: Install from Codex settings
-- Cursor: Configure via Cursor Web & Mobile settings
+- Cursor: cursor.com/docs/integrations/slack
 
 <!--
 Use the remaining time to set up async tooling.
 
-Codex: go to chatgpt.com/codex, connect GitHub, add secrets.
+Codex: go to chatgpt.com/codex, install the GitHub app at github.com/apps/chatgpt-codex-connector, add secrets.
 
-Cursor cloud agents: cursor.com/agents, connect GitHub, configure environment.
+Cursor cloud agents: install GitHub app at github.com/apps/cursor, then cursor.com/agents to start.
 
 Slack integration: install from settings.
 
@@ -850,9 +870,9 @@ layout: center
 
 **Resources:**
 - Codex: chatgpt.com/codex
+- Codex GitHub App: github.com/apps/chatgpt-codex-connector
 - Cursor Cloud Agents: cursor.com/docs/cloud-agent
-- Codex Slack: developers.openai.com/codex/integrations/slack
-- Cursor Web & Mobile: docs.cursor.com/background-agent/web-and-mobile
+- Cursor GitHub: cursor.com/docs/integrations/github
 
 </div>
 

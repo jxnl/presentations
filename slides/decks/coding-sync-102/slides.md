@@ -48,6 +48,31 @@ The real benefits come from good tests and infrastructure. Everything else build
 
 ---
 
+# A Note on AI Champions
+
+**This is going to be a lot of information.**
+
+This is why I think it's really valuable for your team to define the role of an AI champion.
+
+- If that role doesn't exist, your leadership should figure out who should be that person
+- If you're in this class, push your leadership to be that person for the company
+- Help set up these repos - these are repo-level things that need ownership
+- We need someone with a mandate to make quality-of-life improvements in the repository
+
+As the team gets more skills, everyone can contribute. But someone needs to drive it.
+
+<!--
+This is going to be a lot of information. This is why I think it's really valuable for your team to define the role of an AI champion.
+
+If that role doesn't exist, your leadership really should try to figure out who from this class or on your team should be that person.
+
+If you are in this class, really push your leadership to be that person for the company. Help set up these repos, because ultimately these are repo-level things that someone should be taking ownership of.
+
+Obviously, as the entire team gets more skills, we should allow everyone to contribute these kinds of things. But we need an individual on the team that has a mandate to really try to make these quality-of-life improvements in the repository.
+-->
+
+---
+
 # What You Learned in Sync 101
 
 **The fundamentals of synchronous agent workflows:**

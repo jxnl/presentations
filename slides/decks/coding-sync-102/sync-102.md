@@ -11,9 +11,13 @@ This course takes the patterns from Agents 101 and codifies them into reusable c
 3. **Workflows:** Planning, context loading, and execution patterns
 4. **Quality:** Testing, verification, and code review
 
-**Important:** By this point, your team should have already defined or identified your AI champion. Some of the setup and configuration covered in this course requires their involvement, particularly for creating and managing custom commands that standardize workflows across your team.
+### A Note on AI Champions
 
-This document extracts advanced synchronous workflow patterns from study materials. These workflows require active attention and typically run for 20 seconds to a few minutes, maintaining flow state and enabling rapid iteration.
+This is going to be a lot of information. This is why I think it's really valuable for your team to define the role of an AI champion. If that role doesn't exist, your leadership really should try to figure out who from this class or on your team should be that person.
+
+If you are in this class, really push your leadership to be that person for the company. Help set up these repos, because ultimately these are repo-level things that someone should be taking ownership of. Obviously, as the entire team gets more skills, we should allow everyone to contribute these kinds of things. But we need an individual on the team that has a mandate to really try to make these quality-of-life improvements in the repository.
+
+Some of the setup and configuration covered in this course requires their involvement, particularly for creating and managing custom commands that standardize workflows across your team.
 
 ### What You Learned in Sync Agents 101
 
@@ -53,7 +57,6 @@ AGENTS.md files (also called `agents.md`, `.cursorrules`, or `claude.md` dependi
 - Test behavior (watch vs non-watch mode)
 - Style guidelines specific to your codebase
 - Common patterns that the model gets wrong consistently
-- Examples of correct code patterns (tag existing code examples)
 
 **Avoid:**
 
@@ -100,21 +103,6 @@ repo-root/
 - Put specific rules in directory-specific files
 - Reference parent rules when appropriate ("Follow root AGENTS.md, plus...")
 - Use clear, descriptive names that indicate scope
-
-### Symlinking AGENTS.md Files Across Tools
-
-Many teams use multiple AI coding tools (Cursor, Claude Desktop, Codex CLI, etc.). To maintain consistency, you can symlink AGENTS.md files so updates propagate across all tools.
-
-**Symlinking Agent Files:**
-
-- Cursor reads both `.claude/` and `.cursor/` directories
-- Symlink AGENTS.md files (shared rules) across both directories
-- Copy commands and skills directories (independent copies needed)
-- Manual setup steps:
-  - Create `.claude/` and `.cursor/` directories
-  - Symlink AGENTS.md and .cursorrules (shared)
-  - Copy commands/ and skills/ directories (independent)
-  - Ensures both Cursor and agent CLIs can access agent files
 
 ### Maintaining AGENTS.md Through PR Reviews
 
@@ -168,29 +156,69 @@ When agents can verify their work for correctness, they can run for much longer 
 - Intentional repository structure dramatically improves Codex navigation and parallel task execution
 - Consider how folder names and code organization help AI tools navigate efficiently
 
-### Pre-commit Hooks and CI
+### What Enables Self-Healing?
 
-- Tell AI: "Set up pre-commit hooks with ruff format, ruff check, and mypy"
-- AI will configure everything - the .pre-commit-config.yaml, the pyproject.toml settings, even the GitHub Actions workflow
-- What you get: auto-formatting with your linter, type checking, tests that only run for changed files
-- What this prevents: those Friday afternoon disasters where obvious mistakes make it to production
+- **Linting:** ESLint, Ruff, Prettier catch errors and style issues
+- **Type systems:** TypeScript, mypy catch type errors
+- **Formatters:** Consistent code style agents can follow
+- **Tests:** Verify behavior matches expectations
+- **Pre-commit hooks:** Block commits until checks pass
 
-**Example Setup (Jason's Projects):**
+All the things engineers have complained about are now essential for agent self-healing.
 
-- Pre-commit hooks and pre-push hooks configured
-- AI can't push a pull request unless tests pass
-- Human developers can still push with `--no-verify` when needed
+### Understanding Git Hooks
 
-### Team Rollout
+**Two checkpoints for catching issues:**
 
-- Single AGENTS.md in repo root (one source of truth)
-- Pre-commit + CI enforce rules automatically
-- Only add new rules when same mistake happens twice
-- Teach agents to read AGENTS.md before making changes
+| Hook | When | What to Run |
+|------|------|-------------|
+| **Pre-commit** | Before each commit | Fast checks: formatting, linting |
+| **Pre-push** | Before pushing | Slower checks: type checking, fast tests |
 
-**Self-Assessment Questions:**
+Agents can't push unless all checks pass. Humans can bypass with `--no-verify`.
 
-- How complete are your tests? Do you have pre-commit hooks?
+**Tip:** Not sure how to get started? Ask your coding agent: "Audit what pre-commit setup can be done and install it for me" - it will set everything up.
+
+### Fast CI is Essential
+
+Code is cheap now. Slow feedback loops kill velocity.
+
+**Split your tests:**
+
+| Test Type | Duration | When to Run |
+|-----------|----------|-------------|
+| **Fast** | < 2 min | Every push (pre-push hook) |
+| **Slow** | > 2 min | PR creation, nightly, or manually |
+
+**Rule:** Pre-push hooks run fast tests only. Save slow tests for CI.
+
+**Tip:** Ask your agent: "Audit our tests and mark them as fast or slow, then set up pre-commit to run fast tests and CI to run slow tests"
+
+*If your test suite takes 40 minutes, that's a separate problem to solve.*
+
+### Start Here: Audit Your Setup
+
+Run these prompts one at a time. Copy-paste into Cursor:
+
+1. **Pre-commit hooks:**
+   ```
+   Check if we have pre-commit hooks. If not, set up pre-commit with ruff format and ruff check.
+   ```
+
+2. **Testing infrastructure/preferences:**
+   ```
+   Audit our testing infrastructure. What percentage of our codebase has test coverage? Which areas are untested? What testing frameworks do we use? What are our conventions for test structure and naming?
+   ```
+
+3. **Test speed:**
+   ```
+   Look at our CI pipeline. How long does it take? Which tests are slowest? How could we split fast vs slow tests?
+   ```
+
+4. **AGENTS.md:**
+   ```
+   Review our AGENTS.md file. What's missing? What patterns do we follow that aren't documented?
+   ```
 
 ---
 
@@ -287,45 +315,7 @@ The format is specific and the context (documentation) already exists in the rep
 3. Run the command a few times, tweaking it when results aren't satisfactory
 4. After a couple iterations, the workflow becomes reliable
 
-**Example prompt to create a command:**
-
-> Please create a new Cursor command for the process we just went through, so that it is easy to replicate in the future for others. Call it `/updateapi`.
-
-**Their `/changelog` command structure:**
-
-```markdown
-## Create a changelog
-
-This command creates a new changelog entry following PlanetScale's established format and style guidelines.
-
-### Changelog Format Requirements
-
-**File Structure:**
-- Filename: `kebab-case-title.md` (descriptive, lowercase with hyphens)
-- Location: `content/changelog/`
-
-**Frontmatter:**
----
-title: 'Human-readable title'
-category: 'Feature|Enhancement|Bug Fix'
-createdAt: 'YYYY-MM-DD'
----
-
-**Content Guidelines:**
-- **Concise**: 1-3 paragraphs maximum
-- **Consistent**: Examine recent similar changelogs to understand format
-- **Simple language**: Avoid jargon, be conversational
-- **Clear scope**: Explicitly mention if feature is platform-specific
-- **External links**: Link to relevant documentation when available
-```
-
-**Bonus: Slack Integration**
-
-PlanetScale also triggers their changelog command from Slack. A team member can message a Slack bot, which kicks off Cursor to open a pull request automatically. The human only needs to review and merge.
-
-This demonstrates the full lifecycle: identify a repeated pattern, codify it into a command, iterate until reliable, then integrate it into team workflows.
-
-Source: [PlanetScale Engineering Blog](https://planetscale.com/blog/automating-with-cursor-commands)
+**Prompt:** "Create a new Cursor command for the process we just went through, call it /changelog"
 
 ---
 
@@ -355,9 +345,7 @@ my-skill/
 
 **Progressive Disclosure:**
 
-Skills use progressive disclosure to manage context efficiently. At startup, Codex loads the name and description of each available skill. Codex can then activate and use a skill in two ways:
-
-- **Explicit invocation:** You include skills directly in your prompt. To select one, run the `/skills` slash command, or start typing `$` to mention a skill. Codex web and iOS don't support explicit invocation yet, but you can still ask Codex to use any skill checked into a repo.
+Skills use progressive disclosure to manage context efficiently. At startup, only the name and description of each skill are loaded. The full skill activates when you invoke it or when the agent determines it's relevant.
 
 **Benefits:**
 
@@ -368,15 +356,24 @@ Skills use progressive disclosure to manage context efficiently. At startup, Cod
 
 **Skill Examples:**
 
-Skills can be as simple as wrapping a single utility or as complex as orchestrating multi-step workflows:
+Skills package your preferences, not just tool knowledge:
 
-- **QR code generator:** A skill that creates QR codes for links - useful for blog posts, presentations, or documentation
-- **YouTube transcript extractor:** A skill that uses the YouTube API to get video transcripts automatically
-- **FFmpeg video editing:** A skill that packages your preferences for using ffmpeg - specific formats, quality settings, or workflow patterns you prefer
+- **Slidev slide generation:** Create presentation slides using Slidev with your preferred layouts, components, and styling conventions
+- **Deploy system:** Standardize deployment workflows, environment configs, and rollback procedures
+- **Systems access:** Access systems via SOPs and MCP servers - tools to get A/B testing results, run analytics queries, or interact with internal APIs
 
-More importantly, skills package the preferences of the developer, not just the command-line knowledge. The agent might already know how to use ffmpeg, but there are still specific things that you want to steer - your preferred video formats, quality settings, output locations, or workflow patterns. Skills capture these preferences so Codex follows your way of doing things, not just the tool's default behavior.
+The agent might know these tools, but skills capture how YOU want to use them.
 
 Skills can also power verification workflows. For example, an eval runner skill can let agents test their own prompt changes against a local evaluation suite, read the results, and iterate. We'll cover this pattern in Part 4 (Quality & Verification).
+
+### Create New Command and Create New Skill
+
+The `jxnl/dots` repo includes commands to scaffold new commands and skills:
+
+- `/new-cmd` - Create a new command with proper structure
+- `/new-skill` - Create a new skill with SKILL.md template and folder structure
+
+Use these to quickly bootstrap your own commands and skills.
 
 ### Toolkit Philosophy
 
@@ -390,26 +387,6 @@ Instead of manually writing INSERT statements or basic fixtures, agents can anal
 
 Agent-generated code is cheap, making throwaway tools cost-effective. Tim Devereaux had an agent create UI state toggles to quickly switch between component variations while designing - invaluable for rapid iteration, then easily removed before shipping. These are the debug panels, feature flag toggles, and configuration editors you always wanted but never prioritized.
 
-### Where to Put Commands, Skills, and Prompts
-
-| Type | Location | Sharing | Invocation |
-|------|----------|---------|------------|
-| **Commands** | `.cursor/commands/` or `.claude/commands/` | Repo (shared with team) | Explicit (`/command-name`) |
-| **Skills** | `~/.codex/skills/` or repo `.codex/skills/` | Local or repo-level | Explicit (`$skill`) or implicit |
-| **Prompts** | `~/.codex/prompts/` | Local only (not shared) | Explicit only |
-
-**Commands** live in your repo, so they're version-controlled and shared with your team. Everyone who clones the repo gets the same commands.
-
-**Skills** can be local (in your home directory) or repo-level. Local skills are personal utilities. Repo-level skills are shared with your team. Skills can be invoked explicitly or the agent can activate them implicitly when relevant.
-
-**Prompts** are local-only and require explicit invocation. They live in your Codex home directory (`~/.codex/prompts/`), so they're not shared through your repository. If you want to share a prompt or want the agent to implicitly invoke it, convert it to a skill instead.
-
-**When to use each:**
-
-- **Command:** Team workflow you want everyone to use the same way (e.g., `/gh-commit`)
-- **Skill:** Complex capability with scripts/resources, optionally shared (e.g., eval runner)
-- **Prompt:** Personal reusable guidance you don't need to share (e.g., your PR drafting style)
-
 ---
 
 ## MCP Servers for Synchronous Workflows
@@ -418,13 +395,19 @@ Agent-generated code is cheap, making throwaway tools cost-effective. Tim Devere
 
 MCP servers connect AI agents to external tools. The promise: eliminate context switching by letting agents read from Linear, Notion, Figma, etc. The reality: for most workflows, copy-pasting into Cursor works fine.
 
-**The must-have:** Ticketing system integration. Install the Linear MCP directly in Cursor ([linear.app/docs/mcp](https://linear.app/docs/mcp)) and tell it to make Linear tickets. That's it.
+**What I've actually used:**
 
-**Tip:** Create a custom command for making Linear tickets. The command can automatically assign the right people, projects, labels, and priority based on the context.
+- **Notion** - Read and write to Notion pages
+- **Linear** - Create tickets, read issues (the must-have for ticketing)
 
-### Finding MCP Servers
+**Built-in MCP servers:**
 
-**Smithery** ([smithery.ai](https://smithery.ai/)) is a marketplace with over 3,400 MCP apps and integrations. You can browse by category (Developer Tools, Memory, Web Search, Finance, etc.) and find pre-built connections for services like Google Calendar, Notion, Slack, Figma, Jira, and more. Smithery also hosts "skills" - packaged instructions and workflows that extend agent capabilities for specific tasks like frontend design, prompt engineering, or presentation creation.
+- Browsers (Claude Code, Cursor) - Built-in browser control
+- Figma - Available but haven't used much
+
+**For everything else:** Build a CLI version and move it into a skill.
+
+For finding more: smithery.ai has 3,400+ integrations.
 
 ---
 
@@ -466,14 +449,11 @@ Then, as I approve this plan, I have the agent research the codebase to clarify 
 
 ### Voice-Driven Planning
 
-- Use Wispr Flow to dictate thoughts while exploring codebase
-- Talking through understanding is 3x faster than typing and gives much richer context
-- Questions to guide discovery:
-  - "What files in our codebase are relevant to this?"
-  - "What are different ways we could implement this?"
-  - "What are the trade-offs of each approach?"
-  - "Are there edge cases I should consider?"
-  - "What similar patterns exist in our code?"
+**Talking is 3x faster than typing and gives richer context.**
+
+Instead of typing terse prompts, just talk through your thinking in detail while exploring the codebase.
+
+Use Wispr Flow: wisprflow.ai/r?JASON50 (free month for you, and me)
 
 ---
 
@@ -524,74 +504,43 @@ Then, as I approve this plan, I have the agent research the codebase to clarify 
 
 ### File Organization for AI Navigation
 
-- Use unique project codenames that don't appear elsewhere in codebase (e.g., "wam" for Codex project)
-- Enables effective ripgrep usage for fast navigation
-- Multiple example folders allow parallel work without conflicts
-- Code duplication more acceptable when AI manages overhead
-- Repository structure matters: use unique, searchable names for projects
-- Multiple example folders allow parallel work without conflicts (agents won't run into each other)
-- Can kick off 3 tasks to update different folders simultaneously without git conflicts
-- Using pnpm workspaces with separate package.json files per project prevents dependency issues
-- Use git worktrees for working on same files with different agents
+**Pro tip:** Create two side-by-side directories:
 
-**Technical Details:**
+```text
+repo/
+  modular/              # Services in subdirectories (easier for AI)
+    services/
+      auth/
+        service.ts
+        types.ts
+      payment/
+        service.ts
+        types.ts
+  
+  non-modular/          # Different organization
+    auth-service.ts
+    payment-service.ts
+    auth-types.ts
+    payment-types.ts
+```
 
-- Use pnpm workspace structure for separate dependencies per example
-- Separate package.json files prevent dependency conflicts
-- Git worktrees remain valid option for branch-level isolation
+Code duplication is more acceptable when AI manages the overhead.
 
 ---
 
-## Sequential Workflows and Sub-Agents
+## Sub-Agents
 
-### Sequential Over Parallel
+**Sub-agents are useful when you want to contain how much context you burn.**
 
-- Run sub-agents sequentially rather than managing many concurrent agents
-- Use small context windows for focused tasks that hand off to next agent in sequence
-- Sequential workflows are less stressful and more reliable than managing concurrent agents
-- Break features into independent sub-tasks: plan, implement, write tests, run tests, fix failures
-- Each agent completes its work and hands output to next agent
-- Avoids context window bloat by keeping each agent focused on one aspect
-- Prevents concurrent agents from working against each other or creating conflicts
-- Key principle: Sequence over concurrency for real agent workflows
+Use sub-agents for tasks that would bloat your main agent's context:
 
-**Examples:**
+- Log data analysis: identify slow functions, report findings
+- Complex UI debugging: process verbose debug output
+- Metrics analysis: process logs to identify bottlenecks
+- Verbose test logs: extract failures and errors from noisy test output
+- Codebase research: explore codebase to find answers or source of something
 
-- **Agent MD file workflow:** Mike Hossetler structures his agent MD file to define sub-agents that work sequentially:
-  1. Plan feature agent reads requirements and creates implementation plan
-  2. Implementation agent writes the code
-  3. Test writing agent creates test suite
-  4. Test runner agent executes tests
-  5. Failure fix agent resolves any issues
-- Each agent finishes completely before next begins, with clear handoff points defined
-
-**Technical Details:**
-
-- Define sub-agents in agent MD files with clear inputs and outputs
-- Specify what each agent should produce for next agent in chain
-- Use small context windows for each focused task
-- Avoid parallelization unless tasks are truly independent with no shared state
-- Hand off artifacts (code, test results, logs) between sequential agents
-
-### Context-Free Sub-Agent Workflows
-
-- **Sub-agents for data exploration**: Process logs, errors, metrics without loading into main context
-- **Log data analysis**: Create sub-agent to analyze application logs, identify slow functions/files, and report findings back
-- **Complex UI debugging**: Sub-agent processes verbose debug output from UI rendering to identify root causes
-- **Main agent stays focused**: On code while sub-agent handles data exploration
-- **Sub-agent summarizes**: Findings in concise format for main agent
-
-**Examples:**
-
-- **Log data analysis**: Create sub-agent to analyze application logs, identify slow functions or files, and report findings back. Sub-agent runs CLI commands to process logs and identifies performance bottlenecks
-- **Complex UI debugging**: Sub-agent processes verbose debug output from UI rendering to identify root causes
-
-**Technical Details:**
-
-- Spawn sub-agents specifically for data analysis tasks
-- Sub-agent uses appropriate CLI tools to process logs, metrics, or traces
-- Sub-agent summarizes findings in concise format for main agent
-- Keeps main agent's context window free for code operations
+Sub-agent runs separately, summarizes findings, then hands concise results back to main agent.
 
 ---
 
@@ -599,18 +548,18 @@ Then, as I approve this plan, I have the agent research the codebase to clarify 
 
 ## Making Work Testable
 
-- Giving Codex tools to verify its own work dramatically improves output quality and success rate
-- Tests don't have to mean unit tests - any verification mechanism works
-- Codex trained to verify its work like a senior engineer
-- Verification tools enable self-correction during execution
-- Visual verification particularly powerful for UI work
-- Linters, tests, snapshots all help Codex validate output
+**Giving agents tools to verify their work dramatically improves output.**
 
-**Technical Details:**
+Tests don't have to mean unit tests - any verification mechanism works:
 
-- Codex accepts image inputs as context when starting tasks
-- Can use screenshots, Figma designs, UI mockups as specifications
-- Linters and traditional tests work alongside visual verification
+- Linters and type checkers
+- Snapshot tests
+- Integration tests
+- Visual verification (screenshots)
+
+**Pro tip:** Sometimes you can just describe tests and agents can use curl, browser, or run code to verify - then codify it into tests later.
+
+Verification tools enable self-correction during execution.
 
 ### Case Study: Agent-Driven Prompt Optimization
 
@@ -715,54 +664,69 @@ Cloud-based eval platforms are great for team collaboration and historical track
 
 ---
 
-## Automated Meta Workflows
+## Browser Control
 
-- **Fast feedback loops**: With AI tools can create messy codebases at scale
-- **Automating cleanup**: Prevents technical debt
-- **Pre-commit hooks**: Can catch outdated documentation and suggest updates
-- **Reduces cognitive load**: Of remembering to update related documentation
+**Cursor's browser control enables visual debugging:**
 
-**Examples:**
+- Embedded browser for visual debugging and design iteration
+- Screenshot capture to verify UI changes
+- DOM interaction - click buttons, fill forms
+- Console access for reading logs and errors
+- Visual verification - compare before/after screenshots
 
-- **Pre-commit documentation scanner**: Colleen Shows created a script that runs before commits and:
-  - Scans changed files
-  - Suggests appropriate commit messages
-  - Detects which docs and PRDs are now outdated
-  - Prompts to update or archive affected documentation
-- **Pull request generator**: Having agents read completed work and generate comprehensive PR descriptions automatically
-
-**Technical Details:**
-
-- Implement as pre-commit hooks or git hooks
-- Script should scan staged files and detect changes
-- Compare changed files against documentation references
-- Suggest commit messages based on actual changes
-- Prompt for doc updates with specific files that need attention
-- Can integrate with PR creation workflows
+**Workflow:** Code changes, agent opens browser, takes screenshot, verifies fix matches requirements.
 
 ---
 
-## Appendix: Browser Control
+## Key Takeaways
 
-Cursor's browser control capabilities let agents interact with web pages directly, enabling visual debugging, testing, and design iteration without leaving your editor.
+### The Core Message
 
-**Key Features:**
+**These capabilities exist for when you need them.**
 
-- **Computer use mode**: Embedded browser for visual debugging and design iteration
-- **Screenshot capture**: Agents can take screenshots of pages to verify UI changes
-- **DOM interaction**: Agents can click buttons, fill forms, and interact with page elements
-- **Console access**: Agents can read console logs and errors from the browser
-- **Visual verification**: Compare before/after screenshots to verify fixes
+Don't overthink it upfront. As you use AI more:
 
-**Workflow Example:**
+- You'll make mistakes - add rules to AGENTS.md
+- You'll repeat yourself - turn it into a command
+- You'll see patterns - codify them into skills
 
-1. Code a React component with styling changes
-2. Agent opens browser and navigates to your local dev server
-3. Agent takes screenshot of the current state
-4. Agent makes code changes based on visual feedback
-5. Agent takes new screenshot and compares with original
-6. Agent verifies the fix matches requirements
+**The real benefits come from good tests and infrastructure.**
 
-Browser control pairs well with the toolkit philosophy - agents can build admin pop-ups, debug panels, feature flag toggles, and configuration UIs, then immediately test them visually.
+Everything else builds on that foundation.
+
+### Quick Wins to Start
+
+**Today:**
+- Check if your repo has pre-commit hooks
+- How complete are your tests?
+
+**This Week:**
+- Start an AGENTS.md with one rule when model fails
+- Create one custom command for something you repeat
+
+**This Month:**
+- Update AGENTS.md during PR reviews
+- Build a small toolkit of 3-5 commands
+
+### Self-Assessment Questions
+
+Ask yourself:
+
+1. How complete are your tests?
+2. Do you have pre-commit hooks?
+3. What conversations do you keep having with AI?
+4. What cleanup steps happen before every PR?
+5. Who is your team's AI champion?
+
+### What's Next
+
+**This Afternoon: Async Agents 101**
+
+- Kicking off background agents
+- Linear, Slack, and GitHub integrations
+- Parallel execution patterns
+- Delegation philosophy
+
+Topics covered today are prerequisites for async workflows.
 
 ---

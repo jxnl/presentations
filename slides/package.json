@@ -15,6 +15,7 @@
     "build:all": "./build-all.sh",
     "deploy": "./build-all.sh && wrangler pages deploy dist --project-name presentations",
     "dev": "./dev.sh",
+    "dev:coding-sources": "./dev-coding-sources.sh",
     "export": "slidev export"
   },
   "devDependencies": {

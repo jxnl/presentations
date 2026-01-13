@@ -20,28 +20,30 @@ Welcome to Sync Agents 102. This is day 2, morning session.
 
 In 101 you learned the fundamentals: taking meeting notes, asking questions, creating plans. Today we codify those patterns into reusable commands and skills.
 
-The key message: these capabilities exist for when you need them. Don't overthink it upfront. As you use AI more, make mistakes, and repeat yourself - that's when you reach for these tools.
+We start with the foundation: testing infrastructure that enables agents to self-correct. Then we cover AGENTS.md for always-on context, planning patterns, codifying workflows into commands and skills, and finally external tools and advanced verification.
+
+The key message: these capabilities exist for when you need them. Don't overthink it upfront. As you use AI more, make mistakes, and repeat yourself - that's when you reach for these tools. But start with good tests and infrastructure - that's the real foundation.
 -->
 
 ---
 
 # What We'll Cover
 
-1. **Foundation:** AGENTS.md, infrastructure, and file organization
+1. **Foundation:** Testing infrastructure, AGENTS.md, and file organization
 2. **Planning & Context:** How to work effectively with agents
 3. **Codification:** Custom commands, skills, and toolkits
-4. **Tools & Verification:** Testing, external tools, and quality
+4. **Tools & Verification:** External tools and advanced verification patterns
 
 <!--
 Four parts today.
 
-Foundation covers AGENTS.md files, infrastructure for self-correction, and file organization for AI navigation.
+Foundation covers testing infrastructure that enables self-correction, AGENTS.md files for always-on context, and file organization for AI navigation.
 
 Planning and Context is about how to work effectively with agents - planning patterns, loading context, and using sub-agents.
 
 Codification is about turning repeated behaviors into reusable commands and skills.
 
-Tools and Verification covers testing, external integrations like MCP servers, and code review.
+Tools and Verification covers external tool integrations like MCP servers, and advanced verification patterns like prompt optimization and autonomous debugging.
 
 The real benefits come from good tests and infrastructure. Everything else builds on that foundation.
 -->
@@ -79,15 +81,181 @@ layout: section
 
 # Part 1: Foundation
 
-AGENTS.md and Infrastructure
+Infrastructure, AGENTS.md, and File Organization
 
 <!--
-Part 1 is about foundation. Two things: AGENTS.md files and infrastructure that lets agents self-correct.
+Part 1 is about foundation. We start with testing infrastructure that enables self-correction, then cover AGENTS.md files for always-on context, and file organization for AI navigation.
 -->
 
 ---
 
-# What Are AGENTS.md Files?
+# Self-Correction Through Infrastructure
+
+When agents can verify their work, they can run longer and more reliably.
+
+<AgentView query="Add input validation to the signup form" :events="[{ type: 'status', content: 'Implementing validation logic...' }, { type: 'files-edited', editedCount: 1 }, { type: 'tool-call', title: 'bash', content: 'git commit -m feat: add signup validation' }, { type: 'tool-result', content: 'pre-commit hook failed: ruff check: F401 re imported but unused', isError: true }, { type: 'status', content: 'Fixing pre-commit failures...' }, { type: 'files-edited', editedCount: 1 }, { type: 'tool-call', title: 'bash', content: 'git commit -m feat: add signup validation' }, { type: 'tool-result', content: 'pre-commit hook passed - [feature/validation 3a2b1c0]' }, { type: 'assistant', content: 'Validation added and committed. Pre-commit caught an unused import - fixed.' }]" :height="380" />
+
+<!--
+Infrastructure is the real foundation.
+
+When agents can verify their own work, they can run for much longer with high reliability. Type systems, linters, formatters, and tests give agents tools to check their output.
+
+The self-healing loop: agent writes code, runs linter or tests, reads errors, fixes issues, runs again. This continues until all checks pass.
+
+An agent might iterate dozens of times on a single task. The tools provide feedback that lets agents see their own mistakes and fix them.
+-->
+
+---
+
+# Tools That Enable Self-Healing
+
+- **Linting:** ESLint, Ruff, Prettier catch errors and style issues
+- **Type systems:** TypeScript, mypy catch type errors
+- **Formatters:** Consistent code style agents can follow
+- **Tests:** Verify behavior matches expectations
+- **Pre-commit hooks:** Block commits until checks pass
+
+All the things engineers have complained about are now essential for agent self-healing.
+
+<!--
+What enables self-healing?
+
+Linting catches errors and style issues. Type systems catch type errors before runtime. Formatters ensure consistent style. Tests verify behavior.
+
+Pre-commit hooks block commits until checks pass - agents can't push a PR unless tests pass.
+
+All the things engineers have complained about - types, linters, formatters, tests - are now essential for agent self-healing. They're not just for humans anymore.
+-->
+
+---
+
+# Git Hooks: Pre-commit vs Pre-push
+
+**Two checkpoints for catching issues:**
+
+| Hook | When | What to Run |
+|------|------|-------------|
+| **Pre-commit** | Before each commit | Fast checks: formatting, linting |
+| **Pre-push** | Before pushing | Slower checks: type checking, fast tests |
+
+Agents can't push unless all checks pass. Humans can bypass with `--no-verify`.
+
+<Callout type="tip">
+Not sure how to get started? Ask your coding agent: "Audit what pre-commit setup can be done and install it for me" - it will set everything up.
+</Callout>
+
+<!--
+Understanding the different Git hooks helps you structure your checks.
+
+Pre-commit runs before each commit. Use it for fast checks - formatting and linting. These should complete in seconds.
+
+Pre-push runs before pushing to remote. This is where you put slower checks - type checking and fast tests. These can take 30 seconds to a minute.
+
+Agents can't push a PR unless all checks pass. Human developers can still push with --no-verify when they need to, but agents follow the rules.
+-->
+
+---
+
+# Fast CI: Split Fast vs Slow Tests
+
+Code is cheap now. Slow feedback loops kill velocity.
+
+**Split your tests:**
+
+| Test Type | Duration | When to Run |
+|-----------|----------|-------------|
+| **Fast** | < 2 min | Every push (pre-push hook) |
+| **Slow** | > 2 min | PR creation, nightly, or manually |
+
+**Rule:** Pre-push hooks run fast tests only. Save slow tests for CI.
+
+<Callout type="tip">
+Ask your agent: "Audit our tests and mark them as fast or slow, then set up pre-commit to run fast tests and CI to run slow tests"
+</Callout>
+
+*If your test suite takes 40 minutes, that's a separate problem to solve.*
+
+<!--
+Fast CI is essential. If your test suite takes 40 minutes, that's a separate problem you need to solve.
+
+Code is cheap now. Agents can write code quickly. But if every change takes 40 minutes to verify, you've bottlenecked on feedback loops.
+
+Split your tests. Fast tests - unit tests, smoke tests - should run in under 2 minutes. Run these on every push. Slow tests - integration tests, E2E tests - run these on PR creation, nightly, or manually.
+
+Pre-push hooks should only run fast tests. Save the slow tests for CI where they can run in parallel with your work.
+-->
+
+---
+
+# Audit Your Setup: Four Prompts
+
+Run these prompts one at a time. Copy-paste into Cursor:
+
+1. **Pre-commit hooks:**
+
+   ```
+   Check if we have pre-commit hooks. If not, set up pre-commit with ruff format and ruff check.
+   ```
+
+2. **Testing infrastructure/preferences:**
+
+   ```
+   Audit our testing infrastructure. What percentage of our codebase has test coverage? Which areas are untested? What testing frameworks do we use? What are our conventions for test structure and naming?
+   ```
+
+3. **Test speed:**
+
+   ```
+   Look at our CI pipeline. How long does it take? Which tests are slowest? How could we split fast vs slow tests?
+   ```
+
+4. **AGENTS.md:**
+
+   ```
+   Review our AGENTS.md file. What's missing? What patterns do we follow that aren't documented?
+   ```
+
+<!--
+Here are prompts you can give Cursor to audit your setup.
+
+First, audit your testing infrastructure. Ask what percentage has coverage, which areas are untested.
+
+Second, look at your CI pipeline. How long does it take? Which tests are slowest? How could you split them?
+
+Third, check if you have pre-commit hooks. If not, have the agent set them up.
+
+Fourth, review your AGENTS.md file - or create one if it doesn't exist. What patterns do you follow that aren't documented?
+
+These prompts give you a starting point. The agent will read your codebase and give you specific recommendations.
+-->
+
+---
+
+# Browser Control for Visual Debugging
+
+**Cursor's browser control enables visual debugging:**
+
+- Embedded browser for visual debugging and design iteration
+- Screenshot capture to verify UI changes
+- DOM interaction - click buttons, fill forms
+- Console access for reading logs and errors
+- Visual verification - compare before/after screenshots
+
+**Workflow:** Code changes, agent opens browser, takes screenshot, verifies fix matches requirements.
+
+<!--
+Browser control in Cursor enables visual debugging.
+
+You get an embedded browser for visual debugging and design iteration. Agents can take screenshots, interact with DOM elements - clicking buttons, filling forms. They can read console logs and errors.
+
+The workflow: make code changes, agent opens browser and navigates to your dev server, takes a screenshot, makes adjustments based on visual feedback, takes another screenshot and compares with the original, verifies the fix matches requirements.
+
+Browser control pairs well with the toolkit philosophy. Build admin pop-ups, debug panels, feature flag toggles - then immediately test them visually.
+-->
+
+---
+
+# AGENTS.md Files: Always-On Context
 
 Configuration files that provide always-on context to AI agents.
 
@@ -110,7 +278,7 @@ Most tools now support this naming convention.
 
 ---
 
-# Philosophy: Start Minimal
+# Start Minimal: Add Rules When Needed
 
 **Don't create AGENTS.md upfront.** Add instructions only when needed.
 
@@ -141,7 +309,7 @@ Avoid thousand-line templates copied from the internet. Avoid rules for things t
 
 ---
 
-# Directory-Specific AGENTS.md
+# Directory-Specific Rules for Monorepos
 
 For monorepos, use directory-specific files. Agents check the current directory first, then parents up to root.
 
@@ -165,7 +333,7 @@ layout: section
 
 ---
 
-# Maintaining AGENTS.md Through PR Reviews
+# Update AGENTS.md During PR Reviews
 
 **Critical Practice:** Update AGENTS.md during code reviews.
 
@@ -217,149 +385,6 @@ layout: section
 
 ---
 
-# Infrastructure for Agent Self-Correction
-
-When agents can verify their work, they can run longer and more reliably.
-
-<AgentView query="Add input validation to the signup form" :events="[{ type: 'status', content: 'Implementing validation logic...' }, { type: 'files-edited', editedCount: 1 }, { type: 'tool-call', title: 'bash', content: 'git commit -m feat: add signup validation' }, { type: 'tool-result', content: 'pre-commit hook failed: ruff check: F401 re imported but unused', isError: true }, { type: 'status', content: 'Fixing pre-commit failures...' }, { type: 'files-edited', editedCount: 1 }, { type: 'tool-call', title: 'bash', content: 'git commit -m feat: add signup validation' }, { type: 'tool-result', content: 'pre-commit hook passed - [feature/validation 3a2b1c0]' }, { type: 'assistant', content: 'Validation added and committed. Pre-commit caught an unused import - fixed.' }]" :height="380" />
-
-<!--
-Infrastructure is the real foundation.
-
-When agents can verify their own work, they can run for much longer with high reliability. Type systems, linters, formatters, and tests give agents tools to check their output.
-
-The self-healing loop: agent writes code, runs linter or tests, reads errors, fixes issues, runs again. This continues until all checks pass.
-
-An agent might iterate dozens of times on a single task. The tools provide feedback that lets agents see their own mistakes and fix them.
--->
-
----
-
-# What Enables Self-Healing?
-
-- **Linting:** ESLint, Ruff, Prettier catch errors and style issues
-- **Type systems:** TypeScript, mypy catch type errors
-- **Formatters:** Consistent code style agents can follow
-- **Tests:** Verify behavior matches expectations
-- **Pre-commit hooks:** Block commits until checks pass
-
-All the things engineers have complained about are now essential for agent self-healing.
-
-<!--
-What enables self-healing?
-
-Linting catches errors and style issues. Type systems catch type errors before runtime. Formatters ensure consistent style. Tests verify behavior.
-
-Pre-commit hooks block commits until checks pass - agents can't push a PR unless tests pass.
-
-All the things engineers have complained about - types, linters, formatters, tests - are now essential for agent self-healing. They're not just for humans anymore.
--->
-
----
-
-# Understanding Git Hooks
-
-**Two checkpoints for catching issues:**
-
-| Hook | When | What to Run |
-|------|------|-------------|
-| **Pre-commit** | Before each commit | Fast checks: formatting, linting |
-| **Pre-push** | Before pushing | Slower checks: type checking, fast tests |
-
-Agents can't push unless all checks pass. Humans can bypass with `--no-verify`.
-
-<Callout type="tip">
-Not sure how to get started? Ask your coding agent: "Audit what pre-commit setup can be done and install it for me" - it will set everything up.
-</Callout>
-
-<!--
-Understanding the different Git hooks helps you structure your checks.
-
-Pre-commit runs before each commit. Use it for fast checks - formatting and linting. These should complete in seconds.
-
-Pre-push runs before pushing to remote. This is where you put slower checks - type checking and fast tests. These can take 30 seconds to a minute.
-
-Agents can't push a PR unless all checks pass. Human developers can still push with --no-verify when they need to, but agents follow the rules.
--->
-
----
-
-# Fast CI is Essential
-
-Code is cheap now. Slow feedback loops kill velocity.
-
-**Split your tests:**
-
-| Test Type | Duration | When to Run |
-|-----------|----------|-------------|
-| **Fast** | < 2 min | Every push (pre-push hook) |
-| **Slow** | > 2 min | PR creation, nightly, or manually |
-
-**Rule:** Pre-push hooks run fast tests only. Save slow tests for CI.
-
-<Callout type="tip">
-Ask your agent: "Audit our tests and mark them as fast or slow, then set up pre-commit to run fast tests and CI to run slow tests"
-</Callout>
-
-*If your test suite takes 40 minutes, that's a separate problem to solve.*
-
-<!--
-Fast CI is essential. If your test suite takes 40 minutes, that's a separate problem you need to solve.
-
-Code is cheap now. Agents can write code quickly. But if every change takes 40 minutes to verify, you've bottlenecked on feedback loops.
-
-Split your tests. Fast tests - unit tests, smoke tests - should run in under 2 minutes. Run these on every push. Slow tests - integration tests, E2E tests - run these on PR creation, nightly, or manually.
-
-Pre-push hooks should only run fast tests. Save the slow tests for CI where they can run in parallel with your work.
--->
-
----
-layout: section
----
-
-## How long does CI take for a normal PR? (<5 / 5-15 / 15-30 / 30+ / unreliable)
-
----
-
-# Start Here: Audit Your Setup
-
-Run these prompts one at a time. Copy-paste into Cursor:
-
-1. **Pre-commit hooks:**
-   ```
-   Check if we have pre-commit hooks. If not, set up pre-commit with ruff format and ruff check.
-   ```
-
-2. **Testing infrastructure/preferences:**
-   ```
-   Audit our testing infrastructure. What percentage of our codebase has test coverage? Which areas are untested? What testing frameworks do we use? What are our conventions for test structure and naming?
-   ```
-
-3. **Test speed:**
-   ```
-   Look at our CI pipeline. How long does it take? Which tests are slowest? How could we split fast vs slow tests?
-   ```
-
-4. **AGENTS.md:**
-   ```
-   Review our AGENTS.md file. What's missing? What patterns do we follow that aren't documented?
-   ```
-
-<!--
-Here are prompts you can give Cursor to audit your setup.
-
-First, audit your testing infrastructure. Ask what percentage has coverage, which areas are untested.
-
-Second, look at your CI pipeline. How long does it take? Which tests are slowest? How could you split them?
-
-Third, check if you have pre-commit hooks. If not, have the agent set them up.
-
-Fourth, review your AGENTS.md file - or create one if it doesn't exist. What patterns do you follow that aren't documented?
-
-These prompts give you a starting point. The agent will read your codebase and give you specific recommendations.
--->
-
----
 
 # File Organization for AI Navigation
 
@@ -411,7 +436,7 @@ Part 2 covers planning and context. How to plan effectively, load context, and w
 
 ---
 
-# Planning as Primary Work
+# Planning Becomes Primary Work
 
 **As coding automates, planning becomes the bottleneck.**
 
@@ -466,14 +491,22 @@ Plans can be 500 or even 1000 lines long. More interestingly, if the implementat
 -->
 
 ---
+layout: two-cols
+---
 
-# Voice-Driven Planning
+# Voice-Driven Planning: 3x Faster
 
 **Talking is 3x faster than typing and gives richer context.**
 
 Instead of typing terse prompts, just talk through your thinking in detail while exploring the codebase.
 
 Use Wispr Flow: wisprflow.ai/r?JASON50 (free month for you, and me)
+
+::right::
+
+<div class="flex items-center justify-center h-full">
+  <img src="./assets/wispr-flow-productivity.png" alt="Wispr Flow productivity snapshot showing daily streak, average speed, total words dictated, and total apps used" class="w-full rounded shadow object-contain" />
+</div>
 
 <!--
 Voice-driven planning is a game changer.
@@ -510,7 +543,7 @@ Show the model what's wrong instead of explaining it. Visual context often works
 
 ---
 
-# Context Window Management
+# Manage Context Windows
 
 **Context degrades before you hit the limit.** At 20-40% usage, quality starts to drop.
 
@@ -519,7 +552,9 @@ Show the model what's wrong instead of explaining it. Visual context often works
 - Conversation has irrelevant context from earlier tasks
 - Agent seems confused or contradictory
 
-**The copy-paste reset:** Copy important context, clear the conversation, paste back only what matters. Fresh context works better than degraded context.
+**Don't copy-paste context back in.** Instead:
+- Tell the agent: "Read the plan file and tell me what's done and what's next"
+- Tell the agent: "Look at git history to understand the current state"
 
 <!--
 Context windows have limits, but quality degrades before you hit them. At around 20-40% context usage, output quality starts to chip away.
@@ -528,87 +563,47 @@ If you've experienced an agent giving poor output even after compacting, that's 
 
 Signs you need to clear: agent keeps making the same mistake, conversation has irrelevant context, agent seems confused.
 
-The copy-paste reset: copy everything important, clear entirely, paste back only what matters. Fresh context with critical information preserved works better than struggling through degraded context.
+Instead of copy-pasting context back in, re-reference the plan file and use git history. The plan file shows what's done and what's next. Git history shows the actual state of the codebase. This is more reliable than trying to manually reconstruct context.
 -->
 
 ---
-
-# Seed with Questions After Clearing
-
-**After clearing context, don't dump knowledge back in. Ask questions instead.**
-
-1. Clear context
-2. Ask: "How does [system] work?" or "What patterns does [codebase area] use?"
-3. Agent reads files, synthesizes understanding
-4. Now agent has fresh, relevant context loaded efficiently
-
-**Use git and plan files to recover working context:**
-- "Look at what's staged and what I'm working on"
-- "Look at recent commits on this branch"
-- "Read the plan file and tell me what's done and what's next"
-
-<!--
-After clearing context, don't dump all your knowledge back in. Instead, ask the agent questions about the codebase.
-
-This forces the agent to read relevant files and load context itself, which is more effective than you explaining everything.
-
-Use git to recover working context. Ask the agent to look at what's staged - it reads git diff staged and git status. Ask about recent commits - it reads git log.
-
-If you're using file-based planning, point the agent at the plan file. Ask it to read the plan and tell you what's done and what's next. The plan should have updated status markers. This instantly orients the agent on where you are in a larger feature.
-
-Git and plan files are cheap ways to reload context without you explaining everything.
--->
-
+layout: two-cols
 ---
 
-# Context Loading Through Questions
+# Load Context Through Questions
 
 **Ask agents to explain systems to you, rather than explaining to them.**
 
-This loads context while ensuring relevant information is prioritized.
+Many coding agents prune content to avoid limits. Questions ensure the right context gets loaded.
 
-Example: "Explain how these UI components are built and what the common conventions are"
+**After clearing context:**
+- Don't dump knowledge back in
+- Use git/plan files:
+  - "Look at what's staged"
+  - "Recent commits on this branch"
+  - "Read plan file - what's done and next"
 
-Even if you already know the answer, this forces the agent to read all relevant files before making changes.
+::right::
 
-**Verify their understanding:**
-- Correct answer = agent has the right context
-- Wrong answer = caught a misunderstanding before it causes problems
-- Wrong answers signal gaps in AGENTS.md - update it for future sessions
+**Verify understanding:**
+- Correct = right context loaded
+- Wrong = catch misunderstanding early
+- Wrong answers = gaps in AGENTS.md
 
 <!--
 Context loading through questions is a powerful technique.
+
+Many coding agents have context optimization steps that prune content in hopes of never hitting the context window limit. This means asking questions is especially beneficial - it ensures the right context gets loaded and prioritized, rather than relying on what the agent happened to keep after pruning.
 
 Instead of explaining your codebase to the agent, ask the agent to explain it to you. This forces the agent to read and understand relevant code, loading that context into its window.
 
 Example: "Explain how these UI components are built." Even if you already know the answer, this makes the agent read all relevant component files.
 
+After clearing context, don't dump all your knowledge back in. Instead, ask the agent questions about the codebase. Use git to recover working context - ask the agent to look at what's staged, recent commits, or read the plan file to understand what's done and what's next.
+
 Seeing the agent's answer is valuable. If correct, you know context is loaded. If wrong, you've caught a misunderstanding before it causes problems.
 
 Wrong answers also signal gaps in AGENTS.md. Add clarifications so future sessions get it right. This connects back to compounding engineering - every wrong answer is an opportunity to improve your agent configuration.
--->
-
----
-
-# Cross-Project References
-
-**Reuse solutions you've already solved elsewhere.**
-
-When you know you've solved a problem in another project:
-
-- "look at ../other-project and do the same for [feature]"
-- "check how ../vibetunnel handles changelogs and implement that here"
-
-Agent infers context from project structure and adapts patterns automatically.
-
-<!--
-Cross-project references save a lot of prompting time.
-
-When you know you've solved a problem in another project, just tell the agent to look at it. "Look at ../other-project and do the same for this feature."
-
-The agent infers context from the project structure and adapts patterns automatically. You don't need to re-explain what you want - just point to a working example.
-
-This is especially useful for scaffolding new projects. Point agents at similar existing projects as reference. They'll copy patterns and adapt appropriately.
 -->
 
 ---
@@ -636,40 +631,27 @@ New engineers can ask coding tools about the codebase instead of waiting for dom
 
 ---
 
-# MCP Servers
+# Cross-Project References
 
-**MCP servers connect AI agents to external tools.**
+**Reuse solutions you've already solved elsewhere.**
 
-The promise: eliminate context switching by letting agents read from Linear, Notion, Figma, etc.
+- "look at ../other-project and do the same for [feature]"
+- "check how ../vibetunnel handles changelogs and implement that here"
 
-The reality: for most workflows, copy-pasting into Cursor works fine.
+Agent infers context from project structure and adapts patterns automatically.
 
-**What I've actually used:**
-- **Notion** - Read and write to Notion pages
-- **Linear** - Create tickets, read issues (the must-have for ticketing)
-
----
-
-# MCP Servers (continued)
-
-**Built-in MCP servers:**
-- Browsers (Claude Code, Cursor) - Built-in browser control
-- Figma - Available but haven't used much
-
-**For everything else:** Build a CLI version and move it into a skill.
-
-For finding more: smithery.ai has 3,400+ integrations.
+**This is a benefit of monorepos.** If you don't have monorepos, you can mount additional workspaces in Cursor.
 
 <!--
-MCP servers connect agents to external tools.
+Cross-project references save a lot of prompting time.
 
-The promise is eliminating context switching - agents read from Linear, Notion, Figma directly.
+When you know you've solved a problem in another project, just tell the agent to look at it. "Look at ../other-project and do the same for this feature."
 
-The practical reality: for most workflows, copy-pasting into Cursor works fine. Don't over-engineer.
+The agent infers context from the project structure and adapts patterns automatically. You don't need to re-explain what you want - just point to a working example.
 
-The must-have is ticketing integration. Install the Linear MCP, tell it to make tickets. Create a custom command for making tickets that automatically assigns the right people, projects, labels, and priority.
+This is especially useful for scaffolding new projects. Point agents at similar existing projects as reference. They'll copy patterns and adapt appropriately.
 
-For finding more MCP servers, check out Smithery - it's a marketplace with over 3,400 integrations.
+Monorepos make this easy - everything is in one workspace. But Cursor also supports mounting additional workspaces, so you can reference other projects even if they're not in a monorepo.
 -->
 
 ---
@@ -845,6 +827,49 @@ They even trigger the command from Slack - a team member messages a bot, which o
 
 ---
 
+# From Commands to Skills
+
+**Commands codify single workflows. Skills package entire capabilities.**
+
+When a command grows complex or needs supporting resources, it becomes a skill.
+
+**The progression:**
+1. **Commands** - Simple, repeatable workflows
+2. **Skills** - Structured capabilities with resources and scripts
+3. **Toolkits** - Collections of related skills and commands
+
+<!--
+Commands are great for simple workflows. But when you need more structure - supporting scripts, reference materials, assets - that's when you move to skills.
+
+Skills are the natural evolution of commands. They package not just instructions, but entire capabilities with all the resources needed to execute them.
+
+Toolkits are collections of related skills and commands that work together.
+-->
+
+---
+
+# What Are Skills?
+
+**Skills are structured packages of instructions, resources, and scripts.**
+
+Unlike commands which are single markdown files, skills are folders containing:
+- **SKILL.md** - Main instructions and workflow
+- **Scripts** - Executable helpers (Python, bash, etc.)
+- **References** - Documentation, examples, templates
+- **Assets** - Images, configs, or other files
+
+**Progressive disclosure:** Skills load by name/description first, then activate fully when invoked.
+
+<!--
+Skills are more structured than commands.
+
+A skill is a folder containing multiple files. The SKILL.md file has the main instructions. But you can also include scripts - Python scripts, bash scripts, whatever helpers are needed. References for documentation or examples. Assets like images or config files.
+
+The key feature is progressive disclosure. At startup, only the skill name and description are loaded into context. The full skill activates when you invoke it or when the agent determines it's relevant. This keeps context windows manageable.
+-->
+
+---
+
 # Skills and Toolkits
 
 **Skills are like commands, but more structured.**
@@ -884,35 +909,71 @@ The key insight: skills package YOUR preferences, not just tool knowledge. The a
 
 Skills capture these preferences so the agent follows your way of doing things.
 -->
-
 ---
 
-# The Toolkit Philosophy
+# Code You'd Never Write (Part 1)
 
-AI coding is about creating code you'd never give yourself time to write.
+Development tools for rapid iteration
 
 **Test data generation:**
 - "Use psql, look at the database, see how threads work, make some test threads"
 - Agent examines schema, creates valid data, fixes its own mistakes
+- Never worth the time to write manually, but agents do it in minutes
 
 **Throwaway utilities:**
 - UI state toggles to switch between component variations
 - Debug panels, feature flag toggles, configuration editors
-- Invaluable for iteration, easily removed before shipping
+
+**Admin backdoors:**
+- Temporary admin endpoints to test edge cases
+- Bypass authentication for local testing
 
 <!--
-The toolkit philosophy: AI makes "nice to have" scripts actually happen.
+AI makes "nice to have" scripts actually happen.
 
-Test data generation - instead of writing INSERT statements manually, tell the agent to analyze your schema and generate realistic data. It'll examine relationships, create valid data, fix its own mistakes.
+Test data generation - instead of writing INSERT statements manually, tell the agent to analyze your schema and generate realistic data. It'll examine relationships, create valid data, fix its own mistakes. Never worth the time to write manually, but agents do it in minutes.
 
 Throwaway utilities - those debug panels, feature flag toggles, configuration editors you always wanted but never prioritized. Agent-generated code is cheap. Build them for rapid iteration, remove before shipping.
+
+Admin backdoors - temporary endpoints to test edge cases, bypass auth for local testing, force specific states. The kind of code you'd never commit but is invaluable for debugging.
 
 These are the 15-minute scripts AI can build while you're in a meeting.
 -->
 
 ---
 
-# Create New Command and Create New Skill
+# Code You'd Never Write (Part 2)
+
+CLI tools agents can use programmatically
+
+**Analysis scripts as reusable tools:**
+- "Find all users who signed up in the last week but haven't logged in"
+- "Show me the distribution of API response times by endpoint"
+
+**Why CLI tools matter:**
+- Agents can invoke them with different parameters
+- Reusable across multiple debugging sessions
+
+**Example workflow:**
+1. Agent creates `analyze-user-activity.py --days 7 --min-logins 0`
+2. Uses it to verify feature impact
+3. Reuses it later as a new tool in analytics skill 
+
+<!--
+The key insight: don't just write one-off scripts. Write CLI tools that agents can use programmatically.
+
+Analysis scripts - those quick queries you write in the console but never save. But when agents write them, make them proper CLI tools with arguments. "Find all users who signed up but haven't logged in" becomes a reusable tool the agent can call with different date ranges or filters.
+
+Why this matters: agents can invoke these tools with different parameters. They become reusable across multiple debugging sessions. The agent might use the same analysis tool to verify a feature worked, then reuse it later with different parameters to debug a different issue.
+
+Example workflow: agent creates a tool to analyze user activity. Uses it to verify a feature impact. Reuses it later with different parameters. The tool becomes part of your debugging arsenal, not just a throwaway script.
+
+These tools become part of the agent's toolkit for verification and debugging. They're not just scripts you run once - they're tools the agent can use programmatically.
+-->
+
+---
+
+# Scaffold Commands and Skills
 
 The `jxnl/dots` repo includes commands to scaffold new commands and skills:
 
@@ -929,7 +990,7 @@ These commands set up the proper structure, templates, and folder organization s
 
 ---
 
-# What About Sub-Agents?
+# When to Use Sub-Agents
 
 **Sub-agents are useful when you want to contain how much context you burn.**
 
@@ -956,36 +1017,43 @@ layout: section
 
 # Part 4: Tools & Verification
 
-Testing, External Tools & Quality
+External Tools & Advanced Verification Patterns
 
 <!--
-Part 4 covers tools and verification. How to make work testable, use external integrations, and review code effectively.
+Part 4 covers external tool integrations and advanced verification patterns. MCP servers for external integrations, and advanced testing and debugging approaches.
 -->
 
 ---
 
-# Making Work Testable
+# MCP Servers
 
-**Giving agents tools to verify their work dramatically improves output.**
+**MCP servers connect AI agents to external tools.**
 
-Tests don't have to mean unit tests - any verification mechanism works:
-- Linters and type checkers
-- Snapshot tests
-- Integration tests
-- Visual verification (screenshots)
+The promise: eliminate context switching by letting agents read from Linear, Notion, Figma, etc.
 
-**Pro tip:** Sometimes you can just describe tests and agents can use curl, browser, or run code to verify - then codify it into tests later.
+The reality: for most workflows, copy-pasting into Cursor works fine.
 
-Verification tools enable self-correction during execution.
+**What I've actually used:**
+- **Notion** - Read and write to Notion pages
+- **Linear** - Create tickets, read issues (the must-have for ticketing)
+- **Browsers** - Built-in browser control in Cursor
+
+**For everything else:** Build a CLI version and move it into a skill.
+
+For finding more: smithery.ai has 3,400+ integrations.
 
 <!--
-The foundation of quality is making work testable.
+MCP servers connect agents to external tools.
 
-Giving agents tools to verify their work dramatically improves output quality and success rate. Agents are trained to verify their work like senior engineers.
+The promise is eliminating context switching - agents read from Linear, Notion, Figma directly.
 
-Tests don't have to mean unit tests. Any verification mechanism works: linters, type checkers, snapshot tests, integration tests, visual verification through screenshots.
+The practical reality: for most workflows, copy-pasting into Cursor works fine. Don't over-engineer.
 
-These tools enable self-correction during execution. The agent can see when something's wrong and fix it.
+The must-have is ticketing integration. Install the Linear MCP, tell it to make tickets. Create a custom command for making tickets that automatically assigns the right people, projects, labels, and priority.
+
+Browsers are built-in to Cursor and Claude Code - very useful for visual debugging and testing.
+
+For finding more MCP servers, check out Smithery - it's a marketplace with over 3,400 integrations.
 -->
 
 ---
@@ -1068,56 +1136,6 @@ Let them figure out their own testing and logging approach. They'll make their o
 One example: an agent asked to debug a Node project autonomously wrote a bash script for testing, created and cleared log files before each run, set environment variables appropriately, used Node instead of Bun when needed, and wrote output to structured log files.
 
 Trust agents to make their own debugging tools. They've seen tons of code patterns most developers haven't.
--->
-
----
-
-# Code Review
-
-**Both Codex and Cursor have specialized review capabilities:**
-
-- Codex: `/review` command for local code review
-- Cursor: "Find Issues" feature
-- Both offer installable GitHub bots for automatic PR reviews
-
-**Create custom review commands for specific team standards.**
-
-Reviews prioritize significant issues over nitpicks.
-
-*Review mode will be covered in the async session.*
-
-<!--
-Code review has specialized tooling.
-
-Both Codex and Cursor have custom models trained specifically for code review. Codex has a /review command for local review. Cursor has "Find Issues" feature.
-
-Both offer installable GitHub bots for automatic PR reviews on every push. The automatic reviews are smart - they prioritize significant issues over nitpicks.
-
-You can create custom review commands for specific team standards. Run review on specific code sections locally before pushing.
--->
-
----
-
-# Browser Control
-
-**Cursor's browser control enables visual debugging:**
-
-- Embedded browser for visual debugging and design iteration
-- Screenshot capture to verify UI changes
-- DOM interaction - click buttons, fill forms
-- Console access for reading logs and errors
-- Visual verification - compare before/after screenshots
-
-**Workflow:** Code changes, agent opens browser, takes screenshot, verifies fix matches requirements.
-
-<!--
-Browser control in Cursor enables visual debugging.
-
-You get an embedded browser for visual debugging and design iteration. Agents can take screenshots, interact with DOM elements - clicking buttons, filling forms. They can read console logs and errors.
-
-The workflow: make code changes, agent opens browser and navigates to your dev server, takes a screenshot, makes adjustments based on visual feedback, takes another screenshot and compares with the original, verifies the fix matches requirements.
-
-Browser control pairs well with the toolkit philosophy. Build admin pop-ups, debug panels, feature flag toggles - then immediately test them visually.
 -->
 
 ---

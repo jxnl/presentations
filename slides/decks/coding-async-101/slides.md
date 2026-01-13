@@ -692,6 +692,32 @@ This session is shorter than Sync 102, giving you time to set up async agent too
 
 ---
 
+# Case Study: Datadog's Incident Prevention
+
+**Datadog uses Codex for system-level code review across 1,000+ engineers.**
+
+Their incident replay test: they ran Codex against historical PRs that had contributed to incidents.
+
+**Results:**
+- 22% of incidents examined could have been prevented by Codex feedback
+- These PRs had already passed human code review - Codex found additional risks
+- Engineers shifted from ignoring "bot noise" to treating Codex comments as real feedback
+
+> "A Codex comment feels like the smartest engineer I've worked with and who has infinite time to find bugs. It sees connections my brain doesn't hold all at once."
+> - Brad Carter, Engineering Manager at Datadog
+
+<!--
+Datadog runs one of the world's most widely-used observability platforms. Reliability is critical - when something breaks, customers depend on Datadog to surface issues fast.
+
+They built an incident replay harness to test Codex. They reconstructed PRs that had contributed to real incidents and ran Codex against each one as if it were part of the original review. Then they asked engineers who owned those incidents whether the feedback would have made a difference.
+
+The key insight: Codex surfaced cross-module and cross-service interactions that individual reviewers couldn't hold in context. It's not about replacing human reviewers - it's about complementing them with system-level reasoning.
+
+Engineers described Codex comments as more than "bot noise." It pointed out interactions with modules not touched in the diff, identified missing test coverage in areas of cross-service coupling, and highlighted API contract changes with downstream risk.
+-->
+
+---
+
 # Enabling Codex Code Review
 
 **Turn on automatic PR reviews from Codex:**
@@ -707,7 +733,9 @@ This session is shorter than Sync 102, giving you time to set up async agent too
 - Reviews prioritize significant issues over nitpicks
 - Tag `@codex` in PR comments to request specific reviews or changes
 
-**Works great with `/gh-address-pr-comments`:** Codex leaves review comments, then use the command to address them systematically. Complete async workflow.
+<Callout type="tip">
+Works great with `/gh-address-pr-comments` - Codex leaves review comments, then use the command to address them systematically. Complete async workflow.
+</Callout>
 
 <!--
 To enable Codex code review, install the GitHub app through Codex settings. Once installed, Codex automatically reviews PRs in your connected repositories.
@@ -734,7 +762,9 @@ This works great with the gh-address-pr-comments command from sync-102. Codex le
 - Identifies bugs, security issues, and code quality problems
 - Works alongside Cursor Cloud Agents for seamless async workflows
 
-**Works great with `/gh-address-pr-comments`:** Bugbot leaves review comments, then use the command to address them systematically. Complete async workflow.
+<Callout type="tip">
+Works great with `/gh-address-pr-comments` - Bugbot leaves review comments, then use the command to address them systematically. Complete async workflow.
+</Callout>
 
 <!--
 Cursor's GitHub bot - sometimes called Bugbot - provides automatic code reviews on PRs. Install it through the Cursor dashboard, select your repos, and reviews appear automatically.

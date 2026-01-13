@@ -29,23 +29,17 @@ This afternoon we build on that foundation. We're talking about async workflows 
 
 1. **Why Async:** The multiplication effect
 2. **Where to Trigger:** Cursor, GitHub, Slack, Linear, Codex
-3. **Foundations for Trust:** AGENTS.md, testing, security
-4. **Parallel Execution:** Running multiple agents simultaneously
-5. **Workflow Patterns:** Delegation philosophy and when to go async
-6. **Team Adoption:** Scaling across your organization
+3. **Foundations for Trust:** Building on sync foundations
+4. **Team Adoption**
 
 <!--
-Six parts this afternoon.
+Four parts this afternoon.
 
 Why async matters - the multiplication effect.
 
 Where to trigger async agents - all the platforms and entry points.
 
 Foundations for trust - what makes async delegation reliable.
-
-Parallel execution - running multiple agents at once.
-
-Workflow patterns - delegation philosophy.
 
 Team adoption - how to scale this.
 -->
@@ -229,6 +223,10 @@ You can disable this globally or per-PR if needed. And you can ask Cursor to fix
 - **On failing CI:** `@cursor fix the lint errors`
 - **Update context:** `@cursor fix this and update AGENTS.md with what you learned`
 
+<Callout type="tip">
+When an agent misses something, tell it to fix the issue AND update AGENTS.md with what it learned. This improves future runs.
+</Callout>
+
 Works from your phone - respond to notifications while on the go.
 
 <!--
@@ -248,11 +246,10 @@ layout: section
 ## Where would you most want to trigger async work? (Slack / Linear / GitHub / Cursor / Codex)
 
 ---
+layout: two-cols
+---
 
 # Slack: Conversational Delegation
-
-<div class="grid grid-cols-2 gap-4">
-<div>
 
 **The most casual approach:**
 
@@ -261,13 +258,9 @@ layout: section
 - Trigger workspace skills/commands from Slack
 - Works from your phone - kick off work while commuting
 
-</div>
-<div>
+::right::
 
-<img src="./assets/cursor-slack-pr-review.png" class="h-72 rounded shadow" />
-
-</div>
-</div>
+<img src="./assets/cursor-slack-pr-review.png" class="h-full rounded shadow" />
 
 <!--
 Slack is the most casual approach.
@@ -324,11 +317,10 @@ Two approaches: Linear as the orchestrator managing everything, or Linear as sou
 -->
 
 ---
+layout: two-cols
+---
 
 # Codex: Multi-Interface Access
-
-<div class="grid grid-cols-2 gap-4">
-<div>
 
 **One agent, many interfaces:**
 
@@ -340,13 +332,9 @@ Two approaches: Linear as the orchestrator managing everything, or Linear as sou
 
 **Same agent everywhere.** Start on phone, check on laptop, review via Slack.
 
-</div>
-<div>
+::right::
 
-<img src="./assets/codex-code-reviews.png" class="h-72 rounded shadow" />
-
-</div>
-</div>
+<img src="./assets/codex-code-reviews.png" class="h-full rounded shadow" />
 
 <!--
 Codex operates as a single unified agent across multiple interfaces.
@@ -357,11 +345,10 @@ I use the iOS app constantly - kick off a task while waiting for coffee, review 
 -->
 
 ---
+layout: two-cols
+---
 
 # Codex: Code Reviews
-
-<div class="grid grid-cols-2 gap-4">
-<div>
 
 **One-click fixes from the code review tab:**
 
@@ -369,13 +356,9 @@ I use the iOS app constantly - kick off a task while waiting for coffee, review 
 - Click "Fix issues" to launch an agent that addresses them
 - Agent reads the diff, understands context, and creates fixes
 
-</div>
-<div>
+::right::
 
-<img src="./assets/codex-fix-issues.png" class="h-72 rounded shadow" />
-
-</div>
-</div>
+<img src="./assets/codex-fix-issues.png" class="h-full rounded shadow" />
 
 <!--
 The code review tab shows PRs with identified issues. Click "Fix issues" and Codex launches an agent to address them automatically. You review the fix, not the bug.
@@ -421,56 +404,22 @@ Part 3 covers what makes async delegation trustworthy - the foundations that let
 
 ---
 
-# Building Confidence Through AGENTS.md
+# Why Morning's Foundation Matters
 
-**This morning's foundation pays off here.**
+**We covered AGENTS.md, testing infrastructure, and repo setup in sync this morning. Reiterating because these are critical for async workflows.**
 
-Each time an agent misunderstands something about your codebase, add a clarifying rule to AGENTS.md.
+**AGENTS.md improvements compound over time:**
+- Each time an agent misunderstands something, add a clarifying rule
+- Over weeks and months, your agent context becomes rich enough to trust background agents
+- Start small, review carefully, update AGENTS.md, gradually increase complexity
 
-**The confidence progression:**
-1. Start with small, well-defined tasks where failure is low-cost
-2. Review agent output carefully, noting where it misunderstands patterns
-3. Update AGENTS.md with corrections
-4. Gradually increase task complexity as success rate improves
-5. Eventually trust agents with multi-file changes and feature work
-
-<!--
-This is where this morning's foundation pays off.
-
-Each time an agent misunderstands something, add a clarifying rule to AGENTS.md. Over weeks and months, your agent context becomes rich enough that you can trust background agents with increasingly complex tasks.
-
-Start with small tasks. Review carefully. Update AGENTS.md. Gradually increase complexity. The agent's understanding improves with every correction you make.
--->
-
----
-
-# Testing Infrastructure as the Foundation
-
-**All async agent work depends on verification.**
-
+**Testing infrastructure enables verification:**
 - Unit tests catch obvious regressions
 - API tests against real endpoints catch integration issues
 - Preview deployments let agents see what users will see
 - CI that agents can read and respond to
 
-The better your verification infrastructure, the more you can trust async agents.
-
-<!--
-All of this async work depends on your testing infrastructure.
-
-Unit tests catch regressions. API tests catch integration issues. Preview deployments let agents see what users will see.
-
-We covered testing setup this morning. That foundation is what makes async delegation possible. The better your verification infrastructure, the more you can trust async agents.
--->
-
----
-
-# Infrastructure Enables Autonomy
-
-**Cloud agent environments are Docker containers that run `git pull` first.**
-
-This speaks to the importance of setting up all that infrastructure:
-
+**Infrastructure setup enables autonomy:**
 - Environment configs that mount the right API keys
 - Pre-commit hooks installed and working
 - Tests separated into fast/slow/local categories
@@ -479,65 +428,43 @@ This speaks to the importance of setting up all that infrastructure:
 **The morning's foundation work enables afternoon's autonomy.** The more your repo can self-verify, the more you can trust async agents.
 
 <!--
-Cloud agents run in Docker containers - they pull your repo and run. Everything we covered this morning about infrastructure setup directly enables async autonomy.
+We covered AGENTS.md, testing infrastructure, and repo setup in sync this morning. I'm reiterating these because they're so critical for async workflows.
 
-Environment configs with the right API keys. Pre-commit hooks that catch issues. Tests split so fast ones run locally. This all compounds into agents that can run longer without human intervention.
+AGENTS.md improvements compound over time. Each time an agent misunderstands something, add a clarifying rule. Over weeks and months, your agent context becomes rich enough to trust background agents with increasingly complex tasks.
 
-The better your infrastructure, the more autonomous your agents can be.
+Testing infrastructure enables verification. Unit tests catch regressions. API tests catch integration issues. Preview deployments let agents see what users will see.
+
+Infrastructure setup enables autonomy. Cloud agents run in Docker containers - they pull your repo and run. Environment configs with the right API keys. Pre-commit hooks that catch issues. Tests split so fast ones run locally. This all compounds into agents that can run longer without human intervention.
+
+The morning's foundation work enables afternoon's autonomy. The better your infrastructure, the more autonomous your agents can be.
 -->
 
 ---
-layout: section
+layout: two-cols
 ---
 
-# Part 4: Parallel Execution
-
-Running Multiple Agents
-
-<!--
-Part 4 is about parallel execution - two patterns for running multiple agents.
--->
-
----
-
-# Parallel Tasks: Many Agents, Different Work
-
-**For small nits, kick off many cloud agents doing separate tasks:**
-
-- Agent 1: Fix the typo in the README
-- Agent 2: Add the missing test for auth
-- Agent 3: Update the deprecated API call
-- Agent 4: Fix the lint warning in utils
-
-Each agent works in isolation. No conflicts. Review and merge independently.
-
-**ChatGPT's webapp (Codex) has great UX for this** - easy to kick off and track multiple tasks.
-
-<!--
-For small nits and cleanup tasks, just kick off multiple cloud agents in parallel. Each one works on a separate task.
-
-ChatGPT's Codex webapp has really nice UX for managing multiple parallel tasks - you can see them all, track progress, and merge independently.
-
-This is the multiplication effect in action. Work that would never get prioritized now happens in parallel.
--->
-
----
-
-# Parallel Exploration: Same Task, Multiple Attempts
+# Same Task, Multiple Models
 
 **Cursor is best for this - access to many models in one place:**
 
-1. Start the same task with different models (Claude, GPT, Gemini)
-2. Let them run in parallel
-3. Compare the implementations
-4. Pick the best one, discard the rest
+1. Enable "Use Multiple Models" toggle
+2. Select multiple models (Composer, Opus, Sonnet, etc.)
+3. Let them run the same task in parallel
+4. Compare the implementations
+5. Pick the best one, discard the rest
 
 **My heuristic:** I usually pick the one with the fewest lines of code.
 
-<!--
-The other pattern is parallel exploration - same task, multiple attempts.
+::right::
 
-Cursor is ideal here because you have access to many models. Kick off the same task with Claude, GPT, Gemini - let them compete.
+<div class="flex items-center justify-center h-full">
+<img src="./assets/cursor-multiple-models.png" alt="Cursor UI showing multiple models selected (Composer 1, Opus 4.5, Sonnet 4.5) with Use Multiple Models toggle enabled" class="w-full rounded shadow object-contain" />
+</div>
+
+<!--
+The other pattern is parallel exploration - same task, multiple models.
+
+Cursor is ideal here because you have access to many models. Enable the "Use Multiple Models" toggle, select several models, and kick off the same task. They all run in parallel and compete.
 
 My simple heuristic: pick the implementation with the fewest lines of code. Simpler is usually better.
 -->
@@ -546,87 +473,19 @@ My simple heuristic: pick the implementation with the fewest lines of code. Simp
 layout: section
 ---
 
-# Part 5: Workflow Patterns
-
-Three Ways to Trigger Async Work
+# Part 5: Team Adoption
 
 <!--
-Part 5 covers three practical patterns for triggering async agents in your daily workflow.
--->
-
----
-
-# Meetings: Transcript to Subtasks
-
-**Feed meeting feedback into ChatGPT Codex to create subtasks:**
-
-1. Run your feedback meeting (design review, stakeholder demo, etc.)
-2. Feed the transcript or notes into Codex
-3. Codex creates subtasks that trigger agents automatically
-4. By end of meeting, work is already in progress
-
-**The meeting becomes the kickoff.** No separate task creation step needed.
-
-<!--
-During feedback meetings, capture the transcript. Feed it into Codex and have it create subtasks.
-
-By the time the meeting ends, agents are already working on the feedback. You don't need a separate step to create tasks - the meeting itself becomes the kickoff.
--->
-
----
-
-# Slack: @mention a Thread
-
-**Bug reports in Slack? Just @mention agents to start working:**
-
-- Someone reports a bug in Slack
-- `@cursor can you take a look at this?`
-- Agent reads the thread context and starts working
-
-**You can literally @mention a thread and it's good to go.** The thread IS the context.
-
-<!--
-For bug reports and issues that come up in Slack, just @mention the agent. It reads the thread context - the bug description, any screenshots, the discussion.
-
-You don't need to write a separate spec. The Slack thread is the spec. Tag the agent and let it try stuff out.
--->
-
----
-
-# Coding: Auto-Ticket, Auto-Agent
-
-**Notice a separate issue while coding? Have AI create a ticket that auto-assigns an agent:**
-
-- Spot a bug while working on something else
-- `/make-linear-ticket "API returning inconsistent date formats"`
-- Ticket gets created with your current context
-- Agent auto-assigned to the ticket starts working
-
-**Never context switch.** The issue gets captured and worked on without breaking your flow.
-
-<!--
-While coding, you notice issues that aren't part of your current task. Instead of context switching, use a command to create a ticket.
-
-The ticket grabs your current context - file, recent changes, error messages. Routes to the right project. Auto-assigns an agent.
-
-By lunch, there's a PR fixing the issue you spotted. You never had to context switch.
--->
-
----
-layout: section
----
-
-# Part 6: Team Adoption
-
-Scaling Async Workflows
-
-<!--
-Part 6 covers team adoption. How to scale async workflows across your organization.
+Part 5 covers team adoption.
 -->
 
 ---
 
 # The AI Champion Role
+
+<Callout type="tip">
+Reiterating from sync - the AI champion role is essential for team adoption.
+</Callout>
 
 **If you're the AI champion, prioritize setting up integrations:**
 
@@ -647,70 +506,6 @@ Without these integrations, your team can't use @cursor in GitHub or Slack. Some
 -->
 
 ---
-
-# Team Workflow Patterns
-
-**Linear team's internal adoption:**
-- Uses Slack agent extensively
-- Project-specific channels where team members drop feedback/bugs
-- Agent quickly files issues from channel discussions
-
-**Jason's PR workflow:**
-- Uses Cursor to create Linear tickets for separate concerns during PR work
-- Assigns agents to those tickets
-- Merges them independently, then merges back to main PR
-- Keeps PRs focused and organized
-
-<!--
-How teams are adopting this.
-
-The Linear team uses Slack agents extensively. Project-specific channels where people drop feedback. Agent files issues from the discussion.
-
-My workflow: during PR work, create Linear tickets for separate concerns, assign agents to those tickets, merge independently, then merge back to main PR. Keeps PRs focused.
--->
-
----
-
-# Scaling Without Chaos
-
-**Define guardrails:**
-- Define allowed task categories (docs, linting, logging consistency, small fixes)
-- Require evidence: agents attach logs/screenshots to tickets or PRs
-- Set success metrics (time saved, PR size, rework rate)
-
-**Building trust:**
-- Start with 1-2 background tasks per day
-- Build habit first
-- Build trust before delegating complex features
-
-<!--
-Scaling without chaos requires guardrails.
-
-Define allowed task categories. Require evidence - agents should attach logs and screenshots. Set success metrics.
-
-Build trust gradually. Start with 1-2 background tasks per day. Build the habit. Build trust before delegating complex features.
--->
-
----
-
-# Quality Improvements at Scale
-
-**The multiplication effect at team scale:**
-
-- Background agents handle the backlog that never makes it into sprints
-- Codebase gets cleaner without pulling engineers off features
-- Quality work happens in parallel with feature development
-- Compound improvements over weeks and months
-
-**The question becomes: what would you fix if fixing it cost nothing?**
-
-<!--
-This is the multiplication effect at team scale.
-
-Background agents handle the quality backlog that never makes it into sprints. The codebase gets cleaner without anyone being pulled off features.
-
-Ask your team: what would you fix if fixing it cost nothing? That's your agent backlog.
--->
 
 ---
 
@@ -733,6 +528,71 @@ layout: section
 ---
 
 ## What's the first thing you'll try when you get back? (one task or integration)
+
+---
+layout: section
+---
+
+# Things to Try: Post-Setup Async Tasks
+
+**Once async agents are set up, kick off these audits and improvements:**
+
+These prompts can be sent via GitHub mentions, Slack, or Cursor Plan Mode. Copy-paste and delegate.
+
+<!--
+Now that you understand async workflows, here are specific tasks you can kick off as background agents. These are audits and improvements that leverage async agents to improve your repo infrastructure and team enablement.
+-->
+
+---
+
+# Agent Context & Infrastructure
+
+**Improve agent context and foundation:**
+
+```
+@cursor Install and audit pre-commit hooks.
+Check if pre-commit is installed. If not, install it.
+Set up pre-commit with ruff format and ruff check (or our project's equivalent).
+Do we have both pre-commit (fast checks) and pre-push (slower checks) configured?
+Audit what's currently configured and document what runs at each stage.
+```
+
+```
+@cursor Update AGENTS.md with documentation standards.
+Include: how docs should be written, when to update them,
+and our conventions for README files and code comments.
+Agents should keep documentation up to date when making changes.
+```
+
+<!--
+Agent context improvements compound over time. These prompts help you systematically improve AGENTS.md files and ensure infrastructure (Git hooks) enables agent self-correction.
+-->
+
+---
+
+# Testing & CI Optimization
+
+**Document and optimize verification infrastructure:**
+
+```
+@cursor Document how tests should be run in this repo.
+Include: local vs CI, fast vs slow tests,
+how to run specific test suites, and our testing conventions.
+Create or update TESTING.md.
+```
+
+```
+@cursor Analyze our test suite and CI pipeline.
+Which tests are slowest? How long does CI take?
+How could we parallelize CI steps?
+What caching strategies could we use (dependencies, build artifacts)?
+How could we split them into fast (pre-push) vs slow (CI-only)?
+Create an optimization plan with parallelization and caching.
+```
+
+<!--
+Testing infrastructure and fast CI enable agent self-correction. These prompts help you document testing practices and optimize CI speed.
+-->
 
 ---
 layout: section
@@ -860,4 +720,19 @@ Questions?
 Resources are listed here. Codex, Cursor cloud agents, Slack integrations.
 
 Use the remaining time to set up your async tooling. We're here to help if you run into issues.
+-->
+
+---
+
+layout: center
+---
+
+# Hands-On Time
+
+The rest of this session is for you to **set up these integrations with your team**.
+
+Vignesh and I will be here to help, and we'll try to **kick off some background jobs together**.
+
+<!--
+The rest of this time is hands-on. Set up these integrations with your team. Vignesh and I will be here to help, and we'll try to kick off some background jobs together.
 -->

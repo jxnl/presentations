@@ -54,6 +54,14 @@ Team adoption - how to scale this.
 layout: section
 ---
 
+# Question
+
+Have you used background agents before? (yes/no + what for?)
+
+---
+layout: section
+---
+
 # Part 1: Why Async?
 
 The Multiplication Effect
@@ -85,6 +93,14 @@ Agents eliminate that cost. They context-switch instantly between ten different 
 -->
 
 ---
+layout: section
+---
+
+# Question
+
+What's one small fix you've been putting off that you'd love to delegate?
+
+---
 
 # Work Continues Without You
 
@@ -103,6 +119,14 @@ Kick off a task before bed, wake up to a full implementation. Start an agent bef
 
 The work happens in parallel with your life.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+When is your best kickoff window? (before standup / lunch / after meetings / before bed / commute)
 
 ---
 
@@ -222,6 +246,14 @@ Pro tip: when an agent misses something, tell it to fix the issue AND update AGE
 
 I often respond to GitHub notifications from my phone - tag an agent while waiting in line.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+Where would you most want to trigger async work? (Slack / Linear / GitHub / Cursor / Codex)
 
 ---
 
@@ -677,6 +709,14 @@ First, designate an AI champion. Someone to lead adoption, share wins, and help 
 
 Second, track simple metrics. Use enterprise features to monitor token spend per person and per team. This tells you who's adopting and where to focus enablement.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+What's the first thing you'll try when you get back? (one task or integration)
 
 ---
 layout: section

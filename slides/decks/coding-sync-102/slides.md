@@ -71,6 +71,14 @@ That was about live coding and effective prompting. Today we make those patterns
 layout: section
 ---
 
+# Question
+
+What stuck out most from 101? (one phrase is fine)
+
+---
+layout: section
+---
+
 # Part 1: Foundation
 
 AGENTS.md and Infrastructure
@@ -152,6 +160,14 @@ Keep root-level minimal - just shared tool preferences. Put specific rules in di
 -->
 
 ---
+layout: section
+---
+
+# Question
+
+Are you in a monorepo? If yes, what's the hardest area to work in?
+
+---
 
 # Maintaining AGENTS.md Through PR Reviews
 
@@ -196,6 +212,14 @@ The AI champion sets up repos - AGENTS.md files, pre-commit hooks, infrastructur
 
 As the entire team gets more skills, everyone can contribute. But we need an individual with a mandate to make quality-of-life improvements in the repository.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+Who usually catches quality issues on PRs? (everyone / TLs / a few reviewers / unclear)
 
 ---
 
@@ -294,6 +318,14 @@ Split your tests. Fast tests - unit tests, smoke tests - should run in under 2 m
 
 Pre-push hooks should only run fast tests. Save the slow tests for CI where they can run in parallel with your work.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+How long does CI take for a normal PR? (<5 / 5-15 / 15-30 / 30+ / unreliable)
 
 ---
 
@@ -1179,6 +1211,14 @@ How complete are your tests? Do you have pre-commit hooks? What conversations do
 
 These questions help you identify where to focus your effort.
 -->
+
+---
+layout: section
+---
+
+# Question
+
+What's your biggest blocker to getting started? (tests / hooks / permissions / something else)
 
 ---
 

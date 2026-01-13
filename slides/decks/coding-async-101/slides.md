@@ -54,9 +54,7 @@ Team adoption - how to scale this.
 layout: section
 ---
 
-# Question
-
-Have you used background agents before? (yes/no + what for?)
+## Have you used background agents before? (yes/no + what for?)
 
 ---
 layout: section
@@ -96,9 +94,7 @@ Agents eliminate that cost. They context-switch instantly between ten different 
 layout: section
 ---
 
-# Question
-
-What's one small fix you've been putting off that you'd love to delegate?
+## What's one small fix you've been putting off that you'd love to delegate?
 
 ---
 
@@ -124,9 +120,7 @@ The work happens in parallel with your life.
 layout: section
 ---
 
-# Question
-
-When is your best kickoff window? (before standup / lunch / after meetings / before bed / commute)
+## When is your best kickoff window? (before standup / lunch / after meetings / before bed / commute)
 
 ---
 
@@ -251,9 +245,7 @@ I often respond to GitHub notifications from my phone - tag an agent while waiti
 layout: section
 ---
 
-# Question
-
-Where would you most want to trigger async work? (Slack / Linear / GitHub / Cursor / Codex)
+## Where would you most want to trigger async work? (Slack / Linear / GitHub / Cursor / Codex)
 
 ---
 
@@ -387,6 +379,32 @@ I use the iOS app constantly - kick off a task while waiting for coffee, review 
 
 <!--
 The code review tab shows PRs with identified issues. Click "Fix issues" and Codex launches an agent to address them automatically. You review the fix, not the bug.
+-->
+
+---
+
+# Case Study: Datadog's Incident Prevention
+
+**Datadog uses Codex for system-level code review across 1,000+ engineers.**
+
+Their incident replay test: they ran Codex against historical PRs that had contributed to incidents.
+
+**Results:**
+- 22% of incidents examined could have been prevented by Codex feedback
+- These PRs had already passed human code review - Codex found additional risks
+- Engineers shifted from ignoring "bot noise" to treating Codex comments as real feedback
+
+> "A Codex comment feels like the smartest engineer I've worked with and who has infinite time to find bugs. It sees connections my brain doesn't hold all at once."
+> - Brad Carter, Engineering Manager at Datadog
+
+<!--
+Datadog runs one of the world's most widely-used observability platforms. Reliability is critical - when something breaks, customers depend on Datadog to surface issues fast.
+
+They built an incident replay harness to test Codex. They reconstructed PRs that had contributed to real incidents and ran Codex against each one as if it were part of the original review. Then they asked engineers who owned those incidents whether the feedback would have made a difference.
+
+The key insight: Codex surfaced cross-module and cross-service interactions that individual reviewers couldn't hold in context. It's not about replacing human reviewers - it's about complementing them with system-level reasoning.
+
+Engineers described Codex comments as more than "bot noise." It pointed out interactions with modules not touched in the diff, identified missing test coverage in areas of cross-service coupling, and highlighted API contract changes with downstream risk.
 -->
 
 ---
@@ -714,9 +732,7 @@ Second, track simple metrics. Use enterprise features to monitor token spend per
 layout: section
 ---
 
-# Question
-
-What's the first thing you'll try when you get back? (one task or integration)
+## What's the first thing you'll try when you get back? (one task or integration)
 
 ---
 layout: section
@@ -728,32 +744,6 @@ Configure Your Async Tooling
 
 <!--
 This session is shorter than Sync 102, giving you time to set up async agent tooling. Use this time to configure code review bots and other integrations.
--->
-
----
-
-# Case Study: Datadog's Incident Prevention
-
-**Datadog uses Codex for system-level code review across 1,000+ engineers.**
-
-Their incident replay test: they ran Codex against historical PRs that had contributed to incidents.
-
-**Results:**
-- 22% of incidents examined could have been prevented by Codex feedback
-- These PRs had already passed human code review - Codex found additional risks
-- Engineers shifted from ignoring "bot noise" to treating Codex comments as real feedback
-
-> "A Codex comment feels like the smartest engineer I've worked with and who has infinite time to find bugs. It sees connections my brain doesn't hold all at once."
-> - Brad Carter, Engineering Manager at Datadog
-
-<!--
-Datadog runs one of the world's most widely-used observability platforms. Reliability is critical - when something breaks, customers depend on Datadog to surface issues fast.
-
-They built an incident replay harness to test Codex. They reconstructed PRs that had contributed to real incidents and ran Codex against each one as if it were part of the original review. Then they asked engineers who owned those incidents whether the feedback would have made a difference.
-
-The key insight: Codex surfaced cross-module and cross-service interactions that individual reviewers couldn't hold in context. It's not about replacing human reviewers - it's about complementing them with system-level reasoning.
-
-Engineers described Codex comments as more than "bot noise." It pointed out interactions with modules not touched in the diff, identified missing test coverage in areas of cross-service coupling, and highlighted API contract changes with downstream risk.
 -->
 
 ---

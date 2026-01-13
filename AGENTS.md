@@ -108,6 +108,17 @@ Auto-imported from `slides/components/`. Available: Callout, Chart, FileExplorer
 - Terminal - Commands, CLI workflows
 - AgentView - AI agent interactions
 
+## Two-Column Slides with Images
+
+When using `layout: two-cols` with a screenshot/image, follow this pattern:
+
+- **Put the image on the right** using `:::right::`.
+- **Default sizing (simple):** use `class="h-full rounded shadow"` on the `<img>`.
+- **Safer sizing for screenshots:** wrap the image in a centered container and use `object-contain`:
+  - Wrapper: `class="flex items-center justify-center h-full"`
+  - Image: `class="w-full rounded shadow object-contain"`
+- **Alt text:** include a short `alt="..."` on screenshots when possible.
+
 ### Adding Components
 
 1. Create in `slides/components/`

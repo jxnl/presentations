@@ -636,6 +636,8 @@ This works great with the gh-address-pr-comments command from sync-102. Codex le
 -->
 
 ---
+layout: two-cols
+---
 
 # Enabling Cursor Code Review (Bugbot)
 
@@ -655,6 +657,12 @@ This works great with the gh-address-pr-comments command from sync-102. Codex le
 <Callout type="tip">
 Works great with `/gh-address-pr-comments` - Bugbot leaves review comments, then use the command to address them systematically. Complete async workflow.
 </Callout>
+
+:::right::
+
+<div class="flex items-center justify-center h-full">
+<img src="./assets/cursor-bugbot-autofix.png" alt="GitHub PR comment thread showing Cursor Bugbot Autofix kicking off a cloud agent" class="w-full rounded shadow object-contain" />
+</div>
 
 <!--
 Cursor's GitHub bot - sometimes called Bugbot - provides automatic code reviews on PRs. Install it through the Cursor dashboard, select your repos, and reviews appear automatically.

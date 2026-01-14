@@ -187,6 +187,40 @@ Pre-push hooks should only run fast tests. Save the slow tests for CI where they
 
 ---
 
+# Test-Driven Development with Agents
+
+**Tests give agents a clear target to iterate against.**
+
+1. Write tests based on expected input/output pairs
+   - Be explicit that you're doing TDD (avoid mock implementations)
+2. Run tests and confirm they fail
+   - Explicitly say not to write implementation code yet
+3. Commit the tests when satisfied
+4. Write code that passes the tests
+   - Tell the agent not to modify the tests
+   - Let it iterate until all tests pass
+5. Commit the implementation
+
+**Why this works:** Agents perform best with verifiable goals. Tests provide the feedback loop.
+
+<!--
+TDD works exceptionally well with agents.
+
+Step 1: write tests based on expected behavior. Be explicit you're doing TDD so the agent doesn't create mock implementations for functionality that doesn't exist yet.
+
+Step 2: run the tests and confirm they fail. Tell the agent not to write implementation code at this stage.
+
+Step 3: commit the tests once you're satisfied with the coverage.
+
+Step 4: write the implementation. Tell the agent not to modify the tests, and let it iterate until all tests pass.
+
+Step 5: commit once you're satisfied.
+
+The key insight: agents perform best with clear targets to iterate against. Tests provide that feedback loop - the agent makes changes, runs tests, sees failures, fixes them, and continues until everything passes.
+-->
+
+---
+
 # Audit Your Setup: Four Prompts
 
 Run these prompts one at a time. Copy-paste into Cursor:
@@ -436,6 +470,54 @@ Part 2 covers planning and context. How to plan effectively, load context, and w
 
 ---
 
+# Plan Mode Basics
+
+**Press Shift+Tab to toggle Plan Mode.** Instead of immediately writing code, the agent will:
+
+1. **Research** your codebase to find relevant files
+2. **Ask clarifying questions** about your requirements
+3. **Create a detailed plan** with file paths and code references
+4. **Wait for approval** before building
+
+**Plans are editable Markdown.** Remove unnecessary steps, adjust the approach, or add context the agent missed.
+
+<Callout type="tip">
+Click "Save to workspace" to store plans in `.cursor/plans/`. This creates documentation, makes it easy to resume interrupted work, and provides context for future agents.
+</Callout>
+
+**Not every task needs a plan.** For quick changes or tasks you've done many times, jumping straight to the agent is fine.
+
+**When to start over:** Sometimes fixing an in-progress agent is slower than starting fresh.
+
+When the agent builds something that doesn't match what you wanted:
+
+1. **Revert the changes** - don't try to fix through follow-up prompts
+2. **Refine the plan** - be more specific about what you need
+3. **Run it again** - let the agent rebuild from scratch
+
+**Why this works:**
+- Cleaner results than incremental fixes
+- Often faster than debugging a wrong approach
+- Plan refinement improves future runs too
+
+<Callout type="tip">
+If you find yourself writing long follow-up prompts to fix direction, that's a sign to start over with a better plan.
+</Callout>
+
+<!--
+Plan Mode is one of the most impactful features for complex tasks.
+
+Press Shift+Tab in the agent input to toggle it on. Instead of immediately writing code, the agent researches your codebase, asks clarifying questions about your requirements, creates a detailed implementation plan with file paths and code references, and waits for your approval before building.
+
+Plans open as Markdown files you can edit directly. Remove unnecessary steps, adjust the approach, add context the agent missed. You're in control of what gets built.
+
+Click "Save to workspace" to store plans in .cursor/plans/. This creates documentation for your team, makes it easy to resume interrupted work, and provides context for future agents working on the same feature.
+
+Not every task needs a detailed plan. For quick changes or tasks you've done many times before, jumping straight to the agent is fine. Use Plan Mode for complex features, architectural changes, or when you need to think through the approach first.
+-->
+
+---
+
 # Planning Becomes Primary Work
 
 **As coding automates, planning becomes the bottleneck.**
@@ -567,6 +649,65 @@ Instead of copy-pasting context back in, re-reference the plan file and use git 
 -->
 
 ---
+
+# When to Start a New Conversation
+
+**One of the most common questions: continue or start fresh?**
+
+**Start a new conversation when:**
+- You're moving to a different task or feature
+- The agent seems confused or keeps making the same mistakes
+- You've finished one logical unit of work
+
+**Continue the conversation when:**
+- You're iterating on the same feature
+- The agent needs context from earlier in the discussion
+- You're debugging something it just built
+
+<Callout type="warning">
+Long conversations cause agents to lose focus. After many turns and summarizations, context accumulates noise. If effectiveness is decreasing, start fresh.
+</Callout>
+
+<!--
+This is one of the most common questions developers ask about agent workflows.
+
+Start a new conversation when you're moving to a different task, when the agent seems confused or keeps making the same mistakes despite corrections, or when you've finished one logical unit of work.
+
+Continue the conversation when you're iterating on the same feature, when the agent needs context from earlier in the discussion, or when you're debugging something it just built.
+
+The key insight: long conversations cause agents to lose focus. After many turns and summarizations, the context accumulates noise. The agent can get distracted or switch to unrelated tasks. If you notice effectiveness decreasing, it's time to start a new conversation.
+
+The next slide covers how to reference past work when you do start fresh.
+-->
+
+**Then load context fast using built-in features:**
+
+**@Branch** - Reference your current work:
+- "Review the changes on this branch"
+- "What am I working on?"
+- Agent sees all commits since diverging from main
+
+**@Past Chats** - Reference previous conversations:
+- More efficient than copy-pasting entire conversations
+- Agent selectively reads from chat history
+- Pulls only the context it needs
+
+**When to use:**
+- Starting a new conversation but need prior context
+- Resuming work after a break
+- Orienting an agent to a feature you've been building
+
+<!--
+Two Cursor features that help with context management.
+
+@Branch lets you reference your current work. Ask "review the changes on this branch" or "what am I working on?" The agent sees all commits since you diverged from main - it understands the full scope of what you're building.
+
+@Past Chats lets you reference previous conversations without copy-pasting everything. The agent selectively reads from chat history and pulls only the context it needs. Much more efficient than duplicating entire conversations into your prompt.
+
+Use these when starting a new conversation but needing prior context, resuming work after a break, or orienting an agent to a feature you've been working on across multiple sessions.
+-->
+
+---
 layout: two-cols
 ---
 
@@ -652,6 +793,38 @@ The agent infers context from the project structure and adapts patterns automati
 This is especially useful for scaffolding new projects. Point agents at similar existing projects as reference. They'll copy patterns and adapt appropriately.
 
 Monorepos make this easy - everything is in one workspace. But Cursor also supports mounting additional workspaces, so you can reference other projects even if they're not in a monorepo.
+-->
+
+---
+
+# Architecture Diagrams for Code Review
+
+**Ask agents to visualize significant changes.**
+
+For complex changes, ask the agent to generate architecture diagrams:
+
+```text
+Create a Mermaid diagram showing the data flow for our
+authentication system, including OAuth providers, session
+management, and token refresh.
+```
+
+**Why this helps:**
+- Reveals architectural issues before code review
+- Creates documentation as a byproduct
+- Forces the agent to understand system relationships
+- Easier to spot missing pieces or wrong dependencies
+
+**Good for:** API changes, new services, refactors that touch multiple systems.
+
+<!--
+For significant changes, ask the agent to generate architecture diagrams.
+
+Mermaid diagrams work well because they're text-based - the agent can generate them inline. Ask for data flow diagrams, component relationships, or sequence diagrams for complex interactions.
+
+This helps in multiple ways. It reveals architectural issues before code review - you can see if the data flow makes sense. It creates documentation as a byproduct. It forces the agent to understand system relationships, which often surfaces gaps in its understanding.
+
+Use this for API changes, new services, refactors that touch multiple systems - anything where visualizing the relationships helps you verify the approach is correct.
 -->
 
 ---
@@ -957,7 +1130,7 @@ CLI tools agents can use programmatically
 **Example workflow:**
 1. Agent creates `analyze-user-activity.py --days 7 --min-logins 0`
 2. Uses it to verify feature impact
-3. Reuses it later as a new tool in analytics skill 
+3. Reuses it later as a new tool in analytics skill
 
 <!--
 The key insight: don't just write one-off scripts. Write CLI tools that agents can use programmatically.
@@ -1037,6 +1210,7 @@ The reality: for most workflows, copy-pasting into Cursor works fine.
 - **Notion** - Read and write to Notion pages
 - **Linear** - Create tickets, read issues (the must-have for ticketing)
 - **Browsers** - Built-in browser control in Cursor
+- **Context7 Docs** - Pull up-to-date library docs into the agent
 
 **For everything else:** Build a CLI version and move it into a skill.
 
@@ -1052,6 +1226,8 @@ The practical reality: for most workflows, copy-pasting into Cursor works fine. 
 The must-have is ticketing integration. Install the Linear MCP, tell it to make tickets. Create a custom command for making tickets that automatically assigns the right people, projects, labels, and priority.
 
 Browsers are built-in to Cursor and Claude Code - very useful for visual debugging and testing.
+
+Context7 is a good example of a docs-focused MCP server. It lets you "Add Docs" for a library, then "Chat with Docs" using current reference material.
 
 For finding more MCP servers, check out Smithery - it's a marketplace with over 3,400 integrations.
 -->
@@ -1111,6 +1287,40 @@ It's more expensive in API costs, but catches actual integration issues.
 -->
 
 ---
+
+# Debug Mode for Tricky Bugs
+
+**When standard prompting struggles, Debug Mode provides a different approach.**
+
+Instead of guessing at fixes, Debug Mode:
+
+1. **Generates hypotheses** about what could be wrong
+2. **Instruments your code** with logging statements
+3. **Asks you to reproduce** the bug while collecting runtime data
+4. **Analyzes actual behavior** to pinpoint the root cause
+5. **Makes targeted fixes** based on evidence
+
+**Best for:**
+- Bugs you can reproduce but can't figure out
+- Race conditions and timing issues
+- Performance problems and memory leaks
+- Regressions where something used to work
+
+<Callout type="tip">
+The more specific you are about how to reproduce the issue, the more useful instrumentation the agent adds.
+</Callout>
+
+<!--
+Debug Mode is a specific Cursor feature for tricky bugs.
+
+Instead of the agent guessing at fixes based on code inspection, it takes a more systematic approach. It generates multiple hypotheses about what could be wrong, then instruments your code with logging statements to test those hypotheses.
+
+You reproduce the bug while the instrumentation collects runtime data. The agent then analyzes actual behavior - not just code - to pinpoint the root cause. Finally, it makes targeted fixes based on evidence.
+
+This works best for bugs you can reproduce but can't figure out, race conditions and timing issues, performance problems, memory leaks, and regressions where something used to work.
+
+The key to success: provide detailed context about how to reproduce the issue. The more specific you are, the more useful the instrumentation.
+-->
 
 # Autonomous Debugging
 
@@ -1172,6 +1382,45 @@ These capabilities exist for when you need them. Don't overthink it upfront.
 As you use AI more, you'll naturally reach for these tools. You'll make mistakes - that's when you add rules to AGENTS.md. You'll repeat yourself - that's when you turn it into a command. You'll see patterns - that's when you codify them into skills.
 
 The real benefits come from good tests and infrastructure. Everything else builds on that foundation.
+-->
+
+---
+
+# Key Traits of Successful Agent Users
+
+**Developers who get the most from agents share these traits:**
+
+1. **Write specific prompts**
+   - "Add tests for auth.ts covering the logout edge case, using patterns in `__tests__/`"
+   - Not: "add tests for auth"
+
+2. **Iterate on setup**
+   - Add rules only after repeated mistakes
+   - Add commands only after figuring out workflows
+
+3. **Review carefully**
+   - AI code can look right while being subtly wrong
+   - The faster agents work, the more important review becomes
+
+4. **Provide verifiable goals**
+   - Use typed languages, configure linters, write tests
+   - Give agents clear signals for correctness
+
+5. **Treat agents as collaborators**
+   - Ask for plans, request explanations, push back on approaches
+
+<!--
+These traits show up consistently in developers who get the most from agents.
+
+First, they write specific prompts. Compare "add tests for auth.ts" with "write a test case for auth.ts covering the logout edge case, using the patterns in __tests__ and avoiding mocks." Specificity dramatically improves success rate.
+
+Second, they iterate on their setup. They don't try to create perfect AGENTS.md files or command libraries upfront. They start simple and add rules only when they notice repeated mistakes.
+
+Third, they review carefully. AI-generated code can look completely correct while being subtly wrong. The faster agents work, the more important your review process becomes.
+
+Fourth, they provide verifiable goals. They use typed languages, configure linters, write tests. These give agents clear signals for whether changes are correct.
+
+Fifth, they treat agents as capable collaborators. They ask for plans. They request explanations. They push back on approaches they don't like. The relationship is collaborative, not transactional.
 -->
 
 ---

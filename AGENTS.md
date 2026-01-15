@@ -66,12 +66,12 @@ Server: `http://localhost:3030` (or port shown)
 Export a deck to PDF (requires `playwright-chromium`):
 
 ```bash
-cd slides && npx slidev export decks/<deck-name>/slides.md --output <deck-name>.pdf --format pdf
+cd slides && npx slidev export decks/<deck-name>/slides.md --output decks/<deck-name>/<deck-name>.pdf --format pdf
 ```
 
 Install playwright if needed: `npm i -D playwright-chromium`
 
-PDFs are saved to the `slides/` directory.
+PDFs are saved in each deck's folder (e.g., `slides/decks/coding-async-101/coding-async-101.pdf`).
 
 ### Browser Tool Usage
 

@@ -1,5 +1,6 @@
 ---
 theme: default
+colorSchema: dark
 title: "Async Agents 101: Background Agents & Async Workflows"
 fonts:
   sans: 'Open Sans'
@@ -731,7 +732,6 @@ Use the remaining time to set up your async tooling. We're here to help if you r
 -->
 
 ---
-
 layout: center
 ---
 

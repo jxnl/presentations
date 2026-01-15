@@ -1,5 +1,6 @@
 ---
 theme: default
+colorSchema: dark
 title: "Sync Agents 102: Commands, Skills & Tools"
 fonts:
   sans: 'Open Sans'

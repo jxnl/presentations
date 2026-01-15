@@ -61,6 +61,18 @@ run_terminal_cmd(command="cd slides && bun run dev -- <deck-name>", is_backgroun
 
 Server: `http://localhost:3030` (or port shown)
 
+### Exporting to PDF
+
+Export a deck to PDF (requires `playwright-chromium`):
+
+```bash
+cd slides && npx slidev export decks/<deck-name>/slides.md --output <deck-name>.pdf --format pdf
+```
+
+Install playwright if needed: `npm i -D playwright-chromium`
+
+PDFs are saved to the `slides/` directory.
+
 ### Browser Tool Usage
 
 - Navigate: `browser_navigate({ url: "http://localhost:{PORT}/{SLIDE_NUMBER}" })`
